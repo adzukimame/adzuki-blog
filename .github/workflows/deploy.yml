@@ -1,0 +1,71 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+  workflow_call:
+
+env:
+  NODE_ENV: production
+
+jobs:
+  decide_environment:
+    runs-on: ubuntu-latest
+
+    steps:
+      - id: get_env
+        run: echo "environment=$(if [ '${{ github.ref }}' == 'refs/heads/main' ]; then echo Production; else echo Preview; fi)" >> $GITHUB_OUTPUT
+
+    outputs:
+      environment: ${{ steps.get_env.outputs.environment }}
+
+  build_and_deploy:
+    needs: decide_environment
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [20.16.0]
+
+    environment: ${{ needs.decide_environment.outputs.environment }}
+
+    steps:
+      - uses: actions/checkout@v4.1.1
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4.0.2
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
+      - run: corepack enable
+      - name: Clone content repository
+        uses: actions/checkout@v4.1.1
+        with:
+          repository: ${{ secrets.CONTENT_REPO }}
+          path: content_repo
+          token: ${{ secrets.CONTENT_REPO_TOKEN }}
+      - name: Move content directory
+        run: mv ./content_repo/content ./
+      - name: Clean content repository
+        run: rm -rf ./content_repo
+      - run: pnpm install --frozen-lockfile
+      - name: Build
+        run: pnpm run build > /dev/null
+      - name: Post build
+        run: pnpm run post-build:linux
+      - name: Deploy
+        id: deploy
+        uses: cloudflare/wrangler-action@v3
+        with:
+          quiet: true
+          wranglerVersion: "3.68.0"
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy

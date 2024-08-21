@@ -1,0 +1,111 @@
+:root {
+  --bg: #f6f6f6;
+  --bgStrong: #fefefe;
+  --fg: #282828;
+  --fgStrong: #040404;
+  --fgWeak: #4a4a4a;
+  --accent: #b02e22;
+  --split: #dfdfdf77;
+  --scrollbarBg: #fdfdfd;
+  --scrollbarFg: #9f9f9f;
+}
+
+:root.color-scheme-dark {
+  --bg: #0c0c0c;
+  --bgStrong: #1d1d1d;
+  --fg: #d2d2d2;
+  --fgStrong: #fdfdfd;
+  --fgWeak: #a2a2a2;
+  --accent: hsl(5, 60%, 58%);
+  --split: #aeaeae22;
+  --scrollbarBg: #2c2c2c;
+  --scrollbarFg: #6d6d6d;
+}
+
+:root {
+  --scrollbarWidth: 8px;
+  --headerHeight: 3.4rem;
+  --footerHeight: 3rem;
+  --hoverTransitionDuration: 350ms;
+  --hoverTransitionFunction: ease-out;
+  --colorSchemeTransitionDuration: 500ms;
+  --pageTransitionDuration: 250ms;
+  --pageTransitionFunction: ease-in;
+}
+
+::-webkit-scrollbar {
+  width: var(--scrollbarWidth);
+  height: var(--scrollbarWidth);
+  background-color: var(--scrollbarBg);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--scrollbarFg);
+  border-radius: 6px;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  line-height: 2;
+  text-size-adjust: none;
+  -webkit-text-size-adjust: none;
+}
+
+img, picture, video {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+img {
+  object-fit: contain;
+}
+
+a {
+  color: unset;
+  text-decoration: unset;
+}
+
+button {
+  color: unset;
+  background-color: transparent;
+  border-style: unset;
+  padding-block: 0;
+  padding-inline: 0;
+}
+
+button:active {
+  border-style: unset;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-size: unset;
+  font-weight: unset;
+  margin-block-start: 0;
+  margin-block-end: 0;
+  margin-inline-start: 0;
+  margin-inline-end: 0;
+}
+
+:root.writing-mode-vertical-rl {
+  writing-mode: vertical-rl;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+
+html {
+  color: var(--fg);
+  background-color: var(--bg);
+  font-family: Yu Gothic UI, Segoe UI, sans-serif;
+  transition: color var(--colorSchemeTransitionDuration), background-color var(--colorSchemeTransitionDuration);
+}

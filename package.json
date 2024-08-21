@@ -1,0 +1,35 @@
+{
+  "name": "adzuki-blog",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@8.15.5",
+  "scripts": {
+    "dev": "nuxt dev",
+    "build": "nuxt build",
+    "post-build:windows": "powershell -Command Copy-Item ./_headers ./dist/_headers",
+    "post-build:linux": "cp ./_headers ./dist/_headers",
+    "generate": "nuxt generate",
+    "preview": "wrangler pages dev",
+    "postinstall": "nuxt prepare",
+    "deploy": "wrangler pages deploy",
+    "clean": "nuxt cleanup",
+    "lint": "eslint .",
+    "typecheck": "nuxt typecheck"
+  },
+  "dependencies": {
+    "@cloudflare/workers-types": "^4.20240806.0",
+    "@misskey-dev/summaly": "^5.1.0",
+    "@nuxt/content": "^2.13.2",
+    "@nuxt/eslint": "^0.4.0",
+    "@nuxt/image": "^1.7.0",
+    "@nuxt/kit": "^3.12.4",
+    "@tabler/icons-vue": "^3.11.0",
+    "nuxt": "^3.12.4",
+    "remark-breaks": "^4.0.0",
+    "typescript": "^5.5.4",
+    "ufo": "^1.5.4",
+    "vue": "latest",
+    "vue-router": "^4.4.3",
+    "wrangler": "^3.68.0"
+  }
+}

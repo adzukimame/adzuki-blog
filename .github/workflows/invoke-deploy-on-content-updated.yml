@@ -1,0 +1,10 @@
+name: Invoke deployment on content-updated
+
+on:
+  repository_dispatch:
+    types: [content-updated]
+
+jobs:
+  invoke_deployment:
+    uses: ./.github/workflows/deploy.yml
+    secrets: inherit
