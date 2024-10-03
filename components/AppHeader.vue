@@ -4,7 +4,7 @@
     <NuxtLink to="/"
               :class="$style.siteLogoAndTitleContainer"
               @click="closeMenu">
-      <img src="/favicon.ico"
+      <img src="/icon.webp"
            alt="このサイトのロゴ画像"
            :class="$style.siteLogo">
       <div :class="$style.siteTitle">
