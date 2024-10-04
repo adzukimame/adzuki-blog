@@ -103,12 +103,12 @@ const { data } = await useFetch<SummalyResult>(
   display: block;
   inline-size: 0.8rem;
   block-size: 0.8rem;
-  margin-inline-end: 0.5rem;
   object-fit: contain;
 }
 
 .hostname {
   color: var(--fg);
   overflow: clip;
+  padding-inline-start: 0.5rem;
 }
 </style>

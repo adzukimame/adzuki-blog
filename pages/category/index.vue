@@ -71,7 +71,7 @@ useSeoMeta({
 
 .categoryListItem::before {
   content: '>';
-  margin-inline-end: 0.5rem;
+  padding-inline-end: 0.5rem;
   color: var(--fgWeak);
 }
 

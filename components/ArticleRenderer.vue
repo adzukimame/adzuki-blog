@@ -57,4 +57,12 @@ defineProps<{
 .renderer :not(h1, h2, h3, h4, h5, h6)>a {
   color: var(--accent);
 }
+
+.renderer :global(.articleToc) {
+  margin-block: 2rem;
+}
+
+.renderer :global(.imageViewer) {
+  margin-block: 3rem;
+}
 </style>

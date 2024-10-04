@@ -1,7 +1,8 @@
 <!-- https://github.com/nuxt-modules/mdc/blob/b89db73a82624760cd6fa5b85ede263b95ff157e/src/runtime/components/prose/ProseImg.vue -->
 
 <template>
-  <div :class="$style.container"
+  <div class="imageViewer"
+       :class="$style.container"
        @click="openModal">
     <component :is="imgComponent"
                :src="refinedSrc"
@@ -113,7 +114,6 @@ const closeModal = () => {
 <style module>
 .container {
   display: block flex;
-  margin-block: 2rem;
   margin-inline: auto;
   inline-size: 100%;
   aspect-ratio: 16 / 9;
