@@ -91,23 +91,31 @@ if (!import.meta.dev && runtimeConfig.public.cfWebAnalyticsToken) {
 // metas
 const appConfig = useAppConfig();
 
-useHead({
-  titleTemplate: titleChunk => titleChunk ? `${titleChunk} - ${appConfig.siteName}` : appConfig.siteName,
+useServerHead({
+  link: [
+    { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
+    { rel: 'preconnect', href: 'https://fonts.gstatic.com' },
+    { href: 'https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700&display=swap', rel: 'stylesheet' },
+  ],
   htmlAttrs: {
     lang: 'ja-JP',
   },
+});
+
+useHead({
+  titleTemplate: titleChunk => titleChunk ? `${titleChunk} - ${appConfig.siteName}` : appConfig.siteName,
 });
 
 useServerSeoMeta({
   referrer: 'same-origin',
   robots: 'noindex, nofollow, noarchive, nosnippet, noimageindex, noai, noimageai',
   twitterCard: 'summary',
+  ogTitle: appConfig.siteName,
+  ogDescription: appConfig.siteDescription,
 });
 
 useSeoMeta({
-  ogTitle: appConfig.siteName,
   description: appConfig.siteDescription,
-  ogDescription: appConfig.siteDescription,
 });
 // end - metas
 </script>

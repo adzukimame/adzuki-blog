@@ -46,10 +46,13 @@ if (data.value) {
     title: data.value.title,
   });
 
-  useSeoMeta({
+  useServerSeoMeta({
     ogTitle: `${data.value.title} - ${appConfig.siteName}`,
-    description: `${data.value.title} - ${appConfig.siteName}`,
     ogDescription: `${data.value.title} - ${appConfig.siteName}`,
+  });
+
+  useSeoMeta({
+    description: `${data.value.title} - ${appConfig.siteName}`,
   });
 }
 </script>

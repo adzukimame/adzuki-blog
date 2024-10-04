@@ -72,15 +72,21 @@ const { data: articles } = await useAsyncData(
   }
 );
 
-useHead({
-  title: '',
+useServerHead({
   link: appConfig.authorSocialLinks.map(link => ({ rel: 'me', href: link })),
 });
 
-useSeoMeta({
+useHead({
+  title: '',
+});
+
+useServerSeoMeta({
   ogTitle: appConfig.siteName,
-  description: appConfig.siteDescription,
   ogDescription: appConfig.siteDescription,
+});
+
+useSeoMeta({
+  description: appConfig.siteDescription,
 });
 </script>
 
