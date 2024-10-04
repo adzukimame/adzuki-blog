@@ -106,10 +106,13 @@ useHead({
   title: category.value === undefined ? 'すべての投稿' : `カテゴリ「${category.value}」の投稿`,
 });
 
-useSeoMeta({
+useServerSeoMeta({
   ogTitle: `${category.value === undefined ? 'すべての投稿' : `カテゴリ「${category.value}」の投稿`} - ${appConfig.siteName}`,
-  description: `${category.value === undefined ? 'すべての投稿' : `カテゴリ「${category.value}」の投稿`} - ${appConfig.siteName}`,
   ogDescription: `${category.value === undefined ? 'すべての投稿' : `カテゴリ「${category.value}」の投稿`} - ${appConfig.siteName}`,
+});
+
+useSeoMeta({
+  description: `${category.value === undefined ? 'すべての投稿' : `カテゴリ「${category.value}」の投稿`} - ${appConfig.siteName}`,
 });
 </script>
 

@@ -42,7 +42,7 @@ export default defineNitroPlugin((nitroApp) => {
       : '\'self\'';
 
     setResponseHeader(context.event, 'Content-Security-Policy',
-      `default-src 'self'; script-src ${scriptSrc}; style-src 'self' 'unsafe-inline'; img-src ${imgAndMediaSrc}; media-src ${imgAndMediaSrc}; connect-src 'self' https://cloudflareinsights.com/cdn-cgi/rum${import.meta.dev ? ' ws://localhost:4000/ws' : ''}; frame-src https:; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none';`
+      `default-src 'self'; script-src ${scriptSrc}; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src ${imgAndMediaSrc}; media-src ${imgAndMediaSrc}; connect-src 'self' https://cloudflareinsights.com/cdn-cgi/rum${import.meta.dev ? ' ws://localhost:4000/ws' : ''}; font-src https://fonts.gstatic.com; frame-src https:; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none';`
     );
 
     removeResponseHeader(context.event, 'X-Robots-Tag');

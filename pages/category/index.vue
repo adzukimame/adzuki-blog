@@ -42,10 +42,13 @@ useHead({
   title: 'カテゴリ一覧',
 });
 
-useSeoMeta({
+useServerSeoMeta({
   ogTitle: `カテゴリ一覧 - ${appConfig.siteName}`,
-  description: `カテゴリ一覧 - ${appConfig.siteName}`,
   ogDescription: `カテゴリ一覧 - ${appConfig.siteName}`,
+});
+
+useSeoMeta({
+  description: `カテゴリ一覧 - ${appConfig.siteName}`,
 });
 </script>
 
