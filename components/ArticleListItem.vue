@@ -6,7 +6,7 @@
         {{ item.title }}
       </div>
       <div :class="$style.description">
-        {{ item.description }}
+        {{ item.hideDescription ? '…' : item.description }}
       </div>
     </NuxtLink>
     <div :class="$style.categoryAndDateContainer">
@@ -40,7 +40,7 @@ import type { ParsedContent } from '@nuxt/content';
 import { IconFolder, IconClock } from '@tabler/icons-vue';
 
 defineProps<{
-  item: Pick<ParsedContent, '_id' | '_path' | 'title' | 'description' | 'category' | 'created'> | ParsedContent;
+  item: Pick<ParsedContent, '_id' | '_path' | 'title' | 'description' | 'category' | 'created' | 'hideDescription'> | ParsedContent;
 }>();
 </script>
 
