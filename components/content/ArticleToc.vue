@@ -1,6 +1,7 @@
 <template>
   <details v-if="toc && toc.links.length > 0"
            :open="tocOpened ? true : undefined"
+           class="articleToc"
            :class="$style.container"
            @toggle="(event) => {
              if (event.newState === 'open') { tocOpened = true }
@@ -113,7 +114,6 @@ const onSummaryClick = (_event: MouseEvent) => {
   border-radius: 6px;
   padding-inline: 1rem;
   padding-block: 0.3rem;
-  margin-block: 2rem;
   transition: background-color var(--colorSchemeTransitionDuration);
 }
 

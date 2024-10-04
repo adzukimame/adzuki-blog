@@ -118,7 +118,7 @@ defineProps<{
 }
 
 .category {
-  margin-inline-start: 0.2rem;
+  padding-inline-start: 0.2rem;
   transition: color var(--hoverTransitionDuration) var(--hoverTransitionFunction);
 }
 
@@ -147,6 +147,6 @@ defineProps<{
 }
 
 .date {
-  margin-inline-start: 0.2rem;
+  padding-inline-start: 0.2rem;
 }
 </style>

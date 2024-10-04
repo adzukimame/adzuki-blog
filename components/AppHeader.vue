@@ -198,7 +198,7 @@ const menuItems = [
     display: block;
     position: fixed;
     inset: 0;
-    margin-block-start: var(--headerHeight);
+    inset-block-start: var(--headerHeight);
     max-block-size: calc(100vb - var(--headerHeight));
     inline-size: 100%;
     background-color: var(--bg);
@@ -229,7 +229,7 @@ const menuItems = [
     flex-direction: column;
     row-gap: 1rem;
     align-items: flex-start;
-    margin: 2rem;
+    padding: 2rem;
   }
 }
 
