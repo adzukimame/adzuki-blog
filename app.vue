@@ -92,11 +92,6 @@ if (!import.meta.dev && runtimeConfig.public.cfWebAnalyticsToken) {
 const appConfig = useAppConfig();
 
 useServerHead({
-  link: [
-    { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
-    { rel: 'preconnect', href: 'https://fonts.gstatic.com' },
-    { href: 'https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700&display=swap', rel: 'stylesheet' },
-  ],
   htmlAttrs: {
     lang: 'ja-JP',
   },

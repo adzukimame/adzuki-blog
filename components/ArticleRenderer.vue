@@ -35,13 +35,11 @@ defineProps<{
 
 .renderer>h2 {
   font-size: 1.3rem;
-  font-weight: 500;
   border-block-end: solid 0.3rem var(--split);
 }
 
 .renderer>h3 {
   font-size: 1.1rem;
-  font-weight: 500;
 }
 
 .renderer>h1:first-child {
