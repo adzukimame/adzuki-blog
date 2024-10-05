@@ -1,54 +1,53 @@
 <template>
   <Body :style="`overflow: ${menuOpened ? 'clip' : ''};`" />
   <header :class="$style.header">
-    <NuxtLink to="/"
-              :class="$style.siteLogoAndTitleContainer"
-              @click="closeMenu">
-      <img src="/icon.webp"
-           alt="このサイトのロゴ画像"
-           :class="$style.siteLogo">
-      <div :class="$style.siteTitle">
-        {{ appConfig.siteName }}
-      </div>
-    </NuxtLink>
-    <nav v-if="!isNarrow || menuOpened"
-         ref="navEl"
-         :class="[$style.nav, { [$style.menuOpened]: menuOpened }]">
-      <ul :class="$style.navList">
-        <li v-for="item in menuItems"
-            :key="item.to"
-            :class="$style.navListItem">
-          <NuxtLink :to="item.to"
-                    @click="closeMenu()">
-            {{ item.name }}
-          </NuxtLink>
-        </li>
-      </ul>
-    </nav>
-    <div :class="$style.buttonsContainer">
-      <button :class="$style.colorSwitch"
-              :aria-label="`${colorScheme === 'dark' ? 'ライト' : 'ダーク'}モードに切り替える`"
-              @click="updateColorScheme(colorScheme === 'light' ? 'dark' : 'light')">
-        <IconMoon v-if="colorScheme === 'light'"
-                  :size="$style.darkModeSwitchIconSize"
-                  aria-hidden="true" />
-        <IconSun v-else
-                 :size="$style.darkModeSwitchIconSize"
-                 aria-hidden="true" />
-      </button>
-      <button :class="$style.menuButton"
-              :aria-label="`メニューを${menuOpened ? '閉じる' : '開く'}`"
-              @click="() => {
-                if (menuOpened) { closeMenu(); }
-                else { openMenu() }
-              }">
-        <IconMenu2 v-if="!menuOpened"
-                   :size="$style.menuButtonIconSize"
+    <div :class="$style.headerInner">
+      <NuxtLink to="/"
+                :class="$style.siteTitleContainer"
+                @click="closeMenu">
+        <div :class="$style.siteTitle">
+          {{ appConfig.siteName }}
+        </div>
+      </NuxtLink>
+      <nav v-if="!isNarrow || menuOpened"
+           ref="navEl"
+           :class="[$style.nav, { [$style.menuOpened]: menuOpened }]">
+        <ul :class="$style.navList">
+          <li v-for="item in menuItems"
+              :key="item.to"
+              :class="$style.navListItem">
+            <NuxtLink :to="item.to"
+                      @click="closeMenu()">
+              {{ item.name }}
+            </NuxtLink>
+          </li>
+        </ul>
+      </nav>
+      <div :class="$style.buttonsContainer">
+        <button :class="$style.colorSwitch"
+                :aria-label="`${colorScheme === 'dark' ? 'ライト' : 'ダーク'}モードに切り替える`"
+                @click="updateColorScheme(colorScheme === 'light' ? 'dark' : 'light')">
+          <IconMoon v-if="colorScheme === 'light'"
+                    :size="$style.darkModeSwitchIconSize"
+                    aria-hidden="true" />
+          <IconSun v-else
+                   :size="$style.darkModeSwitchIconSize"
                    aria-hidden="true" />
-        <IconX v-else
-               :size="$style.menuButtonIconSize"
-               aria-hidden="true" />
-      </button>
+        </button>
+        <button :class="$style.menuButton"
+                :aria-label="`メニューを${menuOpened ? '閉じる' : '開く'}`"
+                @click="() => {
+                  if (menuOpened) { closeMenu(); }
+                  else { openMenu() }
+                }">
+          <IconMenu2 v-if="!menuOpened"
+                     :size="$style.menuButtonIconSize"
+                     aria-hidden="true" />
+          <IconX v-else
+                 :size="$style.menuButtonIconSize"
+                 aria-hidden="true" />
+        </button>
+      </div>
     </div>
   </header>
 </template>
@@ -156,37 +155,43 @@ const menuItems = [
 <style module>
 .header {
   position: sticky;
-  top: 0;
-  display: block flex;
+  inset-block-start: 0;
   z-index: 2;
-  align-items: center;
-  justify-content: space-between;
   block-size: var(--headerHeight);
   border-block-end: solid var(--split) 2px;
   background-color: var(--bg);
   color: var(--fgStrong);
-  padding-inline: max(1rem, var(--scrollbarWidth));
   transition: background-color var(--colorSchemeTransitionDuration);
 }
 
-:root:global(.writing-mode-vertical-rl) .header {
-  right: 0;
+.headerInner {
+  display: block flex;
+  align-items: center;
+  justify-content: space-between;
+  block-size: var(--headerHeight);
+  max-inline-size: 768px;
+  padding-inline: 24px;
+  margin-inline: auto;
 }
 
-.siteLogoAndTitleContainer {
+@media (max-width: 768px) {
+  .headerInner {
+    inline-size: 100%;
+    padding-inline: 24px;
+    margin-inline: 0;
+  }
+}
+
+:root:global(.writing-mode-vertical-rl) .headerInner {
+  inline-size: 100%;
+  padding-inline: 32px;
+  margin-inline: 0;
+}
+
+.siteTitleContainer {
   flex: 1 1;
   display: block flex;
-  justify-content: flex-start;
-  align-items: center;
   margin-inline-end: 3rem;
-  column-gap: 1rem;
-}
-
-.siteLogo {
-  display: block;
-  width: 38px;
-  height: 38px;
-  object-fit: contain;
 }
 
 .siteTitle {
