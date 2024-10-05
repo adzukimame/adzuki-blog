@@ -9,13 +9,6 @@
           {{ appConfig.siteName }}
         </NuxtLink>
       </div>
-      <!-- <NuxtLink to="/"
-                :class="$style.siteTitleContainer"
-                @click="closeMenu">
-        <div :class="$style.siteTitle">
-          {{ appConfig.siteName }}
-        </div>
-      </NuxtLink> -->
       <nav v-if="!isNarrow || menuOpened"
            ref="navEl"
            :class="[$style.nav, { [$style.menuOpened]: menuOpened }]">
@@ -198,7 +191,6 @@ const menuItems = [
 .siteTitleContainer {
   flex: 1 1;
   display: block flex;
-  margin-inline-end: 3rem;
 }
 
 .siteTitle {
@@ -223,6 +215,12 @@ const menuItems = [
 
   .nav.menuOpened {
     display: block;
+  }
+}
+
+@media (min-width: 769px) {
+  .nav {
+    padding-inline: 3rem;
   }
 }
 
@@ -286,7 +284,6 @@ const menuItems = [
   display: block flex;
   justify-content: flex-end;
   column-gap: 0.5rem;
-  margin-inline-start: 3rem;
 }
 
 @value darkModeSwitchAndMenuButtonSize: 2.2rem;
