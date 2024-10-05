@@ -2,13 +2,20 @@
   <Body :style="`overflow: ${menuOpened ? 'clip' : ''};`" />
   <header :class="$style.header">
     <div :class="$style.headerInner">
-      <NuxtLink to="/"
+      <div :class="$style.siteTitleContainer">
+        <NuxtLink to="/"
+                  :class="$style.siteTitle"
+                  @click="closeMenu">
+          {{ appConfig.siteName }}
+        </NuxtLink>
+      </div>
+      <!-- <NuxtLink to="/"
                 :class="$style.siteTitleContainer"
                 @click="closeMenu">
         <div :class="$style.siteTitle">
           {{ appConfig.siteName }}
         </div>
-      </NuxtLink>
+      </NuxtLink> -->
       <nav v-if="!isNarrow || menuOpened"
            ref="navEl"
            :class="[$style.nav, { [$style.menuOpened]: menuOpened }]">
@@ -234,7 +241,7 @@ const menuItems = [
     flex-direction: column;
     row-gap: 1rem;
     align-items: flex-start;
-    padding: 2rem;
+    padding: 24px;
   }
 }
 
