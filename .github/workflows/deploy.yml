@@ -45,12 +45,18 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'pnpm'
       - run: corepack enable
+      - name: Get GitHub App Token
+        uses: actions/create-github-app-token@v1
+        id: app-token
+        with:
+          app-id: ${{ secrets.CONTENT_READ_APP_ID }}
+          private-key: ${{ secrets.CONTENT_READ_APP_PRIVATE_KEY }}
       - name: Clone content repository
         uses: actions/checkout@v4.1.1
         with:
           repository: ${{ secrets.CONTENT_REPO }}
           path: content_repo
-          token: ${{ secrets.CONTENT_REPO_TOKEN }}
+          token: ${{ steps.app-token.outputs.token }}
       - name: Move content directory
         run: mv ./content_repo/content ./
       - name: Clean content repository
