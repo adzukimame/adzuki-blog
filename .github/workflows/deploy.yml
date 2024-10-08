@@ -51,6 +51,9 @@ jobs:
         with:
           app-id: ${{ secrets.CONTENT_READ_APP_ID }}
           private-key: ${{ secrets.CONTENT_READ_APP_PRIVATE_KEY }}
+          owner: ${{ secrets.CONTENT_REPO_OWNER }}
+          repositories: |
+            ${{ secrets.CONTENT_REPO_NAME }}
       - name: Clone content repository
         uses: actions/checkout@v4.1.1
         with:
