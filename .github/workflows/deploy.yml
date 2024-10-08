@@ -57,7 +57,7 @@ jobs:
       - name: Clone content repository
         uses: actions/checkout@v4.1.1
         with:
-          repository: ${{ secrets.CONTENT_REPO }}
+          repository: ${{ secrets.CONTENT_REPO_OWNER }}/${{ secrets.CONTENT_REPO_NAME }}
           path: content_repo
           token: ${{ steps.app-token.outputs.token }}
       - name: Move content directory
