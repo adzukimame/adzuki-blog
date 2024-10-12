@@ -66,24 +66,14 @@ const runtimeConfig = useRuntimeConfig();
 
 if (!import.meta.dev && runtimeConfig.public.cfWebAnalyticsToken) {
   useServerHead({
-    meta: [
+    script: [
       {
-        name: 'cf-beacon',
-        content: JSON.stringify({ token: runtimeConfig.public.cfWebAnalyticsToken }),
+        'defer': true,
+        'src': '/beacon.min.js',
+        'data-cf-beacon': JSON.stringify({ token: runtimeConfig.public.cfWebAnalyticsToken }),
+        'tagPosition': 'bodyClose',
       },
     ],
-  });
-
-  onPrehydrate(() => {
-    const meta = document.head.querySelector('meta[name="cf-beacon"]');
-
-    if (meta && meta.hasAttribute('content')) {
-      const script = document.createElement('script');
-      script.setAttribute('defer', '');
-      script.setAttribute('src', 'https://static.cloudflareinsights.com/beacon.min.js');
-      script.dataset.cfBeacon = meta.getAttribute('content') ?? '';
-      document.body.appendChild(script);
-    }
   });
 }
 // end - analytics script
