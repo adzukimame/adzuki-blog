@@ -74,7 +74,6 @@ jobs:
         uses: cloudflare/wrangler-action@v3
         with:
           quiet: true
-          wranglerVersion: "3.68.0"
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: pages deploy
