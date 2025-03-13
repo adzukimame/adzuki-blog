@@ -29,20 +29,16 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [20.16.0]
-
     environment: ${{ needs.decide_environment.outputs.environment }}
 
     steps:
       - uses: actions/checkout@v4.1.1
       - name: Install pnpm
         uses: pnpm/action-setup@v4
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Set up Node.js
         uses: actions/setup-node@v4.0.2
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version-file: '.node-version'
           cache: 'pnpm'
       - run: corepack enable
       - name: Get GitHub App Token
