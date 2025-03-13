@@ -2,6 +2,16 @@
 
 Cloudflare Pages にデプロイする想定。
 
+## メタデータの記述
+
+サイト名、著者名などは `content/meta.json` にキー・値のペアとして記述する。
+
+記述したキー・値は `runtimeConfig.public` のキー・値として利用できる。
+
+`meta.json` と `runtimeConfig.public` でキーが競合する場合は、`meta.json` 側の値が優先される。
+
+`runtimeConfig.public` にデフォルト値を記述しておくとよい。
+
 ## コンテンツの記述
 
 [NOTE-content](./NOTE-content.md) を参照。
