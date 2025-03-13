@@ -69,7 +69,7 @@ if (!import.meta.dev && runtimeConfig.public.cfWebAnalyticsToken) {
     script: [
       {
         'defer': true,
-        'src': '/beacon.min.js',
+        'src': 'https://static.cloudflareinsights.com/beacon.min.js',
         'data-cf-beacon': JSON.stringify({ token: runtimeConfig.public.cfWebAnalyticsToken }),
         'tagPosition': 'bodyClose',
       },
