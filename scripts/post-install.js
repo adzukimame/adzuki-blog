@@ -1,4 +1,13 @@
-import { existsSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
+
+// content dir
+{
+  const contentExists = existsSync('./content');
+
+  if (!contentExists) {
+    mkdirSync('./content');
+  }
+}
 
 // meta.json
 {
