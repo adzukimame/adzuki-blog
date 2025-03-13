@@ -36,6 +36,9 @@ export default defineNuxtConfig({
     ignores: [
       '/meta.json',
     ],
+    locales: [
+      'ja-JP',
+    ],
     markdown: {
       anchorLinks: false,
       toc: {
