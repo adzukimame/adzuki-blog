@@ -9,7 +9,7 @@
             :key="item[0]"
             :class="$style.categoryListItem">
           <NuxtLink :to="`/category/${item[0]}`">
-            {{ `${item[0]} (${item[1]})` }}
+            {{ `${item[0] !== 'undefined' ? item[0] : '未設定'} (${item[1]})` }}
           </NuxtLink>
         </li>
       </ul>
@@ -28,9 +28,7 @@ const categoryList = computed(() => {
   const map = new Map<string | undefined, number>();
 
   data.value.forEach((content) => {
-    if (content.category !== undefined) {
-      map.set(content.category, (map.get(content.category) ?? 0) + 1);
-    }
+    map.set(content.category ?? 'undefined', (map.get(content.category ?? 'undefined') ?? 0) + 1);
   });
 
   return Array.from(map).sort((a, b) => b[1] - a[1]);
