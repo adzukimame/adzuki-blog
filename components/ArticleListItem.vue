@@ -13,9 +13,9 @@
       <div :class="$style.categoryContainer">
         <IconFolder size="1rem"
                     aria-hidden="true" />
-        <NuxtLink :to="item.category !== undefined ? `/category/${item.category}` : undefined"
-                  :class="[$style.category, { [$style.noCategory]: item.category === undefined }]">
-          {{ item.category !== undefined ? item.category : '未設定' }}
+        <NuxtLink :to="`/category/${item.category}`"
+                  :class="$style.category">
+          {{ item.category !== undefined && item.category !== 'undefined' ? item.category : '未設定' }}
         </NuxtLink>
       </div>
       <div :class="$style.dateContainer">
@@ -122,19 +122,15 @@ defineProps<{
   transition: color var(--hoverTransitionDuration) var(--hoverTransitionFunction);
 }
 
-.noCategory {
-  cursor: default;
-}
-
 @media (hover: hover) {
-  .category:not(.noCategory):hover {
+  .category:hover {
     text-decoration: underline;
     color: var(--fg);
   }
 }
 
 @media (hover: none) {
-  .category:not(.noCategory):active {
+  .category:active {
     text-decoration: underline;
     color: var(--fg);
   }

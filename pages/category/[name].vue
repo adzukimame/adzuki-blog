@@ -2,7 +2,7 @@
   <div>
     <div v-if="category"
          :class="$style.categoryName">
-      カテゴリ「{{ category }}」の投稿
+      カテゴリ「{{ category !== undefined && category !== 'undefined' ? category : '未設定' }}」の投稿
     </div>
     <div v-else
          :class="$style.categoryName">
@@ -34,8 +34,13 @@ const { data: articleCount } = await useAsyncData(
   () => {
     const query = queryContent('posts');
 
-    if (category.value !== undefined) {
+    if (category.value !== 'undefined') {
       query.where({ category: category.value });
+    }
+    else {
+      query.where({
+        $or: [{ category: { $exists: false } }, { category: 'undefined' }],
+      });
     }
 
     return query.count();
@@ -87,8 +92,13 @@ const { data: articles } = await useAsyncData(
   () => {
     const query = queryContent('posts');
 
-    if (category.value !== undefined) {
+    if (category.value !== 'undefined') {
       query.where({ category: category.value });
+    }
+    else {
+      query.where({
+        $or: [{ category: { $exists: false } }, { category: 'undefined' }],
+      });
     }
 
     return query
