@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-const appConfig = useAppConfig();
+const runtimeConfig = useRuntimeConfig();
 
 const route = useRoute();
 
@@ -47,12 +47,12 @@ if (data.value) {
   });
 
   useServerSeoMeta({
-    ogTitle: `${data.value.title} - ${appConfig.siteName}`,
-    ogDescription: `${data.value.title} - ${appConfig.siteName}`,
+    ogTitle: `${data.value.title} - ${runtimeConfig.public.siteName}`,
+    ogDescription: `${data.value.title} - ${runtimeConfig.public.siteName}`,
   });
 
   useSeoMeta({
-    description: `${data.value.title} - ${appConfig.siteName}`,
+    description: `${data.value.title} - ${runtimeConfig.public.siteName}`,
   });
 }
 </script>

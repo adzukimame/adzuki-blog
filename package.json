@@ -10,7 +10,7 @@
     "post-build:linux": "cp ./_headers ./dist/_headers",
     "generate": "nuxt generate",
     "preview": "wrangler pages dev",
-    "postinstall": "nuxt prepare",
+    "postinstall": "node ./scripts/post-install.js && nuxt prepare",
     "deploy": "wrangler pages deploy",
     "clean": "nuxt cleanup",
     "lint": "eslint .",

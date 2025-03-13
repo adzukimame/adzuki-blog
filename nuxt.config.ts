@@ -1,4 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+
+import meta from './content/meta.json' with { type: 'json' };
+
 export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
   devtools: { enabled: true },
@@ -6,6 +9,15 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       cfWebAnalyticsToken: '',
+      ...{
+        siteName: 'siteName',
+        siteDescription: 'siteDescription',
+        authorName: 'authorName',
+        authorSocialLinks: [
+        ],
+        origin: 'https://example.com',
+      },
+      ...meta,
     },
     summalyProxyUrl: '',
     imgAndMediaSrc: [''],
@@ -21,6 +33,9 @@ export default defineNuxtConfig({
     '~/assets/css/main.css',
   ],
   content: {
+    ignores: [
+      '/meta.json',
+    ],
     markdown: {
       anchorLinks: false,
       toc: {

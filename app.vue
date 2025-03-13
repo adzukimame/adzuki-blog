@@ -79,8 +79,6 @@ if (!import.meta.dev && runtimeConfig.public.cfWebAnalyticsToken) {
 // end - analytics script
 
 // metas
-const appConfig = useAppConfig();
-
 useServerHead({
   htmlAttrs: {
     lang: 'ja-JP',
@@ -88,19 +86,19 @@ useServerHead({
 });
 
 useHead({
-  titleTemplate: titleChunk => titleChunk ? `${titleChunk} - ${appConfig.siteName}` : appConfig.siteName,
+  titleTemplate: titleChunk => titleChunk ? `${titleChunk} - ${runtimeConfig.public.siteName}` : runtimeConfig.public.siteName,
 });
 
 useServerSeoMeta({
   referrer: 'same-origin',
   robots: 'noindex, nofollow, noarchive, nosnippet, noimageindex, noai, noimageai',
   twitterCard: 'summary',
-  ogTitle: appConfig.siteName,
-  ogDescription: appConfig.siteDescription,
+  ogTitle: runtimeConfig.public.siteName,
+  ogDescription: runtimeConfig.public.siteDescription,
 });
 
 useSeoMeta({
-  description: appConfig.siteDescription,
+  description: runtimeConfig.public.siteDescription,
 });
 // end - metas
 </script>

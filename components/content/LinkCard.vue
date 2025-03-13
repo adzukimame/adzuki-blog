@@ -1,7 +1,7 @@
 <template>
   <ClientOnly>
-    <NuxtLink :to="appConfig.origin === urlObj.origin ? `${urlObj.pathname}${urlObj.search}` : url.toString()"
-              :target="appConfig.origin === urlObj.origin ? undefined : '_blank'"
+    <NuxtLink :to="runtimeConfig.public.origin === urlObj.origin ? `${urlObj.pathname}${urlObj.search}` : url.toString()"
+              :target="runtimeConfig.public.origin === urlObj.origin ? undefined : '_blank'"
               :class="$style.container">
       <div :class="$style.title">
         {{ (data && data.title) ? data.title : url }}
@@ -35,7 +35,7 @@ const props = defineProps<{
   url: string;
 }>();
 
-const appConfig = useAppConfig();
+const runtimeConfig = useRuntimeConfig();
 
 const urlObj = computed(() => new URL(props.url));
 

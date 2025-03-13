@@ -16,6 +16,7 @@
 
 <script setup lang="ts">
 const appConfig = useAppConfig();
+const runtimeConfig = useRuntimeConfig();
 
 const route = useRoute();
 
@@ -73,7 +74,7 @@ const { data: articles } = await useAsyncData(
 );
 
 useServerHead({
-  link: appConfig.authorSocialLinks.map(link => ({ rel: 'me', href: link })),
+  link: runtimeConfig.public.authorSocialLinks.map(link => ({ rel: 'me', href: link })),
 });
 
 useHead({
@@ -81,12 +82,12 @@ useHead({
 });
 
 useServerSeoMeta({
-  ogTitle: appConfig.siteName,
-  ogDescription: appConfig.siteDescription,
+  ogTitle: runtimeConfig.public.siteName,
+  ogDescription: runtimeConfig.public.siteDescription,
 });
 
 useSeoMeta({
-  description: appConfig.siteDescription,
+  description: runtimeConfig.public.siteDescription,
 });
 </script>
 
