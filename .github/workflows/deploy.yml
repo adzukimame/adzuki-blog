@@ -64,7 +64,7 @@ jobs:
       - name: Build
         run: pnpm run build > /dev/null
       - name: Post build
-        run: pnpm run post-build:linux
+        run: pnpm run post-build
       - name: Deploy
         id: deploy
         uses: cloudflare/wrangler-action@v3
