@@ -6,8 +6,7 @@
   "scripts": {
     "dev": "nuxt dev",
     "build": "nuxt build",
-    "post-build:windows": "powershell -Command Copy-Item ./_headers ./dist/_headers",
-    "post-build:linux": "cp ./_headers ./dist/_headers",
+    "post-build": "node ./scripts/post-build.js",
     "generate": "nuxt generate",
     "preview": "wrangler pages dev",
     "postinstall": "node ./scripts/post-install.js && nuxt prepare",
