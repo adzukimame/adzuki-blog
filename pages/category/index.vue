@@ -36,19 +36,19 @@ const categoryList = computed(() => {
   return Array.from(map).sort((a, b) => b[1] - a[1]);
 });
 
-const appConfig = useAppConfig();
+const runtimeConfig = useRuntimeConfig();
 
 useHead({
   title: 'カテゴリ一覧',
 });
 
 useServerSeoMeta({
-  ogTitle: `カテゴリ一覧 - ${appConfig.siteName}`,
-  ogDescription: `カテゴリ一覧 - ${appConfig.siteName}`,
+  ogTitle: `カテゴリ一覧 - ${runtimeConfig.public.siteName}`,
+  ogDescription: `カテゴリ一覧 - ${runtimeConfig.public.siteName}`,
 });
 
 useSeoMeta({
-  description: `カテゴリ一覧 - ${appConfig.siteName}`,
+  description: `カテゴリ一覧 - ${runtimeConfig.public.siteName}`,
 });
 </script>
 

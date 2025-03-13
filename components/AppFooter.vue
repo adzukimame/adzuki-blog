@@ -1,13 +1,13 @@
 <template>
   <footer :class="$style.footer">
     <div :class="$style.copyright">
-      Copyright © {{ new Date().getFullYear() }} {{ appConfig.authorName }}. All Rights Reserved.
+      Copyright © {{ new Date().getFullYear() }} {{ runtimeConfig.public.authorName }}. All Rights Reserved.
     </div>
   </footer>
 </template>
 
 <script setup lang="ts">
-const appConfig = useAppConfig();
+const runtimeConfig = useRuntimeConfig();
 </script>
 
 <style module>

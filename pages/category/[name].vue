@@ -21,6 +21,7 @@
 
 <script setup lang="ts">
 const appConfig = useAppConfig();
+const runtimeConfig = useRuntimeConfig();
 
 const route = useRoute();
 
@@ -107,12 +108,12 @@ useHead({
 });
 
 useServerSeoMeta({
-  ogTitle: `${category.value === undefined ? 'すべての投稿' : `カテゴリ「${category.value}」の投稿`} - ${appConfig.siteName}`,
-  ogDescription: `${category.value === undefined ? 'すべての投稿' : `カテゴリ「${category.value}」の投稿`} - ${appConfig.siteName}`,
+  ogTitle: `${category.value === undefined ? 'すべての投稿' : `カテゴリ「${category.value}」の投稿`} - ${runtimeConfig.public.siteName}`,
+  ogDescription: `${category.value === undefined ? 'すべての投稿' : `カテゴリ「${category.value}」の投稿`} - ${runtimeConfig.public.siteName}`,
 });
 
 useSeoMeta({
-  description: `${category.value === undefined ? 'すべての投稿' : `カテゴリ「${category.value}」の投稿`} - ${appConfig.siteName}`,
+  description: `${category.value === undefined ? 'すべての投稿' : `カテゴリ「${category.value}」の投稿`} - ${runtimeConfig.public.siteName}`,
 });
 </script>
 

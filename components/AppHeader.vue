@@ -6,7 +6,7 @@
         <NuxtLink to="/"
                   :class="$style.siteTitle"
                   @click="closeMenu">
-          {{ appConfig.siteName }}
+          {{ runtimeConfig.public.siteName }}
         </NuxtLink>
       </div>
       <nav v-if="!isNarrow || menuOpened"
@@ -61,6 +61,7 @@ const emits = defineEmits<{
 }>();
 
 const appConfig = useAppConfig();
+const runtimeConfig = useRuntimeConfig();
 
 const colorScheme = useColorScheme();
 
