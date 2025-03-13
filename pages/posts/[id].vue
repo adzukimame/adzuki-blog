@@ -55,4 +55,11 @@ if (data.value) {
     description: `${data.value.title} - ${runtimeConfig.public.siteName}`,
   });
 }
+else {
+  const event = useRequestEvent();
+
+  if (event) {
+    setResponseStatus(event, 404);
+  }
+}
 </script>
