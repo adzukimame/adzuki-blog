@@ -15,7 +15,7 @@
                     aria-hidden="true" />
         <NuxtLink :to="`/category/${item.category}`"
                   :class="$style.category">
-          {{ item.category !== undefined && item.category !== 'undefined' ? item.category : '未設定' }}
+          {{ (item.category === undefined || item.category === 'undefined') ? '未設定' : item.category }}
         </NuxtLink>
       </div>
       <div :class="$style.dateContainer">
