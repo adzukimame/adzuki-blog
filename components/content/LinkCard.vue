@@ -1,9 +1,10 @@
 <template>
   <ClientOnly>
-    <NuxtLink :to="runtimeConfig.public.origin === urlObj.origin ? `${urlObj.pathname}${urlObj.search}` : url.toString()"
+    <NuxtLink v-if="data !== undefined"
+              :to="runtimeConfig.public.origin === urlObj.origin ? `${urlObj.pathname}${urlObj.search}` : url.toString()"
               :target="runtimeConfig.public.origin === urlObj.origin ? undefined : '_blank'"
               :class="$style.container">
-      <div :class="$style.title">
+      <div :class="[$style.title, $style.loaded]">
         {{ (data && data.title) ? data.title : url }}
       </div>
       <div :class="$style.description">
@@ -18,6 +19,13 @@
         </div>
       </div>
     </NuxtLink>
+    <template v-else>
+      <div :class="$style.container">
+        <div :class="$style.title">
+          Loading url preview...
+        </div>
+      </div>
+    </template>
     <template #fallback>
       <div :class="$style.container">
         <div :class="$style.title">
@@ -39,7 +47,9 @@ const runtimeConfig = useRuntimeConfig();
 
 const urlObj = computed(() => new URL(props.url));
 
-const { data } = await useFetch<SummalyResult>(
+const data = ref<SummalyResult | null | undefined>(undefined);
+
+useFetch<SummalyResult>(
   '/api/url-preview',
   {
     query: {
@@ -48,7 +58,9 @@ const { data } = await useFetch<SummalyResult>(
     watch: [() => props.url],
     server: false,
   }
-);
+).then(({ data: result }) => {
+  data.value = result.value;
+});
 </script>
 
 <style module>
@@ -72,15 +84,19 @@ const { data } = await useFetch<SummalyResult>(
   transition: color var(--hoverTransitionDuration) var(--hoverTransitionFunction);
 }
 
+.title:not(.loaded) {
+  cursor: default;
+}
+
 @media (hover: hover) {
-  .container:hover>.title {
+  .container:hover>.title.loaded {
     color: var(--fgStrong);
     text-decoration: underline;
   }
 }
 
 @media (hover: none) {
-  .container:active>.title {
+  .container:active>.title.loaded {
     color: var(--fgStrong);
     text-decoration: underline;
   }
