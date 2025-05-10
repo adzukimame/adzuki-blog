@@ -1,12 +1,7 @@
 <template>
   <div>
-    <div v-if="category"
-         :class="$style.categoryName">
-      カテゴリ「{{ category !== undefined && category !== 'undefined' ? category : '未設定' }}」の投稿
-    </div>
-    <div v-else
-         :class="$style.categoryName">
-      すべての投稿
+    <div :class="$style.categoryName">
+      カテゴリ「{{ category === 'undefined' ? '未設定' : category }}」の投稿
     </div>
     <main ref="articleListOuter">
       <ArticleList :articles="articles" />
@@ -34,13 +29,13 @@ const { data: articleCount } = await useAsyncData(
   () => {
     const query = queryContent('posts');
 
-    if (category.value !== 'undefined') {
-      query.where({ category: category.value });
-    }
-    else {
+    if (category.value === 'undefined') {
       query.where({
         $or: [{ category: { $exists: false } }, { category: 'undefined' }],
       });
+    }
+    else {
+      query.where({ category: category.value });
     }
 
     return query.count();
@@ -92,13 +87,13 @@ const { data: articles } = await useAsyncData(
   () => {
     const query = queryContent('posts');
 
-    if (category.value !== 'undefined') {
-      query.where({ category: category.value });
-    }
-    else {
+    if (category.value === 'undefined') {
       query.where({
         $or: [{ category: { $exists: false } }, { category: 'undefined' }],
       });
+    }
+    else {
+      query.where({ category: category.value });
     }
 
     return query
@@ -114,16 +109,16 @@ const { data: articles } = await useAsyncData(
 );
 
 useHead({
-  title: category.value === undefined ? 'すべての投稿' : `カテゴリ「${category.value}」の投稿`,
+  title: `カテゴリ「${category.value === 'undefined' ? '未設定' : category.value}」の投稿`,
 });
 
 useServerSeoMeta({
-  ogTitle: `${category.value === undefined ? 'すべての投稿' : `カテゴリ「${category.value}」の投稿`} - ${runtimeConfig.public.siteName}`,
-  ogDescription: `${category.value === undefined ? 'すべての投稿' : `カテゴリ「${category.value}」の投稿`} - ${runtimeConfig.public.siteName}`,
+  ogTitle: `カテゴリ「${category.value === 'undefined' ? '未設定' : category.value}」の投稿 - ${runtimeConfig.public.siteName}`,
+  ogDescription: `カテゴリ「${category.value === 'undefined' ? '未設定' : category.value}」の投稿 - ${runtimeConfig.public.siteName}`,
 });
 
 useSeoMeta({
-  description: `${category.value === undefined ? 'すべての投稿' : `カテゴリ「${category.value}」の投稿`} - ${runtimeConfig.public.siteName}`,
+  description: `カテゴリ「${category.value === 'undefined' ? '未設定' : category.value}」の投稿 - ${runtimeConfig.public.siteName}`,
 });
 </script>
 
