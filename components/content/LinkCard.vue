@@ -1,32 +1,30 @@
 <template>
   <ClientOnly>
-    <div>
-      <NuxtLink v-if="data !== undefined"
-                :to="runtimeConfig.public.origin === urlObj.origin ? `${urlObj.pathname}${urlObj.search}` : url.toString()"
-                :target="runtimeConfig.public.origin === urlObj.origin ? undefined : '_blank'"
-                :class="$style.container">
-        <div :class="[$style.title, $style.loaded]">
-          {{ (data && data.title) ? data.title : url }}
-        </div>
-        <div :class="$style.description">
-          {{ (data && data.description) ? data.description : '説明はありません' }}
-        </div>
-        <div :class="$style.faviconAndHostnameContainer">
-          <img :src="data?.icon ?? undefined"
-               :class="$style.favicon"
-               :alt="`${urlObj.hostname} のfavicon画像`">
-          <div :class="$style.hostname">
-            {{ urlObj.hostname }}
-          </div>
-        </div>
-      </NuxtLink>
-      <div v-else
-           :class="$style.container">
-        <div :class="$style.title">
-          Loading url preview...
-        </div>
+    <div v-if="status === 'idle' || status === 'pending'"
+         :class="$style.container">
+      <div :class="$style.title">
+        Loading url preview...
       </div>
     </div>
+    <NuxtLink v-else
+              :to="runtimeConfig.public.origin === urlObj.origin ? `${urlObj.pathname}${urlObj.search}` : url.toString()"
+              :target="runtimeConfig.public.origin === urlObj.origin ? undefined : '_blank'"
+              :class="$style.container">
+      <div :class="[$style.title, $style.loaded]">
+        {{ (data && data.title) ? data.title : url }}
+      </div>
+      <div :class="$style.description">
+        {{ (data && data.description) ? data.description : '説明はありません' }}
+      </div>
+      <div :class="$style.faviconAndHostnameContainer">
+        <img :src="data?.icon ?? undefined"
+             :class="$style.favicon"
+             :alt="`${urlObj.hostname} のfavicon画像`">
+        <div :class="$style.hostname">
+          {{ urlObj.hostname }}
+        </div>
+      </div>
+    </NuxtLink>
     <template #fallback>
       <div :class="$style.container">
         <div :class="$style.title">
@@ -48,9 +46,7 @@ const runtimeConfig = useRuntimeConfig();
 
 const urlObj = computed(() => new URL(props.url));
 
-const data = ref<SummalyResult | null | undefined>(undefined);
-
-useFetch<SummalyResult>(
+const { data, status } = await useLazyFetch<SummalyResult>(
   '/api/url-preview',
   {
     query: {
@@ -59,12 +55,7 @@ useFetch<SummalyResult>(
     watch: [() => props.url],
     server: false,
   }
-).then(({ data: result }) => {
-  // server: falseにすると、サーバーで必ずdataがnullになるので、クライアントの場合のみ代入する
-  if (import.meta.client) {
-    data.value = result.value;
-  }
-});
+);
 </script>
 
 <style module>
