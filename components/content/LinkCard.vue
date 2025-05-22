@@ -59,7 +59,10 @@ useFetch<SummalyResult>(
     server: false,
   }
 ).then(({ data: result }) => {
-  data.value = result.value;
+  // server: falseにすると、サーバーで必ずdataがnullになるので、クライアントの場合のみ代入する
+  if (import.meta.client) {
+    data.value = result.value;
+  }
 });
 </script>
 
