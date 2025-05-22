@@ -1,17 +1,23 @@
 <template>
   <ClientOnly>
-    <NuxtLink v-if="requestStatus !== 'idle'"
+    <div v-if="status === 'idle' || status === 'pending'"
+         :class="$style.container">
+      <div :class="$style.title">
+        Loading url preview...
+      </div>
+    </div>
+    <NuxtLink v-else
               :to="runtimeConfig.public.origin === urlObj.origin ? `${urlObj.pathname}${urlObj.search}` : url.toString()"
               :target="runtimeConfig.public.origin === urlObj.origin ? undefined : '_blank'"
               :class="$style.container">
       <div :class="[$style.title, $style.loaded]">
-        {{ (summalyResult && summalyResult.title) ? summalyResult.title : url }}
+        {{ (data && data.title) ? data.title : url }}
       </div>
       <div :class="$style.description">
-        {{ (summalyResult && summalyResult.description) ? summalyResult.description : '説明はありません' }}
+        {{ (data && data.description) ? data.description : '説明はありません' }}
       </div>
       <div :class="$style.faviconAndHostnameContainer">
-        <img :src="summalyResult?.icon ?? undefined"
+        <img :src="data?.icon ?? undefined"
              :class="$style.favicon"
              :alt="`${urlObj.hostname} のfavicon画像`">
         <div :class="$style.hostname">
@@ -19,12 +25,6 @@
         </div>
       </div>
     </NuxtLink>
-    <div v-else
-         :class="$style.container">
-      <div :class="$style.title">
-        Loading url preview...
-      </div>
-    </div>
     <template #fallback>
       <div :class="$style.container">
         <div :class="$style.title">
@@ -37,7 +37,6 @@
 
 <script setup lang="ts">
 import type { SummalyResult } from '@misskey-dev/summaly/built/summary';
-import type { AsyncDataRequestStatus } from '#app';
 
 const props = defineProps<{
   url: string;
@@ -47,11 +46,7 @@ const runtimeConfig = useRuntimeConfig();
 
 const urlObj = computed(() => new URL(props.url));
 
-const requestStatus = ref<AsyncDataRequestStatus>('idle');
-
-const summalyResult = ref<SummalyResult | null>(null);
-
-useFetch<SummalyResult>(
+const { data, status } = await useLazyFetch<SummalyResult>(
   '/api/url-preview',
   {
     query: {
@@ -60,10 +55,7 @@ useFetch<SummalyResult>(
     watch: [() => props.url],
     server: false,
   }
-).then(({ data, status }) => {
-  summalyResult.value = data.value;
-  requestStatus.value = status.value;
-});
+);
 </script>
 
 <style module>
