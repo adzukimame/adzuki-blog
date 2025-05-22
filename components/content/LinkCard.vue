@@ -59,7 +59,7 @@ useFetch<SummalyResult>(
     server: false,
   }
 ).then(({ data: result }) => {
-  // server: falseにすると必ずdataがnullになるので
+  // server: falseにすると、サーバーで必ずdataがnullになるので、クライアントの場合のみ代入する
   if (import.meta.client) {
     data.value = result.value;
   }
