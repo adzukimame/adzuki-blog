@@ -1,30 +1,28 @@
 <template>
   <ClientOnly>
-    <div>
-      <NuxtLink v-if="data !== undefined"
-                :to="runtimeConfig.public.origin === urlObj.origin ? `${urlObj.pathname}${urlObj.search}` : url.toString()"
-                :target="runtimeConfig.public.origin === urlObj.origin ? undefined : '_blank'"
-                :class="$style.container">
-        <div :class="[$style.title, $style.loaded]">
-          {{ (data && data.title) ? data.title : url }}
+    <NuxtLink v-if="requestStatus !== 'idle'"
+              :to="runtimeConfig.public.origin === urlObj.origin ? `${urlObj.pathname}${urlObj.search}` : url.toString()"
+              :target="runtimeConfig.public.origin === urlObj.origin ? undefined : '_blank'"
+              :class="$style.container">
+      <div :class="[$style.title, $style.loaded]">
+        {{ (summalyResult && summalyResult.title) ? summalyResult.title : url }}
+      </div>
+      <div :class="$style.description">
+        {{ (summalyResult && summalyResult.description) ? summalyResult.description : '説明はありません' }}
+      </div>
+      <div :class="$style.faviconAndHostnameContainer">
+        <img :src="summalyResult?.icon ?? undefined"
+             :class="$style.favicon"
+             :alt="`${urlObj.hostname} のfavicon画像`">
+        <div :class="$style.hostname">
+          {{ urlObj.hostname }}
         </div>
-        <div :class="$style.description">
-          {{ (data && data.description) ? data.description : '説明はありません' }}
-        </div>
-        <div :class="$style.faviconAndHostnameContainer">
-          <img :src="data?.icon ?? undefined"
-               :class="$style.favicon"
-               :alt="`${urlObj.hostname} のfavicon画像`">
-          <div :class="$style.hostname">
-            {{ urlObj.hostname }}
-          </div>
-        </div>
-      </NuxtLink>
-      <div v-else
-           :class="$style.container">
-        <div :class="$style.title">
-          Loading url preview...
-        </div>
+      </div>
+    </NuxtLink>
+    <div v-else
+         :class="$style.container">
+      <div :class="$style.title">
+        Loading url preview...
       </div>
     </div>
     <template #fallback>
@@ -39,6 +37,7 @@
 
 <script setup lang="ts">
 import type { SummalyResult } from '@misskey-dev/summaly/built/summary';
+import type { AsyncDataRequestStatus } from '#app';
 
 const props = defineProps<{
   url: string;
@@ -48,7 +47,9 @@ const runtimeConfig = useRuntimeConfig();
 
 const urlObj = computed(() => new URL(props.url));
 
-const data = ref<SummalyResult | null | undefined>(undefined);
+const requestStatus = ref<AsyncDataRequestStatus>('idle');
+
+const summalyResult = ref<SummalyResult | null>(null);
 
 useFetch<SummalyResult>(
   '/api/url-preview',
@@ -59,11 +60,9 @@ useFetch<SummalyResult>(
     watch: [() => props.url],
     server: false,
   }
-).then(({ data: result }) => {
-  // server: falseにすると、サーバーで必ずdataがnullになるので、クライアントの場合のみ代入する
-  if (import.meta.client) {
-    data.value = result.value;
-  }
+).then(({ data, status }) => {
+  summalyResult.value = data.value;
+  requestStatus.value = status.value;
 });
 </script>
 
