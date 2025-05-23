@@ -57,7 +57,7 @@ const normalizedCategory = computed<Array<string> | undefined>(() => {
 
     return filtered.length > 0 ? filtered : undefined;
   }
-  else if (typeof props.item.category === 'string') {
+  else if (typeof props.item.category === 'string' && props.item.category !== 'undefined') {
     return [props.item.category];
   }
   else {
