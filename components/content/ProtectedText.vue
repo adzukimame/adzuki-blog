@@ -4,7 +4,7 @@
       Loading...
     </div>
     <div v-else-if="error">
-      An error occured during rendering.
+      An error occured while loading.
     </div>
     <div v-else
          ref="textBlock" />
@@ -23,9 +23,10 @@ const props = withDefaults(defineProps<{
 const loading = ref(true);
 const error = ref(false);
 const textBlock = useTemplateRef('textBlock');
+const text = ref<string | undefined>(undefined);
 
-const renderCanvas = (text: string) => {
-  if (textBlock === null) {
+const renderCanvas = () => {
+  if (text.value === undefined) {
     error.value = true;
     return;
   }
@@ -33,7 +34,7 @@ const renderCanvas = (text: string) => {
   const rootFontSizeInPx = parseFloat(getComputedStyle(document.documentElement).fontSize);
   const fontSize = rootFontSizeInPx * props.fontSizeInRem;
 
-  for (let i = 0; i < text.length; i++) {
+  for (let i = 0; i < text.value.length; i++) {
     const canvas = document.createElement('canvas');
     canvas.style.pointerEvents = 'none';
     canvas.addEventListener('contextmenu', ev => ev.preventDefault());
@@ -49,7 +50,7 @@ const renderCanvas = (text: string) => {
     ctx.font = `${fontSize}px "Zen Maru Gothic"`;
     ctx.textBaseline = 'middle';
     ctx.textAlign = 'center';
-    ctx.fillText(text[i], fontSize / 2, fontSize / 2 + 2);
+    ctx.fillText(text.value[i], fontSize / 2, fontSize / 2 + 2);
   }
 };
 
@@ -77,9 +78,14 @@ if (import.meta.client) {
 
     data.arrayBuffer().then((buffer) => {
       const byteArray = new Uint8Array(buffer);
-      const text = new TextDecoder().decode(byteArray.map((byte, idx) => byte ^ rand[idx]));
-      renderCanvas(text);
+      text.value = new TextDecoder().decode(byteArray.map((byte, idx) => byte ^ rand[idx]));
     });
+  });
+
+  watch([text, textBlock], ([newText, newTextBlock]) => {
+    if (newText !== undefined && newTextBlock !== null) {
+      renderCanvas();
+    }
   });
 }
 </script>
