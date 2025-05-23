@@ -41,12 +41,20 @@ const { data } = await useAsyncData(
   }
 );
 
-const robots = [
-  'nofollow', 'noarchive', 'noimageindex', 'noai', 'noimageai',
-  ...(data.value?.allowIndex ? [] : ['noindex', 'nosnippet']),
-].join(', ');
+const requestUrl = useRequestURL();
 
-useServerSeoMeta({ robots });
+if (requestUrl.origin === runtimeConfig.public.origin || import.meta.dev) {
+  const robots = [
+    'nofollow', 'noarchive', 'noimageindex', 'noai', 'noimageai',
+    ...(data.value?.allowIndex ? [] : ['noindex', 'nosnippet']),
+  ].join(', ');
+  useServerSeoMeta({ robots });
+}
+else {
+  useServerSeoMeta({
+    robots: 'noindex, nofollow, noarchive, nosnippet, noimageindex, noai, noimageai',
+  });
+}
 
 if (data.value) {
   useHead({
