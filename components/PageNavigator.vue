@@ -154,7 +154,7 @@ watch(() => props.currentPageNumber, (newPageNumber) => {
 
 .button.disabled>svg {
   color: var(--fgWeak);
-  filter: brightness(0.5);
+  opacity: 0.5;
 }
 
 :root:global(.writing-mode-vertical-rl) .button>svg {
