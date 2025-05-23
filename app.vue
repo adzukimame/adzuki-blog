@@ -83,6 +83,9 @@ useServerHead({
   htmlAttrs: {
     lang: 'ja-JP',
   },
+  link: [
+    { rel: 'icon', href: '/favicon.ico' },
+  ],
 });
 
 useHead({
