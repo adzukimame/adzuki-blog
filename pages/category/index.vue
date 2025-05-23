@@ -28,10 +28,27 @@ const categoryList = computed(() => {
   const map = new Map<string, number>();
 
   data.value.forEach((content) => {
-    map.set(content.category ?? 'undefined', (map.get(content.category ?? 'undefined') ?? 0) + 1);
+    if (Array.isArray(content.category)) {
+      const filtered: Array<string> = content.category.filter((el, idx, arr) => typeof el === 'string' && el !== 'undefined' && arr.indexOf(el) === idx);
+
+      if (filtered.length === 0) {
+        map.set('undefined', (map.get('undefined') ?? 0) + 1);
+      }
+      else {
+        for (const cat of filtered) {
+          map.set(cat, (map.get(cat) ?? 0) + 1);
+        }
+      }
+    }
+    else if (content.category === 'undefined' || content.category === undefined) {
+      map.set('undefined', (map.get('undefined') ?? 0) + 1);
+    }
+    else if (typeof content.category === 'string') {
+      map.set(content.category, (map.get(content.category) ?? 0) + 1);
+    }
   });
 
-  return Array.from(map).sort((a, b) => b[1] - a[1]);
+  return Array.from(map).sort((a, b) => b[1] - a[1] || (a[0] > b[0] ? 1 : -1));
 });
 
 const runtimeConfig = useRuntimeConfig();
