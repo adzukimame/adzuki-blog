@@ -13,9 +13,9 @@ export default defineNuxtConfig({
         siteName: 'siteName',
         siteDescription: 'siteDescription',
         authorName: 'authorName',
-        authorSocialLinks: [
-        ],
+        authorSocialLinks: [],
         origin: 'https://example.com',
+        hiddenCategoriesInRoot: [],
       },
       ...meta,
     },
