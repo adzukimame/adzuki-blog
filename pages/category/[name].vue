@@ -35,7 +35,9 @@ const { data: articleCount } = await useAsyncData(
       });
     }
     else {
-      query.where({ category: category.value });
+      query.where({
+        $or: [{ category: category.value }, { category: { $contains: category.value } }],
+      });
     }
 
     return query.count();
@@ -93,7 +95,9 @@ const { data: articles } = await useAsyncData(
       });
     }
     else {
-      query.where({ category: category.value });
+      query.where({
+        $or: [{ category: category.value }, { category: { $contains: category.value } }],
+      });
     }
 
     return query

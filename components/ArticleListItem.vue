@@ -13,10 +13,19 @@
       <div :class="$style.categoryContainer">
         <IconFolder size="1rem"
                     aria-hidden="true" />
-        <NuxtLink :to="`/category/${item.category}`"
+        <NuxtLink v-if="normalizedCategory === undefined"
+                  :to="'/category/undefined'"
                   :class="$style.category">
-          {{ (item.category === undefined || item.category === 'undefined') ? '未設定' : item.category }}
+          未設定
         </NuxtLink>
+        <template v-else>
+          <NuxtLink v-for="category in normalizedCategory"
+                    :key="category"
+                    :to="`/category/${category}`"
+                    :class="$style.category">
+            {{ category }}
+          </NuxtLink>
+        </template>
       </div>
       <div :class="$style.dateContainer">
         <IconClock size="1rem"
@@ -26,8 +35,7 @@
               :class="$style.date">
           {{ new Intl.DateTimeFormat('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' }).format(new Date(item.created)) }}
         </time>
-        <div v-else
-             :class="$style.date">
+        <div v-else>
           不明
         </div>
       </div>
@@ -39,9 +47,27 @@
 import type { ParsedContent } from '@nuxt/content';
 import { IconFolder, IconClock } from '@tabler/icons-vue';
 
-defineProps<{
+const props = defineProps<{
   item: Pick<ParsedContent, '_id' | '_path' | 'title' | 'description' | 'category' | 'created' | 'hideDescription'> | ParsedContent;
 }>();
+
+const normalizedCategory = computed<Array<string> | undefined>(() => {
+  if (Array.isArray(props.item.category)) {
+    const filtered = props.item.category.filter((el, idx, arr) => typeof el === 'string' && el !== 'undefined' && arr.indexOf(el) === idx);
+    if (filtered.length > 0) {
+      return filtered;
+    }
+    else {
+      return undefined;
+    }
+  }
+  else if (typeof props.item.category === 'string') {
+    return [props.item.category];
+  }
+  else {
+    return undefined;
+  }
+});
 </script>
 
 <style module>
@@ -50,8 +76,8 @@ defineProps<{
 @value titleAndDescriptionContainerRowGap 0.4rem;
 
 .container {
-  display: block grid;
-  grid-template-rows: calc(titleLineHeight * 2 + descriptionLineHeight * 2 + titleAndDescriptionContainerRowGap) 1rem;
+  display: block flex;
+  flex-direction: column;
   row-gap: 0.8rem;
   padding: 0.4rem;
   border-bottom: solid 0.4rem var(--split);
@@ -113,12 +139,17 @@ defineProps<{
 }
 
 .categoryContainer {
+  flex-wrap: wrap;
   display: block flex;
   align-items: center;
 }
 
+.categoryContainer>:first-child {
+  margin-inline-end: 0.2rem;
+}
+
 .category {
-  padding-inline-start: 0.2rem;
+  margin-inline-end: 0.7rem;
   transition: color var(--hoverTransitionDuration) var(--hoverTransitionFunction);
 }
 
@@ -137,12 +168,13 @@ defineProps<{
 }
 
 .dateContainer {
+  flex-shrink: 0;
   display: block flex;
   align-items: center;
   cursor: default;
 }
 
-.date {
-  padding-inline-start: 0.2rem;
+.dateContainer>:first-child {
+  margin-inline-end: 0.2rem;
 }
 </style>
