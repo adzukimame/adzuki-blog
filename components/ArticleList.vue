@@ -25,15 +25,8 @@ defineProps<{
 @value articleListItemGap 1.2rem;
 
 .articleList {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  flex-direction: column;
   gap: articleListItemGap;
-}
-
-@media (max-width: 768px) {
-  .articleList {
-    display: flex;
-    flex-direction: column;
-  }
 }
 </style>
