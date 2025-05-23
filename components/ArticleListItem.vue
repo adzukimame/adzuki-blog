@@ -169,6 +169,7 @@ const normalizedCategory = computed<Array<string> | undefined>(() => {
 
 .dateContainer {
   flex-shrink: 0;
+  align-self: end;
   display: block flex;
   align-items: center;
   cursor: default;
