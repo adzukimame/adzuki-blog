@@ -54,12 +54,8 @@ const props = defineProps<{
 const normalizedCategory = computed<Array<string> | undefined>(() => {
   if (Array.isArray(props.item.category)) {
     const filtered = props.item.category.filter((el, idx, arr) => typeof el === 'string' && el !== 'undefined' && arr.indexOf(el) === idx);
-    if (filtered.length > 0) {
-      return filtered;
-    }
-    else {
-      return undefined;
-    }
+
+    return filtered.length > 0 ? filtered : undefined;
   }
   else if (typeof props.item.category === 'string') {
     return [props.item.category];
