@@ -1,5 +1,6 @@
 <template>
-  <Html :class="[{ 'color-scheme-dark': colorScheme === 'dark' }, { 'writing-mode-vertical-rl': writingMode === 'vertical-rl' }]" />
+  <Html :class="[{ 'color-scheme-dark': colorScheme === 'dark' }, { 'writing-mode-vertical-rl': writingMode === 'vertical-rl' }]"
+        translate="no" />
   <NuxtLayout>
     <NuxtPage />
   </NuxtLayout>
@@ -92,9 +93,16 @@ useHead({
   titleTemplate: titleChunk => titleChunk ? `${titleChunk} - ${runtimeConfig.public.siteName}` : runtimeConfig.public.siteName,
 });
 
+const requestUrl = useRequestURL();
+
+if (!requestUrl.pathname.startsWith('/posts/')) {
+  useServerSeoMeta({
+    robots: 'noindex, nofollow, noarchive, nosnippet, noimageindex, noai, noimageai',
+  });
+}
+
 useServerSeoMeta({
   referrer: 'same-origin',
-  robots: 'noindex, nofollow, noarchive, nosnippet, noimageindex, noai, noimageai',
   twitterCard: 'summary',
   ogTitle: runtimeConfig.public.siteName,
   ogDescription: runtimeConfig.public.siteDescription,

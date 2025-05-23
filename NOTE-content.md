@@ -12,9 +12,10 @@
 
 [Front-matter](https://content.nuxt.com/usage/markdown#front-matter) も参照のこと。
 
-|キー        |型          |説明       |
-|------------|------------|-----------|
-|`category`  |`string \| Array<string>`    |記事のカテゴリ（内部処理の都合上、文字列 "undefined" はこのキーに値を設定しなかったものとして扱われる）|
-|`created`   |`string`    |記事の作成日（`YYYY-MM-DD` 形式）|
+|キー        |型                       |説明       |
+|------------|-------------------------|-----------|
+|`category`  |`string \| Array<string>`|記事のカテゴリ。内部処理の都合上、文字列 `"undefined"` はこのキーに値を設定しなかったものとして扱われる。|
+|`created`   |`string`                 |記事の作成日。`YYYY-MM-DD` 形式。|
+|`allowIndex`|`boolean`                |インデックスを許可するかどうか。`true` を設定すると、`noindex` と `nosnippet` を設定しない。`nofollow, noarchive, noimageindex, noai, noimageai` はこの値によらず常に設定される。|
 
 *すべてのメタデータはOptional*

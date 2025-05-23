@@ -41,6 +41,13 @@ const { data } = await useAsyncData(
   }
 );
 
+const robots = [
+  'nofollow', 'noarchive', 'noimageindex', 'noai', 'noimageai',
+  ...(data.value?.allowIndex ? [] : ['noindex', 'nosnippet']),
+].join(', ');
+
+useServerSeoMeta({ robots });
+
 if (data.value) {
   useHead({
     title: data.value.title,
