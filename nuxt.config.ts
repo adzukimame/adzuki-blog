@@ -21,6 +21,7 @@ export default defineNuxtConfig({
     },
     summalyProxyUrl: '',
     imgAndMediaSrc: [''],
+    protectedTexts: '{}',
   },
   eslint: {
     config: {
