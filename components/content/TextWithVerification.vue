@@ -1,6 +1,9 @@
 <template>
   <ClientOnly>
-    <NuxtTurnstile v-model="token" />
+    <NuxtTurnstile :options="{
+      'callback': turnstileCallback,
+      'error-callback': turnstileErrorCallback,
+    }" />
     <div v-if="loading">
       Loading...
     </div>
@@ -25,7 +28,45 @@ const loading = ref(true);
 const error = ref(false);
 const textBlock = useTemplateRef('textBlock');
 const text = ref<string>();
-const token = ref<string>();
+
+const turnstileCallback = (token: string) => {
+  $fetch.raw('/api/text-with-verification', {
+    method: 'POST',
+    body: {
+      name: props.name,
+      token,
+    },
+    watch: [() => props.name],
+  }).then((response) => {
+    loading.value = false;
+
+    const header = response.headers.get('X-Attached-Payload');
+    if (header === null) {
+      error.value = true;
+      return;
+    }
+    const rand = Uint8Array.from(atob(header), char => char.codePointAt(0)!);
+
+    const data = response._data;
+    if (!(data instanceof Blob)) {
+      error.value = true;
+      return;
+    }
+
+    data.arrayBuffer().then((buffer) => {
+      const byteArray = new Uint8Array(buffer);
+      text.value = new TextDecoder().decode(byteArray.map((byte, idx) => byte ^ rand[idx]));
+    });
+  }).catch(() => {
+    error.value = true;
+    loading.value = false;
+  });
+};
+
+const turnstileErrorCallback = () => {
+  error.value = true;
+  loading.value = false;
+};
 
 const renderCanvas = () => {
   if (text.value === undefined) {
@@ -56,43 +97,9 @@ const renderCanvas = () => {
   }
 };
 
-if (import.meta.client) {
-  $fetch.raw('/api/text-with-verification', {
-    method: 'POST',
-    body: {
-      name: props.name,
-      token: token.value,
-    },
-    watch: [() => props.name],
-  }).then((response) => {
-    loading.value = false;
-
-    const header = response.headers.get('X-Attached-Payload');
-    if (header === null) {
-      error.value = true;
-      return;
-    }
-    const rand = Uint8Array.from(atob(header), char => char.codePointAt(0)!);
-
-    const data = response._data;
-    if (!(data instanceof Blob)) {
-      error.value = true;
-      return;
-    }
-
-    data.arrayBuffer().then((buffer) => {
-      const byteArray = new Uint8Array(buffer);
-      text.value = new TextDecoder().decode(byteArray.map((byte, idx) => byte ^ rand[idx]));
-    });
-  }).catch(() => {
-    error.value = true;
-    loading.value = false;
-  });
-
-  watch([text, textBlock], ([newText, newTextBlock]) => {
-    if (newText !== undefined && newTextBlock !== null) {
-      renderCanvas();
-    }
-  });
-}
+watch([text, textBlock], ([newText, newTextBlock]) => {
+  if (newText !== undefined && newTextBlock !== null) {
+    renderCanvas();
+  }
+});
 </script>
