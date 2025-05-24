@@ -22,14 +22,11 @@
 </template>
 
 <script setup lang="ts">
-const props = withDefaults(defineProps<{
+const props = defineProps<{
   name: string;
-  fontSizeInRem?: number;
-}>(), {
-  fontSizeInRem: 1,
-});
+}>();
 
-const colorScheme = useColorScheme();
+const writingMode = useWritingMode();
 
 const loading = ref(true);
 const error = ref<boolean | 'verification' | 'rendering'>(false);
@@ -76,32 +73,35 @@ const turnstileErrorCallback = () => {
 };
 
 const renderCanvas = () => {
-  if (text.value === undefined) {
+  if (text.value === undefined || textBlock.value === null) {
     error.value = 'rendering';
     return;
   }
 
-  const rootFontSizeInPx = parseFloat(getComputedStyle(document.documentElement).fontSize);
-  const fontSize = rootFontSizeInPx * props.fontSizeInRem;
+  const textBlockComputedStyle = getComputedStyle(textBlock.value);
+  const fontSize = parseFloat(textBlockComputedStyle.fontSize);
+  const lineHeight = parseFloat(textBlockComputedStyle.lineHeight);
 
   for (let i = 0; i < text.value.length; i++) {
     const canvas = document.createElement('canvas');
+    canvas.width = writingMode.value === null ? fontSize : lineHeight;
+    canvas.height = writingMode.value === null ? lineHeight : fontSize;
     canvas.style.pointerEvents = 'none';
     canvas.addEventListener('contextmenu', ev => ev.preventDefault());
-    canvas.width = fontSize;
-    canvas.height = fontSize + 4;
-    textBlock.value?.appendChild(canvas);
+    canvas.style.writingMode = 'horizontal-tb';
+
+    textBlock.value.appendChild(canvas);
 
     const ctx = canvas.getContext('2d');
     if (ctx === null) {
       error.value = 'rendering';
       return;
     }
-    ctx.font = `${fontSize}px "Zen Maru Gothic"`;
-    ctx.fillStyle = colorScheme.value === 'light' ? 'black' : 'white';
+    ctx.font = textBlockComputedStyle.font;
+    ctx.fillStyle = textBlockComputedStyle.color;
     ctx.textBaseline = 'middle';
     ctx.textAlign = 'center';
-    ctx.fillText(text.value[i], fontSize / 2, fontSize / 2 + 2);
+    ctx.fillText(text.value[i], (writingMode.value === null ? fontSize : lineHeight) / 2, (writingMode.value === null ? lineHeight : fontSize) / 2);
   }
 };
 
@@ -126,5 +126,7 @@ watch([text, textBlock], ([newText, newTextBlock]) => {
 
 .textBlock {
   min-block-size: 2rem;
+  display: flex;
+  flex-wrap: wrap;
 }
 </style>
