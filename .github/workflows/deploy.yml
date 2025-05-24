@@ -6,9 +6,6 @@ on:
     inputs:
       ref:
         type: string
-  pull_request:
-    branches:
-      - main
 
 permissions: {}
 
@@ -20,13 +17,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - id: get_env
+      - id: decide_env
         env:
           REF: ${{ inputs.ref || github.ref }}
         run: echo "environment=$(if [ "$REF" == 'refs/heads/main' ]; then echo Production; else echo Preview; fi)" >> $GITHUB_OUTPUT
 
     outputs:
-      environment: ${{ steps.get_env.outputs.environment }}
+      environment: ${{ steps.decide_env.outputs.environment }}
 
   build_and_deploy:
     runs-on: ubuntu-latest
