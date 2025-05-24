@@ -85,7 +85,7 @@ jobs:
           echo "::add-mask::$DEPLOYMENT_URL"
           echo "deployment_url=$DEPLOYMENT_URL" >> $GITHUB_OUTPUT
       - name: Notify deployment URL
-        if: secrets.DISCORD_WEBHOOK_URL != ''
+        if: ${{ secrets.DISCORD_WEBHOOK_URL != '' }}
         uses: actions/github-script@v7
         env:
           DEPLOYMENT_ENV: ${{ needs.decide_environment.outputs.environment }}
