@@ -23,7 +23,7 @@
     "@nuxt/image": "^1.8.1",
     "@nuxt/kit": "^3.13.2",
     "@tabler/icons-vue": "^3.19.0",
-    "nuxt": "^3.13.2",
+    "nuxt": "^3.17.4",
     "remark-breaks": "^4.0.0",
     "typescript": "^5.5.4",
     "ufo": "^1.5.4",
