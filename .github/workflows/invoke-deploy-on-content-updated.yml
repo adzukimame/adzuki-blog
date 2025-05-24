@@ -8,5 +8,7 @@ permissions: {}
 
 jobs:
   invoke_deployment:
+    permissions:
+      contents: read
     uses: ./.github/workflows/deploy.yml
     secrets: inherit
