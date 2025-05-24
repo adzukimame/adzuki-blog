@@ -1,10 +1,10 @@
-<!-- https://github.com/nuxt-modules/mdc/blob/b89db73a82624760cd6fa5b85ede263b95ff157e/src/runtime/components/prose/ProseImg.vue -->
+<!-- https://github.com/nuxt-modules/mdc/blob/44fef672139208dc1b53442cebc97bd98e5684a7/src/runtime/components/prose/ProseImg.vue -->
 
 <template>
   <div class="imageViewer"
        :class="$style.container"
        @click="openModal">
-    <component :is="imgComponent"
+    <component :is="ImageComponent"
                :src="refinedSrc"
                :alt="alt"
                :width="width"
@@ -16,7 +16,7 @@
          ref="modalContainerEl"
          :class="$style.modalContainer"
          @click="closeModal">
-      <component :is="imgComponent"
+      <component :is="ImageComponent"
                  :src="refinedSrc"
                  :alt="alt"
                  :width="width"
@@ -28,11 +28,10 @@
 
 <script setup lang="ts">
 import { withTrailingSlash, withLeadingSlash, joinURL } from 'ufo';
-import { useRuntimeConfig, computed, resolveComponent } from '#imports';
+import { useRuntimeConfig, computed } from '#imports';
+import ImageComponent from '#build/mdc-image-component.mjs';
 
 const appConfig = useAppConfig();
-
-const imgComponent = useRuntimeConfig().public.mdc.useNuxtImage ? resolveComponent('NuxtImg') : 'img';
 
 const props = defineProps({
   src: {
