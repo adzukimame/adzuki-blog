@@ -17,6 +17,7 @@ export default withNuxt(
         generics: 'never',
         tuples: 'always-multiline',
       }],
+      'nuxt/nuxt-config-keys-order': 'off',
     },
   },
   {
