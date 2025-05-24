@@ -33,7 +33,6 @@ jobs:
 
     permissions:
       contents: read
-      deployments: write
 
     environment: ${{ needs.decide_environment.outputs.environment }}
 
