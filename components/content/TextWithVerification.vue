@@ -82,9 +82,15 @@ const renderCanvas = () => {
   const fontSize = parseFloat(textBlockComputedStyle.fontSize);
   const lineHeight = parseFloat(textBlockComputedStyle.lineHeight);
 
+  const measureCanvas = document.createElement('canvas');
+  const measureCtx = measureCanvas.getContext('2d');
+  if (measureCtx) measureCtx.font = textBlockComputedStyle.font;
+
   for (let i = 0; i < text.value.length; i++) {
+    const realWidth = Math.ceil(measureCtx?.measureText(text.value[i])?.width ?? fontSize);
+
     const canvas = document.createElement('canvas');
-    canvas.width = writingMode.value === null ? fontSize : lineHeight;
+    canvas.width = writingMode.value === null ? realWidth : lineHeight;
     canvas.height = writingMode.value === null ? lineHeight : fontSize;
     canvas.style.pointerEvents = 'none';
     canvas.addEventListener('contextmenu', ev => ev.preventDefault());
@@ -101,7 +107,7 @@ const renderCanvas = () => {
     ctx.fillStyle = textBlockComputedStyle.color;
     ctx.textBaseline = 'middle';
     ctx.textAlign = 'center';
-    ctx.fillText(text.value[i], (writingMode.value === null ? fontSize : lineHeight) / 2, (writingMode.value === null ? lineHeight : fontSize) / 2);
+    ctx.fillText(text.value[i], (writingMode.value === null ? realWidth : lineHeight) / 2, (writingMode.value === null ? lineHeight : fontSize) / 2);
   }
 };
 
