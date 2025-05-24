@@ -28,7 +28,7 @@
     "typescript": "^5.5.4",
     "ufo": "^1.5.4",
     "vue": "latest",
-    "vue-router": "^4.4.5",
+    "vue-router": "^4.5.1",
     "wrangler": "^3.80.4"
   }
 }
