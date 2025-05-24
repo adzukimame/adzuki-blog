@@ -1,3 +1,4 @@
+// @ts-check
 import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
 
 // content dir

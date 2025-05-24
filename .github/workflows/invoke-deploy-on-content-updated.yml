@@ -4,6 +4,8 @@ on:
   repository_dispatch:
     types: [content-updated]
 
+permissions: {}
+
 jobs:
   invoke_deployment:
     uses: ./.github/workflows/deploy.yml
