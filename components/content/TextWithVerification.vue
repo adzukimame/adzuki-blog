@@ -24,8 +24,8 @@ const props = withDefaults(defineProps<{
 const loading = ref(true);
 const error = ref(false);
 const textBlock = useTemplateRef('textBlock');
-const text = ref<string | undefined>(undefined);
-const token = ref();
+const text = ref<string>();
+const token = ref<string>();
 
 const renderCanvas = () => {
   if (text.value === undefined) {
