@@ -1,4 +1,4 @@
-name: Invoke deployment on pull request comment
+name: Deploy on PR comment
 
 on:
   issue_comment:
