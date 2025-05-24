@@ -36,5 +36,5 @@ jobs:
               process.env.GITHUB_REPOSITORY_OWNER,
               process.env.GITHUB_REPOSITORY.replace(`${process.env.GITHUB_REPOSITORY_OWNER}/`, ''),
               process.env.ISSUE_NUMBER,
-              `@${process.env.COMMENT_USER}`nhttps://github.com/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID}`
+              `@${process.env.COMMENT_USER}\nhttps://github.com/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID}`
             });
