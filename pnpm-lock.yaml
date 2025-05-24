@@ -44,9 +44,6 @@ importers:
       vue:
         specifier: latest
         version: 3.5.14(typescript@5.8.3)
-      vue-router:
-        specifier: ^4.5.1
-        version: 4.5.1(vue@3.5.14(typescript@5.8.3))
       wrangler:
         specifier: ^3.80.4
         version: 3.114.9(@cloudflare/workers-types@4.20250524.0)
