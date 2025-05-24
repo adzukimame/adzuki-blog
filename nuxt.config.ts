@@ -3,7 +3,7 @@
 import meta from './content/meta.json' with { type: 'json' };
 
 export default defineNuxtConfig({
-  compatibilityDate: '2024-04-03',
+  compatibilityDate: '2025-05-24',
   devtools: { enabled: true },
   modules: ['@nuxt/content', '@nuxt/image', '@nuxt/eslint'],
   runtimeConfig: {
