@@ -38,7 +38,7 @@ export default defineEventHandler(async (event) => {
       },
     });
   }
-  catch (e) {
+  catch {
     setResponseHeader(event, 'Cache-Control', 'public, max-age=216000, immutable');
 
     return createError({
