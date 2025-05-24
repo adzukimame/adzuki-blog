@@ -19,7 +19,7 @@
     "@cloudflare/workers-types": "^4.20241011.0",
     "@misskey-dev/summaly": "^5.1.0",
     "@nuxt/content": "^2.13.2",
-    "@nuxt/eslint": "^0.4.0",
+    "@nuxt/eslint": "^1.4.1",
     "@nuxt/image": "^1.8.1",
     "@nuxt/kit": "^3.13.2",
     "@tabler/icons-vue": "^3.19.0",
