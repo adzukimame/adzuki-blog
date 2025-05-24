@@ -1,3 +1,4 @@
+// @ts-check
 import { copyFileSync } from 'node:fs';
 
 // _headers
