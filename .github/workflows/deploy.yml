@@ -12,16 +12,6 @@ env:
   NODE_ENV: production
 
 jobs:
-  decide_environment:
-    runs-on: ubuntu-latest
-
-    steps:
-      - id: get_env
-        run: echo "environment=$(if [ '${{ github.ref }}' == 'refs/heads/main' ]; then echo Production; else echo Preview; fi)" >> $GITHUB_OUTPUT
-
-    outputs:
-      environment: ${{ steps.get_env.outputs.environment }}
-
   check_request_validity:
     runs-on: ubuntu-latest
 
@@ -34,13 +24,27 @@ jobs:
     outputs:
       is_valid: ${{ steps.check_validity.outputs.is_valid }}
 
+  decide_environment:
+    runs-on: ubuntu-latest
+
+    needs: check_request_validity
+
+    if: needs.check_request_validity.outputs.is_valid == 'true'
+
+    steps:
+      - id: get_env
+        run: echo "environment=$(if [ '${{ github.ref }}' == 'refs/heads/main' ]; then echo Production; else echo Preview; fi)" >> $GITHUB_OUTPUT
+
+    outputs:
+      environment: ${{ steps.get_env.outputs.environment }}
+
   build_and_deploy:
     runs-on: ubuntu-latest
 
     permissions:
       contents: read
 
-    needs: [decide_environment, check_request_validity]
+    needs: [check_request_validity, decide_environment]
 
     environment: ${{ needs.decide_environment.outputs.environment }}
 
