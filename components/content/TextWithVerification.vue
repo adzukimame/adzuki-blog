@@ -1,5 +1,6 @@
 <template>
   <ClientOnly>
+    <NuxtTurnstile v-model="token" />
     <div v-if="loading">
       Loading...
     </div>
@@ -24,6 +25,7 @@ const loading = ref(true);
 const error = ref(false);
 const textBlock = useTemplateRef('textBlock');
 const text = ref<string | undefined>(undefined);
+const token = ref();
 
 const renderCanvas = () => {
   if (text.value === undefined) {
@@ -55,9 +57,11 @@ const renderCanvas = () => {
 };
 
 if (import.meta.client) {
-  $fetch.raw('/api/get-protected-text', {
-    query: {
+  $fetch.raw('/api/text-with-verification', {
+    method: 'POST',
+    body: {
       name: props.name,
+      token: token.value,
     },
     watch: [() => props.name],
   }).then((response) => {
@@ -80,6 +84,9 @@ if (import.meta.client) {
       const byteArray = new Uint8Array(buffer);
       text.value = new TextDecoder().decode(byteArray.map((byte, idx) => byte ^ rand[idx]));
     });
+  }).catch(() => {
+    error.value = true;
+    loading.value = false;
   });
 
   watch([text, textBlock], ([newText, newTextBlock]) => {
