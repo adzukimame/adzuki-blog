@@ -23,7 +23,7 @@
     "@tabler/icons-vue": "^3.33.0",
     "nuxt": "^3.17.4",
     "remark-breaks": "^4.0.0",
-    "typescript": "^5.5.4",
+    "typescript": "^5.8.3",
     "ufo": "^1.6.1",
     "vue": "latest",
     "wrangler": "^4.16.1"
