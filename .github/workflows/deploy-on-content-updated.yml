@@ -1,4 +1,4 @@
-name: Invoke deployment on content-updated
+name: Deploy on content-updated
 
 on:
   repository_dispatch:
