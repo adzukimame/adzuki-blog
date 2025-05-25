@@ -29,3 +29,6 @@ logs
 # cloudflare
 .wrangler
 .dev.vars
+
+# tests
+coverage
