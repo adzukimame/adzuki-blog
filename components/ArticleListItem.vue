@@ -1,16 +1,20 @@
 <template>
   <article class="container">
     <NuxtLink :to="item._path"
-              class="titleAndDescriptionContainer">
-      <div class="title">
+              class="titleAndDescriptionContainer"
+              data-testid="link">
+      <div class="title"
+           data-testid="title">
         {{ item.title }}
       </div>
-      <div class="description">
+      <div class="description"
+           data-testid="description">
         {{ item.hideDescription ? '…' : item.description }}
       </div>
     </NuxtLink>
     <div class="categoryAndDateContainer">
-      <div class="categoryContainer">
+      <div class="categoryContainer"
+           data-testid="category">
         <IconFolder size="1rem"
                     aria-hidden="true" />
         <NuxtLink v-if="normalizedCategory === undefined"
@@ -27,7 +31,8 @@
           </NuxtLink>
         </template>
       </div>
-      <div class="dateContainer">
+      <div class="dateContainer"
+           data-testid="created">
         <IconClock size="1rem"
                    aria-hidden="true" />
         <time v-if="!Number.isNaN(Date.parse(item.created))"

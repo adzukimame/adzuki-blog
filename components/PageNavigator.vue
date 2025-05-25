@@ -27,6 +27,7 @@
                        aria-hidden="true" />
     </NuxtLink>
     <div class="button pageNumberOuter"
+         data-testid="page-number"
          :aria-label="`${currentPageNumber}ページ目`">
       <span ref="pageNumberSpanEl">
         {{ pageNumberForDisplay }}
