@@ -1,6 +1,6 @@
 <template>
-  <footer :class="$style.footer">
-    <div :class="$style.copyright">
+  <footer class="footer">
+    <div class="copyright">
       Copyright © {{ new Date().getFullYear() }} {{ runtimeConfig.public.authorName }}. All Rights Reserved.
     </div>
   </footer>
@@ -10,14 +10,12 @@
 const runtimeConfig = useRuntimeConfig();
 </script>
 
-<style module>
-@value footerBorderWidth 1px;
-
+<style scoped>
 .footer {
   display: block flex;
   flex-direction: column;
   block-size: var(--footerHeight);
-  border-block-start: solid var(--split) footerBorderWidth;
+  border-block-start: solid var(--split) 1px;
   justify-content: center;
 }
 

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div :class="$style.categoryName">
+    <div class="categoryName">
       すべての投稿
     </div>
     <main ref="articleListOuter">
@@ -10,7 +10,7 @@
                    :items-length="articleCount ?? 0"
                    :items-per-page="ARTICLE_PER_PAGE"
                    page-query-param="p"
-                   :class="$style.navigator" />
+                   class="navigator" />
   </div>
 </template>
 
@@ -110,7 +110,7 @@ useSeoMeta({
 });
 </script>
 
-<style module>
+<style scoped>
 .categoryName {
   font-size: 1.2rem;
   padding-block-end: 0.4rem;

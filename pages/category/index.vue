@@ -1,13 +1,13 @@
 <template>
   <div>
-    <div :class="$style.heading">
+    <div class="heading">
       カテゴリ一覧
     </div>
     <main>
-      <ul :class="$style.categoryList">
+      <ul class="categoryList">
         <li v-for="item in categoryList"
             :key="item[0]"
-            :class="$style.categoryListItem">
+            class="categoryListItem">
           <NuxtLink :to="`/category/${item[0]}`">
             {{ `${item[0] === 'undefined' ? '未設定' : item[0]} (${item[1]})` }}
           </NuxtLink>
@@ -86,7 +86,7 @@ useSeoMeta({
 });
 </script>
 
-<style module>
+<style scoped>
 .heading {
   font-size: 1.2rem;
   padding-block-end: 0.4rem;

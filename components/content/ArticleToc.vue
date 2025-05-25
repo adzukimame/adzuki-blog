@@ -1,25 +1,24 @@
 <template>
   <details v-if="toc && toc.links.length > 0"
            :open="tocOpened ? true : undefined"
-           class="articleToc"
-           :class="$style.container"
+           class="articleToc container"
            @toggle="(event) => {
              if (event.newState === 'open') { tocOpened = true }
              else if (event.newState === 'closed') { tocOpened = false }
            }">
-    <summary :class="$style.summary"
+    <summary class="summary"
              @click.prevent="onSummaryClick">
       <div>
         目次
       </div>
-      <IconChevronDown :size="$style.accordionIconSize"
-                       :class="$style.accordionIcon" />
+      <IconChevronDown size="1.2rem"
+                       class="accordionIcon" />
     </summary>
     <ul ref="listEl"
-        :class="$style.list">
+        class="list">
       <template v-for="item in toc.links"
                 :key="item.id">
-        <li :class="$style.listItemH2">
+        <li class="listItemH2">
           <NuxtLink :to="`#${item.id}`">
             {{ item.text }}
           </NuxtLink>
@@ -27,7 +26,7 @@
         <template v-if="item.children && item.children.length > 0">
           <li v-for="child in item.children"
               :key="child.id"
-              :class="$style.listItemH3">
+              class="listItemH3">
             <NuxtLink :to="`#${child.id}`">
               {{ child.text }}
             </NuxtLink>
@@ -106,7 +105,7 @@ const onSummaryClick = (_event: MouseEvent) => {
 };
 </script>
 
-<style module>
+<style scoped>
 .container {
   display: block;
   background-color: var(--bgStrong);
@@ -142,17 +141,11 @@ const onSummaryClick = (_event: MouseEvent) => {
   }
 }
 
-@value accordionIconSize 1.2rem;
-
-:export {
-  accordionIconSize: accordionIconSize;
-}
-
 .accordionIcon {
   transition: transform v-bind(summaryTransitionDurationText) v-bind(summaryTransitionFunction);
 }
 
-:root:global(.writing-mode-vertical-rl) .accordionIcon {
+:root.writing-mode-vertical-rl .accordionIcon {
   transform: rotate(0.25turn);
 }
 
@@ -160,7 +153,7 @@ const onSummaryClick = (_event: MouseEvent) => {
   transform: rotate(0.5turn);
 }
 
-:root:global(.writing-mode-vertical-rl) .container[open] .accordionIcon {
+:root.writing-mode-vertical-rl .container[open] .accordionIcon {
   transform: rotate(0.75turn);
 }
 

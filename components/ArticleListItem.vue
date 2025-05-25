@@ -1,38 +1,38 @@
 <template>
-  <article :class="$style.container">
+  <article class="container">
     <NuxtLink :to="item._path"
-              :class="$style.titleAndDescriptionContainer">
-      <div :class="$style.title">
+              class="titleAndDescriptionContainer">
+      <div class="title">
         {{ item.title }}
       </div>
-      <div :class="$style.description">
+      <div class="description">
         {{ item.hideDescription ? '…' : item.description }}
       </div>
     </NuxtLink>
-    <div :class="$style.categoryAndDateContainer">
-      <div :class="$style.categoryContainer">
+    <div class="categoryAndDateContainer">
+      <div class="categoryContainer">
         <IconFolder size="1rem"
                     aria-hidden="true" />
         <NuxtLink v-if="normalizedCategory === undefined"
                   :to="'/category/undefined'"
-                  :class="$style.category">
+                  class="category">
           未設定
         </NuxtLink>
         <template v-else>
           <NuxtLink v-for="category in normalizedCategory"
                     :key="category"
                     :to="`/category/${category}`"
-                    :class="$style.category">
+                    class="category">
             {{ category }}
           </NuxtLink>
         </template>
       </div>
-      <div :class="$style.dateContainer">
+      <div class="dateContainer">
         <IconClock size="1rem"
                    aria-hidden="true" />
         <time v-if="!Number.isNaN(Date.parse(item.created))"
               :datetime="item.created"
-              :class="$style.date">
+              class="date">
           {{ new Intl.DateTimeFormat('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' }).format(new Date(item.created)) }}
         </time>
         <div v-else>
@@ -66,11 +66,7 @@ const normalizedCategory = computed<Array<string> | undefined>(() => {
 });
 </script>
 
-<style module>
-@value titleLineHeight 1.8rem;
-@value descriptionLineHeight 1.4rem;
-@value titleAndDescriptionContainerRowGap 0.4rem;
-
+<style scoped>
 .container {
   display: block flex;
   flex-direction: column;
@@ -78,6 +74,8 @@ const normalizedCategory = computed<Array<string> | undefined>(() => {
   padding: 0.4rem;
   border-bottom: solid 0.4rem var(--split);
   transition: background-color var(--hoverTransitionDuration) var(--hoverTransitionFunction), border-bottom-color var(--hoverTransitionDuration) var(--hoverTransitionFunction);
+  --title-line-height: 1.8rem;
+  --description-line-height: 1.4rem;
 }
 
 @media (hover: hover) {
@@ -96,14 +94,14 @@ const normalizedCategory = computed<Array<string> | undefined>(() => {
 
 .titleAndDescriptionContainer {
   display: block grid;
-  grid-template-rows: calc(titleLineHeight * 2) calc(descriptionLineHeight * 2);
-  row-gap: titleAndDescriptionContainerRowGap;
+  grid-template-rows: calc(var(--title-line-height) * 2) calc(var(--description-line-height) * 2);
+  row-gap: 0.4rem;
 }
 
 .title {
   display: block;
   font-size: 1.2rem;
-  line-height: titleLineHeight;
+  line-height: var(--title-line-height);
   overflow: clip;
   transition: color var(--hoverTransitionDuration) var(--hoverTransitionFunction);
 }
@@ -122,7 +120,7 @@ const normalizedCategory = computed<Array<string> | undefined>(() => {
 
 .description {
   font-size: 0.8rem;
-  line-height: descriptionLineHeight;
+  line-height: var(--description-line-height);
   overflow: clip;
   color: var(--fgWeak);
 }

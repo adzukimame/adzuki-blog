@@ -1,27 +1,26 @@
 <!-- https://github.com/nuxt-modules/mdc/blob/44fef672139208dc1b53442cebc97bd98e5684a7/src/runtime/components/prose/ProseImg.vue -->
 
 <template>
-  <div class="imageViewer"
-       :class="$style.container"
+  <div class="imageViewer container"
        @click="openModal">
     <component :is="ImageComponent"
                :src="refinedSrc"
                :alt="alt"
                :width="width"
                :height="height"
-               :class="$style.image" />
+               class="image" />
   </div>
   <Teleport to="body">
     <div v-if="modalOpened"
          ref="modalContainerEl"
-         :class="$style.modalContainer"
+         class="modalContainer"
          @click="closeModal">
       <component :is="ImageComponent"
                  :src="refinedSrc"
                  :alt="alt"
                  :width="width"
                  :height="height"
-                 :class="$style.modalImage" />
+                 class="modalImage" />
     </div>
   </Teleport>
 </template>
@@ -110,7 +109,7 @@ const closeModal = () => {
 };
 </script>
 
-<style module>
+<style scoped>
 .container {
   display: block flex;
   margin-inline: auto;
@@ -133,11 +132,11 @@ const closeModal = () => {
   }
 }
 
-:root:global(.writing-mode-vertical-rl) .container {
+:root.writing-mode-vertical-rl .container {
   aspect-ratio: 9 / 16;
 }
 
-:root:global(.writing-mode-vertical-rl) .image {
+:root.writing-mode-vertical-rl .image {
   aspect-ratio: 9 / 16;
 }
 

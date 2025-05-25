@@ -1,21 +1,22 @@
 <template>
   <Body :style="`overflow: ${menuOpened ? 'clip' : ''};`" />
-  <header :class="$style.header">
-    <div :class="$style.headerInner">
-      <div :class="$style.siteTitleContainer">
+  <header class="header">
+    <div class="headerInner">
+      <div class="siteTitleContainer">
         <NuxtLink to="/"
-                  :class="$style.siteTitle"
+                  class="siteTitle"
                   @click="closeMenu">
           {{ runtimeConfig.public.siteName }}
         </NuxtLink>
       </div>
       <nav v-if="!isNarrow || menuOpened"
            ref="navEl"
-           :class="[$style.nav, { [$style.menuOpened]: menuOpened }]">
-        <ul :class="$style.navList">
+           class="navigation"
+           :class="{ menuOpened: menuOpened }">
+        <ul class="navList">
           <li v-for="item in menuItems"
               :key="item.to"
-              :class="$style.navListItem">
+              class="navListItem">
             <NuxtLink :to="item.to"
                       @click="closeMenu()">
               {{ item.name }}
@@ -23,28 +24,28 @@
           </li>
         </ul>
       </nav>
-      <div :class="$style.buttonsContainer">
-        <button :class="$style.colorSwitch"
+      <div class="buttonsContainer">
+        <button class="colorSwitch"
                 :aria-label="`${colorScheme === 'dark' ? 'ライト' : 'ダーク'}モードに切り替える`"
                 @click="updateColorScheme(colorScheme === 'light' ? 'dark' : 'light')">
           <IconMoon v-if="colorScheme === 'light'"
-                    :size="$style.darkModeSwitchIconSize"
+                    size="1.4rem"
                     aria-hidden="true" />
           <IconSun v-else
-                   :size="$style.darkModeSwitchIconSize"
+                   size="1.4rem"
                    aria-hidden="true" />
         </button>
-        <button :class="$style.menuButton"
+        <button class="menuButton"
                 :aria-label="`メニューを${menuOpened ? '閉じる' : '開く'}`"
                 @click="() => {
                   if (menuOpened) { closeMenu(); }
                   else { openMenu() }
                 }">
           <IconMenu2 v-if="!menuOpened"
-                     :size="$style.menuButtonIconSize"
+                     size="1.2rem"
                      aria-hidden="true" />
           <IconX v-else
-                 :size="$style.menuButtonIconSize"
+                 size="1.2rem"
                  aria-hidden="true" />
         </button>
       </div>
@@ -153,7 +154,7 @@ const menuItems = [
 ];
 </script>
 
-<style module>
+<style scoped>
 .header {
   position: sticky;
   inset-block-start: 0;
@@ -163,6 +164,7 @@ const menuItems = [
   background-color: var(--bg);
   color: var(--fgStrong);
   transition: background-color var(--colorSchemeTransitionDuration);
+  --darkModeSwitchAndMenuButtonSize: 2.2rem;
 }
 
 .headerInner {
@@ -183,7 +185,7 @@ const menuItems = [
   }
 }
 
-:root:global(.writing-mode-vertical-rl) .headerInner {
+:root.writing-mode-vertical-rl .headerInner {
   inline-size: 100%;
   padding-inline: 32px;
   margin-inline: 0;
@@ -199,7 +201,7 @@ const menuItems = [
 }
 
 @media (max-width: 768px) {
-  .nav {
+  .navigation {
     display: block;
     position: fixed;
     inset: 0;
@@ -210,17 +212,17 @@ const menuItems = [
     transition: background-color var(--colorSchemeTransitionDuration);
   }
 
-  .nav:not(.menuOpened) {
+  .navigation:not(.menuOpened) {
     display: none;
   }
 
-  .nav.menuOpened {
+  .navigation.menuOpened {
     display: block;
   }
 }
 
 @media (min-width: 769px) {
-  .nav {
+  .navigation {
     padding-inline: 3rem;
   }
 }
@@ -287,19 +289,10 @@ const menuItems = [
   column-gap: 0.5rem;
 }
 
-@value darkModeSwitchAndMenuButtonSize: 2.2rem;
-@value darkModeSwitchIconSize 1.4rem;
-@value menuButtonIconSize: 1.2rem;
-
-:export {
-  darkModeSwitchIconSize: darkModeSwitchIconSize;
-  menuButtonIconSize: menuButtonIconSize;
-}
-
 .buttonsContainer>button {
   cursor: pointer;
-  inline-size: darkModeSwitchAndMenuButtonSize;
-  block-size: darkModeSwitchAndMenuButtonSize;
+  inline-size: var(--darkModeSwitchAndMenuButtonSize);
+  block-size: var(--darkModeSwitchAndMenuButtonSize);
   text-align: center;
   border-radius: 5px;
   border: 0;
@@ -320,7 +313,7 @@ const menuItems = [
 }
 
 .colorSwitch>svg {
-  margin: calc((darkModeSwitchAndMenuButtonSize - darkModeSwitchIconSize) / 2);
+  margin: calc((var(--darkModeSwitchAndMenuButtonSize) - 1.4rem) / 2);
 }
 
 .menuButton {
@@ -334,6 +327,6 @@ const menuItems = [
 }
 
 .menuButton>svg {
-  margin: calc((darkModeSwitchAndMenuButtonSize - menuButtonIconSize) / 2);
+  margin: calc((var(--darkModeSwitchAndMenuButtonSize) - 1.2rem) / 2);
 }
 </style>

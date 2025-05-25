@@ -1,6 +1,6 @@
 <template>
   <ClientOnly>
-    <NuxtTurnstile :class="$style.turnstileWidget"
+    <NuxtTurnstile class="turnstileWidget"
                    :options="{
                      'appearance': 'always',
                      'callback': turnstileCallback,
@@ -14,9 +14,9 @@
     </div>
     <div v-else
          ref="textBlock"
-         :class="$style.textBlock" />
+         class="textBlock" />
     <template #fallback>
-      <div :class="$style.placeholder" />
+      <div class="placeholder" />
     </template>
   </ClientOnly>
 </template>
@@ -118,7 +118,7 @@ watch([text, textBlock], ([newText, newTextBlock]) => {
 });
 </script>
 
-<style module>
+<style scoped>
 .turnstileWidget {
   width: 300px;
   height: 75px;

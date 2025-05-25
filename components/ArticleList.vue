@@ -1,13 +1,13 @@
 <template>
   <div>
     <div v-if="articles && articles.length > 0"
-         :class="$style.articleList">
+         class="articleList">
       <ArticleListItem v-for="item in articles"
                        :key="item._id"
                        :item="item" />
     </div>
     <div v-else
-         :class="$style.articleNotFound">
+         class="articleNotFound">
       コンテンツはありません
     </div>
   </div>
@@ -21,12 +21,10 @@ defineProps<{
 }>();
 </script>
 
-<style module>
-@value articleListItemGap 1.2rem;
-
+<style scoped>
 .articleList {
   display: flex;
   flex-direction: column;
-  gap: articleListItemGap;
+  gap: 1.2rem;
 }
 </style>

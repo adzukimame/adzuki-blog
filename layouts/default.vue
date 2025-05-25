@@ -2,12 +2,13 @@
   <div>
     <AppHeader @menu-opened="menuOpened = true"
                @menu-closed="menuOpened = false" />
-    <div :class="[$style.slotContainer, { [$style.menuOpened]: menuOpened }]"
+    <div class="slotContainer"
+         :class="{ menuOpened: menuOpened }"
          :inert="menuOpened ? true : undefined"
          :aria-hidden="menuOpened ? true : undefined">
       <slot />
     </div>
-    <AppFooter :class="{ [$style.menuOpened]: menuOpened }"
+    <AppFooter :class="{ menuOpened: menuOpened }"
                :inert="menuOpened ? true : undefined"
                :aria-hidden="menuOpened ? true : undefined" />
   </div>
@@ -17,7 +18,7 @@
 const menuOpened = ref(false);
 </script>
 
-<style module>
+<style scoped>
 .slotContainer {
   max-inline-size: 768px;
   padding-block: 32px;
@@ -37,7 +38,7 @@ const menuOpened = ref(false);
   }
 }
 
-:root:global(.writing-mode-vertical-rl) .slotContainer {
+:root.writing-mode-vertical-rl .slotContainer {
   inline-size: 100%;
   padding-inline: 32px;
   margin-inline: 0;
