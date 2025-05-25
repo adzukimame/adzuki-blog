@@ -29,5 +29,11 @@
     "ufo": "^1.6.1",
     "vue": "latest",
     "wrangler": "^4.16.1"
+  },
+  "devDependencies": {
+    "@nuxt/test-utils": "^3.19.0",
+    "@vue/test-utils": "^2.4.6",
+    "happy-dom": "^17.4.7",
+    "vitest": "^3.1.4"
   }
 }
