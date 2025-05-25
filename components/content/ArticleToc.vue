@@ -14,26 +14,28 @@
       <IconChevronDown size="1.2rem"
                        class="accordionIcon" />
     </summary>
-    <ul ref="listEl"
-        class="list">
-      <template v-for="item in toc.links"
-                :key="item.id">
-        <li class="listItemH2">
-          <NuxtLink :to="`#${item.id}`">
-            {{ item.text }}
-          </NuxtLink>
-        </li>
-        <template v-if="item.children && item.children.length > 0">
-          <li v-for="child in item.children"
-              :key="child.id"
-              class="listItemH3">
-            <NuxtLink :to="`#${child.id}`">
-              {{ child.text }}
+    <nav>
+      <ul ref="listEl"
+          class="list">
+        <template v-for="item in toc.links"
+                  :key="item.id">
+          <li class="listItemH2">
+            <NuxtLink :to="`#${item.id}`">
+              {{ item.text }}
             </NuxtLink>
           </li>
+          <template v-if="item.children && item.children.length > 0">
+            <li v-for="child in item.children"
+                :key="child.id"
+                class="listItemH3">
+              <NuxtLink :to="`#${child.id}`">
+                {{ child.text }}
+              </NuxtLink>
+            </li>
+          </template>
         </template>
-      </template>
-    </ul>
+      </ul>
+    </nav>
   </details>
 </template>
 
