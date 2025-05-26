@@ -9,23 +9,23 @@ mockNuxtImport('useRuntimeConfig', () => {
   };
 });
 
-describe('LinkCard', async () => {
-  registerEndpoint('/api/url-preview', async (event) => {
-    const requestUrl = new URL(event.node.req.originalUrl!, 'http://localhost:3000');
-    if (decodeURIComponent(requestUrl.searchParams.get('url')!) === 'http://localhost:3001/linked-page') {
-      return {
-        title: 'a title',
-        icon: 'http://localhost:3001/apple-touch-icon.png',
-        description: 'a description',
-        sitename: 'a site name',
-        url: 'http://localhost:3001/linked-page',
-      } as SummalyResult;
-    }
-    else {
-      return createError('error');
-    }
-  });
+registerEndpoint('/api/url-preview', async (event) => {
+  const requestUrl = new URL(event.node.req.originalUrl!, 'http://localhost:3000');
+  if (decodeURIComponent(requestUrl.searchParams.get('url')!) === 'http://localhost:3001/linked-page') {
+    return {
+      title: 'a title',
+      icon: 'http://localhost:3001/apple-touch-icon.png',
+      description: 'a description',
+      sitename: 'a site name',
+      url: 'http://localhost:3001/linked-page',
+    } as SummalyResult;
+  }
+  else {
+    return createError('error');
+  }
+});
 
+describe('LinkCard', async () => {
   describe('プレビュー情報の取得が成功したとき', async () => {
     const component = await mountSuspended(LinkCard, { props: {
       url: 'http://localhost:3001/linked-page',
