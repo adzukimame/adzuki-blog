@@ -1,4 +1,4 @@
-name: Lint
+name: Histoire
 
 on:
   push:
