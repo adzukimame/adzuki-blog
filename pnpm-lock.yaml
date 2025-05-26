@@ -23,6 +23,9 @@ importers:
       '@nuxt/scripts':
         specifier: ^0.11.0
         version: 0.11.7(@unhead/vue@2.0.10(vue@3.5.14(typescript@5.8.3)))(db0@0.3.2)(ioredis@5.6.1)(magicast@0.3.5)(nuxt@3.17.4(@parcel/watcher@2.5.1)(@types/node@22.15.21)(db0@0.3.2)(eslint@9.27.0(jiti@2.4.2))(ioredis@5.6.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.41.0)(terser@5.39.2)(typescript@5.8.3)(vite@6.3.5(@types/node@22.15.21)(jiti@2.4.2)(terser@5.39.2)(yaml@2.8.0))(yaml@2.8.0))(typescript@5.8.3)(vue@3.5.14(typescript@5.8.3))
+      '@nuxt/test-utils':
+        specifier: ^3.19.0
+        version: 3.19.0(@testing-library/vue@8.1.0(@vue/compiler-sfc@3.5.14)(vue@3.5.14(typescript@5.8.3)))(@types/node@22.15.21)(@vue/test-utils@2.4.6)(happy-dom@17.4.7)(jiti@2.4.2)(magicast@0.3.5)(terser@5.39.2)(typescript@5.8.3)(vitest@3.1.4(@types/debug@4.1.12)(@types/node@22.15.21)(happy-dom@17.4.7)(jiti@2.4.2)(terser@5.39.2)(yaml@2.8.0))(yaml@2.8.0)
       '@nuxtjs/turnstile':
         specifier: 1.0.0
         version: 1.0.0(@nuxt/scripts@0.11.7(@unhead/vue@2.0.10(vue@3.5.14(typescript@5.8.3)))(db0@0.3.2)(ioredis@5.6.1)(magicast@0.3.5)(nuxt@3.17.4(@parcel/watcher@2.5.1)(@types/node@22.15.21)(db0@0.3.2)(eslint@9.27.0(jiti@2.4.2))(ioredis@5.6.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.41.0)(terser@5.39.2)(typescript@5.8.3)(vite@6.3.5(@types/node@22.15.21)(jiti@2.4.2)(terser@5.39.2)(yaml@2.8.0))(yaml@2.8.0))(typescript@5.8.3)(vue@3.5.14(typescript@5.8.3)))(magicast@0.3.5)
@@ -48,9 +51,6 @@ importers:
         specifier: ^4.16.1
         version: 4.16.1(@cloudflare/workers-types@4.20250524.0)
     devDependencies:
-      '@nuxt/test-utils':
-        specifier: ^3.19.0
-        version: 3.19.0(@testing-library/vue@8.1.0(@vue/compiler-sfc@3.5.14)(vue@3.5.14(typescript@5.8.3)))(@types/node@22.15.21)(@vue/test-utils@2.4.6)(happy-dom@17.4.7)(jiti@2.4.2)(magicast@0.3.5)(terser@5.39.2)(typescript@5.8.3)(vitest@3.1.4(@types/debug@4.1.12)(@types/node@22.15.21)(happy-dom@17.4.7)(jiti@2.4.2)(terser@5.39.2)(yaml@2.8.0))(yaml@2.8.0)
       '@storybook/addon-essentials':
         specifier: 8.6.14
         version: 8.6.14(@types/react@19.1.5)(storybook@8.6.14)
@@ -6447,6 +6447,9 @@ packages:
   vue-component-type-helpers@2.2.10:
     resolution: {integrity: sha512-iDUO7uQK+Sab2tYuiP9D1oLujCWlhHELHMgV/cB13cuGbG4qwkLHvtfWb6FzvxrIOPDnU0oHsz2MlQjhYDeaHA==}
 
+  vue-component-type-helpers@3.0.0-alpha.8:
+    resolution: {integrity: sha512-90tDQ0Si5EOuBj1IWGg4o0prHt3H5xysZS/9z/m5TTC8xTKrDYAUQvbWiNVa9VXg/ED3ah6yDuQirXW+O6bTdA==}
+
   vue-demi@0.14.10:
     resolution: {integrity: sha512-nMZBOwuzabUO0nLgIcc6rycZEebF6eeUfaiQx9+WSk8e29IbLvPU9feI6tqW4kTo3hvoYAJkMh8n8D0fuISphg==}
     engines: {node: '>=12'}
@@ -8473,7 +8476,7 @@ snapshots:
       ts-dedent: 2.2.0
       type-fest: 2.19.0
       vue: 3.5.14(typescript@5.8.3)
-      vue-component-type-helpers: 2.2.10
+      vue-component-type-helpers: 3.0.0-alpha.8
 
   '@stylistic/eslint-plugin@4.3.0(eslint@9.27.0(jiti@2.4.2))(typescript@5.8.3)':
     dependencies:
@@ -14404,6 +14407,8 @@ snapshots:
       typescript: 5.8.3
 
   vue-component-type-helpers@2.2.10: {}
+
+  vue-component-type-helpers@3.0.0-alpha.8: {}
 
   vue-demi@0.14.10(vue@3.5.14(typescript@5.8.3)):
     dependencies:
