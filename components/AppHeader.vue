@@ -2,9 +2,10 @@
   <Body :style="`overflow: ${menuOpened ? 'clip' : ''};`" />
   <header class="header">
     <div class="headerInner">
-      <div class="siteTitleContainer">
+      <div class="sitNameeContainer"
+           data-testid="site-name">
         <NuxtLink to="/"
-                  class="siteTitle"
+                  class="siteName"
                   @click="closeMenu">
           {{ runtimeConfig.public.siteName }}
         </NuxtLink>
@@ -27,6 +28,7 @@
       <div class="buttonsContainer">
         <button class="colorSwitch"
                 :aria-label="`${colorScheme === 'dark' ? 'ライト' : 'ダーク'}モードに切り替える`"
+                data-testid="color-switch"
                 @click="updateColorScheme(colorScheme === 'light' ? 'dark' : 'light')">
           <IconMoon v-if="colorScheme === 'light'"
                     size="1.4rem"
@@ -37,6 +39,7 @@
         </button>
         <button class="menuButton"
                 :aria-label="`メニューを${menuOpened ? '閉じる' : '開く'}`"
+                data-testid="menu-button"
                 @click="() => {
                   if (menuOpened) { closeMenu(); }
                   else { openMenu() }
@@ -191,12 +194,12 @@ const menuItems = [
   margin-inline: 0;
 }
 
-.siteTitleContainer {
+.sitNameeContainer {
   flex: 1 1;
   display: block flex;
 }
 
-.siteTitle {
+.siteName {
   white-space: nowrap;
 }
 
