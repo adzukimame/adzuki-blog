@@ -15,8 +15,19 @@
     <div class="category-and-date-container">
       <div class="category-container"
            data-testid="category">
-        <IconFolder size="1rem"
-                    aria-hidden="true" />
+        <svg xmlns="http://www.w3.org/2000/svg"
+             width="1rem"
+             height="1rem"
+             size="1rem"
+             viewBox="0 0 24 24"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="2"
+             stroke-linecap="round"
+             stroke-linejoin="round"
+             aria-hidden="true">
+          <path d="M5 4h4l3 3h7a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-11a2 2 0 0 1 2 -2" />
+        </svg>
         <NuxtLink v-if="normalizedCategory === undefined"
                   :to="'/category/undefined'"
                   class="category">
@@ -33,8 +44,20 @@
       </div>
       <div class="date-container"
            data-testid="created">
-        <IconClock size="1rem"
-                   aria-hidden="true" />
+        <svg xmlns="http://www.w3.org/2000/svg"
+             width="1rem"
+             height="1rem"
+             size="1rem"
+             viewBox="0 0 24 24"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="2"
+             stroke-linecap="round"
+             stroke-linejoin="round"
+             aria-hidden="true">
+          <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" />
+          <path d="M12 7v5l3 3" />
+        </svg>
         <time v-if="!Number.isNaN(Date.parse(item.created))"
               :datetime="item.created">
           {{ new Intl.DateTimeFormat('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' }).format(new Date(item.created)) }}
@@ -49,7 +72,6 @@
 
 <script setup lang="ts">
 import type { ParsedContent } from '@nuxt/content';
-import { IconFolder, IconClock } from '@tabler/icons-vue';
 
 const props = defineProps<{
   item: Pick<ParsedContent, '_id' | '_path' | 'title' | 'description' | 'category' | 'created' | 'hideDescription'> | ParsedContent;

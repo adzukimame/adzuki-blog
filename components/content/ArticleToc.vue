@@ -11,8 +11,19 @@
       <div>
         目次
       </div>
-      <IconChevronDown size="1.2rem"
-                       class="accordion-icon" />
+      <svg xmlns="http://www.w3.org/2000/svg"
+           width="1.2rem"
+           height="1.2rem"
+           size="1.2rem"
+           viewBox="0 0 24 24"
+           fill="none"
+           stroke="currentColor"
+           stroke-width="2"
+           stroke-linecap="round"
+           stroke-linejoin="round"
+           class="accordion-icon">
+        <path d="M6 9l6 6l6 -6" />
+      </svg>
     </summary>
     <nav>
       <ul ref="listEl"
@@ -41,7 +52,6 @@
 
 <script setup lang="ts">
 import type { Toc } from '@nuxt/content';
-import { IconChevronDown } from '@tabler/icons-vue';
 
 const writingMode = useWritingMode();
 

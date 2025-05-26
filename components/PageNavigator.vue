@@ -10,8 +10,20 @@
               :tabindex="backwardEnabled ? undefined : -1"
               :aria-hidden="backwardEnabled ? undefined : true"
               aria-label="最初のページに戻る">
-      <IconChevronsLeft size="1rem"
-                        aria-hidden="true" />
+      <svg xmlns="http://www.w3.org/2000/svg"
+           width="1rem"
+           height="1rem"
+           size="1rem"
+           viewBox="0 0 24 24"
+           fill="none"
+           stroke="currentColor"
+           stroke-width="2"
+           stroke-linecap="round"
+           stroke-linejoin="round"
+           aria-hidden="true">
+        <path d="M11 7l-5 5l5 5" />
+        <path d="M17 7l-5 5l5 5" />
+      </svg>
     </NuxtLink>
     <NuxtLink :to="{
                 path: route.path,
@@ -23,8 +35,19 @@
               :tabindex="backwardEnabled ? undefined : -1"
               :aria-hidden="backwardEnabled ? undefined : true"
               aria-label="1ページ前に戻る">
-      <IconChevronLeft size="1rem"
-                       aria-hidden="true" />
+      <svg xmlns="http://www.w3.org/2000/svg"
+           width="1rem"
+           height="1rem"
+           size="1rem"
+           viewBox="0 0 24 24"
+           fill="none"
+           stroke="currentColor"
+           stroke-width="2"
+           stroke-linecap="round"
+           stroke-linejoin="round"
+           aria-hidden="true">
+        <path d="M15 6l-6 6l6 6" />
+      </svg>
     </NuxtLink>
     <div class="button page-number-outer"
          data-testid="page-number"
@@ -43,8 +66,19 @@
               :tabindex="forwardEnabled ? undefined : -1"
               :aria-hidden="forwardEnabled ? undefined : true"
               aria-label="1ページ次に進む">
-      <IconChevronRight size="1rem"
-                        aria-hidden="true" />
+      <svg xmlns="http://www.w3.org/2000/svg"
+           width="1rem"
+           height="1rem"
+           size="1rem"
+           viewBox="0 0 24 24"
+           fill="none"
+           stroke="currentColor"
+           stroke-width="2"
+           stroke-linecap="round"
+           stroke-linejoin="round"
+           aria-hidden="true">
+        <path d="M9 6l6 6l-6 6" />
+      </svg>
     </NuxtLink>
     <NuxtLink :to="{
                 path: route.path,
@@ -56,15 +90,25 @@
               :tabindex="forwardEnabled ? undefined : -1"
               :aria-hidden="forwardEnabled ? undefined : true"
               aria-label="最後のページに進む">
-      <IconChevronsRight size="1rem"
-                         aria-hidden="true" />
+      <svg xmlns="http://www.w3.org/2000/svg"
+           width="1rem"
+           height="1rem"
+           size="1rem"
+           viewBox="0 0 24 24"
+           fill="none"
+           stroke="currentColor"
+           stroke-width="2"
+           stroke-linecap="round"
+           stroke-linejoin="round"
+           aria-hidden="true">
+        <path d="M7 7l5 5l-5 5" />
+        <path d="M13 7l5 5l-5 5" />
+      </svg>
     </NuxtLink>
   </div>
 </template>
 
 <script setup lang="ts">
-import { IconChevronLeft, IconChevronsLeft, IconChevronRight, IconChevronsRight } from '@tabler/icons-vue';
-
 const props = defineProps<{
   currentPageNumber: number;
   itemsLength: number;

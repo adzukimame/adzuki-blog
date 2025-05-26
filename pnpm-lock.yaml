@@ -29,9 +29,6 @@ importers:
       '@nuxtjs/turnstile':
         specifier: 1.0.0
         version: 1.0.0(@nuxt/scripts@0.11.7(@unhead/vue@2.0.10(vue@3.5.14(typescript@5.8.3)))(db0@0.3.2)(ioredis@5.6.1)(magicast@0.3.5)(nuxt@3.17.4(@parcel/watcher@2.5.1)(@types/node@22.15.21)(db0@0.3.2)(eslint@9.27.0(jiti@2.4.2))(ioredis@5.6.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.41.0)(terser@5.39.2)(typescript@5.8.3)(vite@6.3.5(@types/node@22.15.21)(jiti@2.4.2)(terser@5.39.2)(yaml@2.8.0))(yaml@2.8.0))(typescript@5.8.3)(vue@3.5.14(typescript@5.8.3)))(magicast@0.3.5)
-      '@tabler/icons-vue':
-        specifier: ^3.33.0
-        version: 3.33.0(vue@3.5.14(typescript@5.8.3))
       nuxt:
         specifier: ^3.17.4
         version: 3.17.4(@parcel/watcher@2.5.1)(@types/node@22.15.21)(db0@0.3.2)(eslint@9.27.0(jiti@2.4.2))(ioredis@5.6.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.41.0)(terser@5.39.2)(typescript@5.8.3)(vite@6.3.5(@types/node@22.15.21)(jiti@2.4.2)(terser@5.39.2)(yaml@2.8.0))(yaml@2.8.0)
@@ -1571,14 +1568,6 @@ packages:
   '@szmarczak/http-timer@5.0.1':
     resolution: {integrity: sha512-+PmQX0PiAYPMeVYe237LJAYvOMYW1j2rH5YROyS3b4CTVJum34HfRvKvAzozHAQG0TnHNdUfY9nCeUyRAs//cw==}
     engines: {node: '>=14.16'}
-
-  '@tabler/icons-vue@3.33.0':
-    resolution: {integrity: sha512-uwcqf5bl4A/3NBVPVQ3EoEPHMT/wM5AWwLIkUROWlVPUwHtpJd9udFKsx/EC9HKKyYIMUypf6jCiAh/utyLDgg==}
-    peerDependencies:
-      vue: '>=3.0.1'
-
-  '@tabler/icons@3.33.0':
-    resolution: {integrity: sha512-NZeFfzcYe7xcBHR3zKoCSrw/cFWvfj6LjenPQ48yVMTGdX854HH9nH44ZfMH8rrDzHBllfjwl4CIX6Vh2tyN0Q==}
 
   '@testing-library/dom@9.3.4':
     resolution: {integrity: sha512-FlS4ZWlp97iiNWig0Muq8p+3rVDjRiYE+YKGbAqXOu9nwJFFOdL00kFpz42M+4huzYi86vAK1sOOfyOG45muIQ==}
@@ -8099,13 +8088,6 @@ snapshots:
   '@szmarczak/http-timer@5.0.1':
     dependencies:
       defer-to-connect: 2.0.1
-
-  '@tabler/icons-vue@3.33.0(vue@3.5.14(typescript@5.8.3))':
-    dependencies:
-      '@tabler/icons': 3.33.0
-      vue: 3.5.14(typescript@5.8.3)
-
-  '@tabler/icons@3.33.0': {}
 
   '@testing-library/dom@9.3.4':
     dependencies:
