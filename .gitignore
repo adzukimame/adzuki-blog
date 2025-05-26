@@ -33,7 +33,5 @@ logs
 # tests
 coverage
 
-# storybook
-*storybook.log
-storybook-static
-__screenshots__
+# story
+.histoire
