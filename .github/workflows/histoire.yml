@@ -1,4 +1,4 @@
-name: Storybook
+name: Histoire
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
 permissions: {}
 
 jobs:
-  build_storybook:
+  build-story:
     runs-on: ubuntu-latest
 
     permissions:
@@ -26,10 +26,10 @@ jobs:
           cache: 'pnpm'
       - run: corepack enable
       - run: pnpm install --frozen-lockfile
-      - name: Build Storybook 
-        run: pnpm run build-storybook
+      - name: Build story
+        run: pnpm run story:build
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: storybook-static
-          path: storybook-static
+          name: histoire-build
+          path: .histoire/dist

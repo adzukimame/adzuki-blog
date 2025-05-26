@@ -30,12 +30,34 @@
                 :aria-label="`${colorScheme === 'dark' ? 'ライト' : 'ダーク'}モードに切り替える`"
                 data-testid="color-switch"
                 @click="updateColorScheme(colorScheme === 'light' ? 'dark' : 'light')">
-          <IconMoon v-if="colorScheme === 'light'"
-                    size="1.4rem"
-                    aria-hidden="true" />
-          <IconSun v-else
-                   size="1.4rem"
-                   aria-hidden="true" />
+          <svg v-if="colorScheme === 'light'"
+               xmlns="http://www.w3.org/2000/svg"
+               width="1.4rem"
+               height="1.4rem"
+               size="1.4rem"
+               viewBox="0 0 24 24"
+               fill="none"
+               stroke="currentColor"
+               stroke-width="2"
+               stroke-linecap="round"
+               stroke-linejoin="round"
+               aria-hidden="true">
+            <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+          </svg>
+          <svg v-else
+               xmlns="http://www.w3.org/2000/svg"
+               width="1.4rem"
+               height="1.4rem"
+               viewBox="0 0 24 24"
+               fill="none"
+               stroke="currentColor"
+               stroke-width="2"
+               stroke-linecap="round"
+               stroke-linejoin="round"
+               aria-hidden="true">
+            <path d="M12 12m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+            <path d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7" />
+          </svg>
         </button>
         <button class="button-menu"
                 :aria-label="`メニューを${menuOpened ? '閉じる' : '開く'}`"
@@ -44,12 +66,36 @@
                   if (menuOpened) { closeMenu(); }
                   else { openMenu() }
                 }">
-          <IconMenu2 v-if="!menuOpened"
-                     size="1.2rem"
-                     aria-hidden="true" />
-          <IconX v-else
-                 size="1.2rem"
-                 aria-hidden="true" />
+          <svg v-if="!menuOpened"
+               xmlns="http://www.w3.org/2000/svg"
+               width="1.2rem"
+               height="1.2rem"
+               size="1.2rem"
+               viewBox="0 0 24 24"
+               fill="none"
+               stroke="currentColor"
+               stroke-width="2"
+               stroke-linecap="round"
+               stroke-linejoin="round"
+               aria-hidden="true">
+            <path d="M4 6l16 0" />
+            <path d="M4 12l16 0" />
+            <path d="M4 18l16 0" />
+          </svg>
+          <svg v-else
+               xmlns="http://www.w3.org/2000/svg"
+               width="1.2rem"
+               height="1.2rem"
+               size="1.2rem"
+               viewBox="0 0 24 24"
+               fill="none"
+               stroke="currentColor"
+               stroke-width="2"
+               stroke-linecap="round"
+               stroke-linejoin="round">
+            <path d="M18 6l-12 12" />
+            <path d="M6 6l12 12" />
+          </svg>
         </button>
       </div>
     </div>
@@ -57,8 +103,6 @@
 </template>
 
 <script setup lang="ts">
-import { IconMoon, IconSun, IconMenu2, IconX } from '@tabler/icons-vue';
-
 const emits = defineEmits<{
   (e: 'menuOpened'): void;
   (e: 'menuClosed'): void; // eslint-disable-line @typescript-eslint/unified-signatures
