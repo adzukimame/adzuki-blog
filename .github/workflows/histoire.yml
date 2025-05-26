@@ -9,7 +9,7 @@ on:
 permissions: {}
 
 jobs:
-  lint:
+  build-story:
     runs-on: ubuntu-latest
 
     permissions:
