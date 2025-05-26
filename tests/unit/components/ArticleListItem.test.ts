@@ -15,7 +15,7 @@ const item = {
 describe('ArticleListItem', async () => {
   const component = await mountSuspended(ArticleListItem, { props: { item } });
 
-  test('リンク先の表示が正しい', () => {
+  test('リンク先が正しい', () => {
     expect(component.get('[data-testid="link"]').attributes('href')).toBe('/aPath');
   });
 

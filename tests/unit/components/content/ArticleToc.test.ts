@@ -39,7 +39,7 @@ describe('ArticleToc', () => {
       expect(component.get('nav').isVisible()).toBe(false);
     });
 
-    test('開ける', async () => {
+    test('クリックすると開く', async () => {
       component.get('summary').trigger('click');
       await component.vm.$nextTick();
       expect(component.attributes()).toHaveProperty('open');
@@ -47,6 +47,7 @@ describe('ArticleToc', () => {
     });
 
     test('内容が正しい', () => {
+      expect(component.findAll('a')).toHaveLength(2);
       expect(component.findAll('a')[0].attributes('href')).toBe('#id1');
       expect(component.findAll('a')[0].text()).toBe('text1');
       expect(component.findAll('a')[1].attributes('href')).toBe('#id2');
