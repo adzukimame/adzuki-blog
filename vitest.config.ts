@@ -10,6 +10,8 @@ export default defineVitestConfig({
         'nuxt.config.ts',
         'app.config.ts',
         'scripts',
+        'stories',
+        'storybook-static',
       ],
     },
   },
