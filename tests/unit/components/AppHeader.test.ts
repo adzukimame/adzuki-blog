@@ -8,7 +8,7 @@ mockNuxtImport('useRuntimeConfig', () => {
   };
 });
 
-describe('AppHeader', async () => {
+describe('AppHeader', () => {
   beforeAll(() => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     HTMLElement.prototype.animate = (..._) => undefined as unknown as any;

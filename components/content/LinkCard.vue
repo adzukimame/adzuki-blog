@@ -10,17 +10,20 @@
               :to="runtimeConfig.public.origin === urlObj.origin ? `${urlObj.pathname}${urlObj.search}` : url.toString()"
               :target="runtimeConfig.public.origin === urlObj.origin ? undefined : '_blank'"
               class="container">
-      <div class="title loaded">
+      <div class="title loaded"
+           data-testid="title">
         {{ (data && data.title) ? data.title : url }}
       </div>
-      <div class="description">
+      <div class="description"
+           data-testid="description">
         {{ (data && data.description) ? data.description : '説明はありません' }}
       </div>
       <div class="faviconAndHostnameContainer">
         <img :src="data?.icon ?? undefined"
              class="favicon"
              :alt="`${urlObj.hostname} のfavicon画像`">
-        <div class="hostname">
+        <div class="hostname"
+             data-testid="hostname">
           {{ urlObj.hostname }}
         </div>
       </div>
