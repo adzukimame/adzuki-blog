@@ -1,9 +1,9 @@
 <template>
   <div class="container">
     <NuxtLink :to="{
-                path: $route.path,
-                query: { ...($route.query), ...(backwardEnabled ? { [pageQueryParam]: 1 } : {}) },
-                hash: $route.hash,
+                path: route.path,
+                query: { ...(route.query), ...(backwardEnabled ? { [pageQueryParam]: 1 } : {}) },
+                hash: route.hash,
               }"
               class="button"
               :class="{ disabled: !backwardEnabled }"
@@ -14,9 +14,9 @@
                         aria-hidden="true" />
     </NuxtLink>
     <NuxtLink :to="{
-                path: $route.path,
-                query: { ...($route.query), ...(backwardEnabled ? { [pageQueryParam]: currentPageNumber - 1 } : {}) },
-                hash: $route.hash,
+                path: route.path,
+                query: { ...(route.query), ...(backwardEnabled ? { [pageQueryParam]: currentPageNumber - 1 } : {}) },
+                hash: route.hash,
               }"
               class="button"
               :class="{ disabled: !backwardEnabled }"
@@ -34,9 +34,9 @@
       </span>
     </div>
     <NuxtLink :to="{
-                path: $route.path,
-                query: { ...($route.query), ...(forwardEnabled ? { [pageQueryParam]: currentPageNumber + 1 } : {}) },
-                hash: $route.hash,
+                path: route.path,
+                query: { ...(route.query), ...(forwardEnabled ? { [pageQueryParam]: currentPageNumber + 1 } : {}) },
+                hash: route.hash,
               }"
               class="button"
               :class="{ disabled: !forwardEnabled }"
@@ -47,9 +47,9 @@
                         aria-hidden="true" />
     </NuxtLink>
     <NuxtLink :to="{
-                path: $route.path,
-                query: { ...($route.query), ...(forwardEnabled ? { [pageQueryParam]: Math.ceil(itemsLength / itemsPerPage) } : {}) },
-                hash: $route.hash,
+                path: route.path,
+                query: { ...(route.query), ...(forwardEnabled ? { [pageQueryParam]: Math.ceil(itemsLength / itemsPerPage) } : {}) },
+                hash: route.hash,
               }"
               class="button"
               :class="{ disabled: !forwardEnabled }"
@@ -73,6 +73,7 @@ const props = defineProps<{
 }>();
 
 const appConfig = useAppConfig();
+const route = useRoute();
 
 const backwardEnabled = computed(() => props.itemsLength > 0 && props.currentPageNumber > 1);
 const forwardEnabled = computed(() => props.currentPageNumber * props.itemsPerPage < props.itemsLength);
