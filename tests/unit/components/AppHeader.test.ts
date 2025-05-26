@@ -1,5 +1,6 @@
 import { beforeAll, describe, expect, test } from 'vitest';
 import { mountSuspended, mockNuxtImport } from '@nuxt/test-utils/runtime';
+import { sleep, mockHTMLElementAnimate } from '~/tests/util';
 import AppHeader from '~/components/AppHeader.vue';
 
 mockNuxtImport('useRuntimeConfig', () => {
@@ -10,8 +11,7 @@ mockNuxtImport('useRuntimeConfig', () => {
 
 describe('AppHeader', () => {
   beforeAll(() => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    HTMLElement.prototype.animate = (..._) => undefined as unknown as any;
+    HTMLElement.prototype.animate = mockHTMLElementAnimate;
   });
 
   describe('ウィンドウ幅が広いとき', async () => {
@@ -62,20 +62,21 @@ describe('AppHeader', () => {
 
       component.get('[data-testid="menu-button"]').trigger('click');
       await component.vm.$nextTick();
+      await sleep(300);
 
       expect(component.emitted('menuOpened')).toHaveLength(1);
       expect(component.get('nav')).toBeDefined();
     });
 
-    // FIXME
-    // test('もう一度メニュー表示ボタンを押すとメニューが閉じる', async () => {
-    //   expect(component.emitted('menuClosed')).toBeUndefined();
+    test('もう一度メニュー表示ボタンを押すとメニューが閉じる', async () => {
+      expect(component.emitted('menuClosed')).toBeUndefined();
 
-    //   component.get('[data-testid="menu-button"]').trigger('click');
-    //   await component.vm.$nextTick();
+      component.get('[data-testid="menu-button"]').trigger('click');
+      await component.vm.$nextTick();
+      await sleep(300);
 
-    //   expect(component.emitted('menuClosed')).toHaveLength(1);
-    //   expect(component.findAll('nav')).toHaveLength(0);
-    // });
+      expect(component.emitted('menuClosed')).toHaveLength(1);
+      expect(component.findAll('nav')).toHaveLength(0);
+    });
   });
 });

@@ -8,12 +8,14 @@
                :alt="alt"
                :width="width"
                :height="height"
-               class="image" />
+               class="image"
+               data-testid="image" />
   </div>
   <Teleport to="body">
     <div v-if="modalOpened"
          ref="modalContainerEl"
          class="modal-container"
+         data-testid="modal-container"
          @click="closeModal">
       <component :is="ImageComponent"
                  :src="refinedSrc"

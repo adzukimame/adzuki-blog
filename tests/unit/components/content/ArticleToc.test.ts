@@ -1,5 +1,6 @@
 import { beforeAll, describe, expect, test } from 'vitest';
 import { mountSuspended } from '@nuxt/test-utils/runtime';
+import { sleep, mockHTMLElementAnimate } from '~/tests/util';
 import ArticleToc from '~/components/content/ArticleToc.vue';
 
 describe('ArticleToc', () => {
@@ -17,8 +18,7 @@ describe('ArticleToc', () => {
 
   describe('目次が空でないとき', async () => {
     beforeAll(() => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      HTMLElement.prototype.animate = (..._) => undefined as unknown as any;
+      HTMLElement.prototype.animate = mockHTMLElementAnimate;
     });
 
     const component = await mountSuspended(ArticleToc, { props: { toc: {
@@ -42,6 +42,7 @@ describe('ArticleToc', () => {
     test('クリックすると開く', async () => {
       component.get('summary').trigger('click');
       await component.vm.$nextTick();
+      await sleep(300);
       expect(component.attributes()).toHaveProperty('open');
       expect(component.get('nav').isVisible()).toBe(true);
     });
@@ -52,6 +53,14 @@ describe('ArticleToc', () => {
       expect(component.findAll('a')[0].text()).toBe('text1');
       expect(component.findAll('a')[1].attributes('href')).toBe('#id2');
       expect(component.findAll('a')[1].text()).toBe('text2');
+    });
+
+    test('クリックすると閉じる', async () => {
+      component.get('summary').trigger('click');
+      await component.vm.$nextTick();
+      await sleep(300);
+      expect(component.attributes()).not.toHaveProperty('open');
+      expect(component.get('nav').isVisible()).toBe(false);
     });
   });
 });
