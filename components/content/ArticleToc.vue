@@ -1,7 +1,7 @@
 <template>
   <details v-if="toc && toc.links.length > 0"
            :open="tocOpened ? true : undefined"
-           class="articleToc container"
+           class="article-toc container"
            @toggle="(event) => {
              if (event.newState === 'open') { tocOpened = true }
              else if (event.newState === 'closed') { tocOpened = false }
@@ -12,14 +12,14 @@
         目次
       </div>
       <IconChevronDown size="1.2rem"
-                       class="accordionIcon" />
+                       class="accordion-icon" />
     </summary>
     <nav>
       <ul ref="listEl"
           class="list">
         <template v-for="item in toc.links"
                   :key="item.id">
-          <li class="listItemH2">
+          <li class="list-item-h2">
             <NuxtLink :to="`#${item.id}`">
               {{ item.text }}
             </NuxtLink>
@@ -27,7 +27,7 @@
           <template v-if="item.children && item.children.length > 0">
             <li v-for="child in item.children"
                 :key="child.id"
-                class="listItemH3">
+                class="list-item-h3">
               <NuxtLink :to="`#${child.id}`">
                 {{ child.text }}
               </NuxtLink>
@@ -143,19 +143,19 @@ const onSummaryClick = (_event: MouseEvent) => {
   }
 }
 
-.accordionIcon {
+.accordion-icon {
   transition: transform v-bind(summaryTransitionDurationText) v-bind(summaryTransitionFunction);
 }
 
-:root.writing-mode-vertical-rl .accordionIcon {
+:root.writing-mode-vertical-rl .accordion-icon {
   transform: rotate(0.25turn);
 }
 
-.container[open] .accordionIcon {
+.container[open] .accordion-icon {
   transform: rotate(0.5turn);
 }
 
-:root.writing-mode-vertical-rl .container[open] .accordionIcon {
+:root.writing-mode-vertical-rl .container[open] .accordion-icon {
   transform: rotate(0.75turn);
 }
 
@@ -175,15 +175,15 @@ const onSummaryClick = (_event: MouseEvent) => {
   border-block-start: dashed 1px var(--split);
 }
 
-.list>.listItemH2>a {
+.list>.list-item-h2>a {
   color: var(--fg);
 }
 
-.listItemH3 {
+.list-item-h3 {
   padding-inline-start: 1.5rem;
 }
 
-.list>.listItemH3>a {
+.list>.list-item-h3>a {
   color: var(--fgWeak);
 }
 

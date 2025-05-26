@@ -1,7 +1,7 @@
 <!-- https://github.com/nuxt-modules/mdc/blob/44fef672139208dc1b53442cebc97bd98e5684a7/src/runtime/components/prose/ProseImg.vue -->
 
 <template>
-  <div class="imageViewer container"
+  <div class="image-viewer container"
        @click="openModal">
     <component :is="ImageComponent"
                :src="refinedSrc"
@@ -13,14 +13,14 @@
   <Teleport to="body">
     <div v-if="modalOpened"
          ref="modalContainerEl"
-         class="modalContainer"
+         class="modal-container"
          @click="closeModal">
       <component :is="ImageComponent"
                  :src="refinedSrc"
                  :alt="alt"
                  :width="width"
                  :height="height"
-                 class="modalImage" />
+                 class="modal-image" />
     </div>
   </Teleport>
 </template>
@@ -140,14 +140,14 @@ const closeModal = () => {
   aspect-ratio: 9 / 16;
 }
 
-.modalContainer {
+.modal-container {
   display: block flex;
   position: fixed;
   inset: 0;
   background-color: color-mix(in srgb, var(--bg) 70%, transparent);
 }
 
-.modalImage {
+.modal-image {
   margin: auto;
   cursor: zoom-out;
 }

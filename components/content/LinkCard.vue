@@ -18,7 +18,7 @@
            data-testid="description">
         {{ (data && data.description) ? data.description : '説明はありません' }}
       </div>
-      <div class="faviconAndHostnameContainer">
+      <div class="favicon-and-hostname-container">
         <img :src="data?.icon ?? undefined"
              class="favicon"
              :alt="`${urlObj.hostname} のfavicon画像`">
@@ -107,7 +107,7 @@ const { data, status } = await useLazyFetch<SummalyResult>(
   overflow: clip;
 }
 
-.faviconAndHostnameContainer {
+.favicon-and-hostname-container {
   display: block flex;
   font-size: 0.8rem;
   align-items: center;

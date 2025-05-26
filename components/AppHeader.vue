@@ -1,11 +1,11 @@
 <template>
   <Body :style="`overflow: ${menuOpened ? 'clip' : ''};`" />
   <header class="header">
-    <div class="headerInner">
-      <div class="sitNameeContainer"
+    <div class="header-inner">
+      <div class="site-name-container"
            data-testid="site-name">
         <NuxtLink to="/"
-                  class="siteName"
+                  class="site-name"
                   @click="closeMenu">
           {{ runtimeConfig.public.siteName }}
         </NuxtLink>
@@ -14,10 +14,10 @@
            ref="navEl"
            class="navigation"
            :class="{ menuOpened: menuOpened }">
-        <ul class="navList">
+        <ul class="navigation-list">
           <li v-for="item in menuItems"
               :key="item.to"
-              class="navListItem">
+              class="navigation-list-item">
             <NuxtLink :to="item.to"
                       @click="closeMenu()">
               {{ item.name }}
@@ -25,8 +25,8 @@
           </li>
         </ul>
       </nav>
-      <div class="buttonsContainer">
-        <button class="colorSwitch"
+      <div class="buttons-container">
+        <button class="button-color-switch"
                 :aria-label="`${colorScheme === 'dark' ? 'ライト' : 'ダーク'}モードに切り替える`"
                 data-testid="color-switch"
                 @click="updateColorScheme(colorScheme === 'light' ? 'dark' : 'light')">
@@ -37,7 +37,7 @@
                    size="1.4rem"
                    aria-hidden="true" />
         </button>
-        <button class="menuButton"
+        <button class="button-menu"
                 :aria-label="`メニューを${menuOpened ? '閉じる' : '開く'}`"
                 data-testid="menu-button"
                 @click="() => {
@@ -170,7 +170,7 @@ const menuItems = [
   --darkModeSwitchAndMenuButtonSize: 2.2rem;
 }
 
-.headerInner {
+.header-inner {
   display: block flex;
   align-items: center;
   justify-content: space-between;
@@ -181,25 +181,25 @@ const menuItems = [
 }
 
 @media (max-width: 768px) {
-  .headerInner {
+  .header-inner {
     inline-size: 100%;
     padding-inline: 24px;
     margin-inline: 0;
   }
 }
 
-:root.writing-mode-vertical-rl .headerInner {
+:root.writing-mode-vertical-rl .header-inner {
   inline-size: 100%;
   padding-inline: 32px;
   margin-inline: 0;
 }
 
-.sitNameeContainer {
+.site-name-container {
   flex: 1 1;
   display: block flex;
 }
 
-.siteName {
+.site-name {
   white-space: nowrap;
 }
 
@@ -230,7 +230,7 @@ const menuItems = [
   }
 }
 
-.navList {
+.navigation-list {
   display: block flex;
   column-gap: 3rem;
   align-items: center;
@@ -240,7 +240,7 @@ const menuItems = [
 }
 
 @media (max-width: 768px) {
-  .navList {
+  .navigation-list {
     display: block flex;
     flex-direction: column;
     row-gap: 1rem;
@@ -250,49 +250,49 @@ const menuItems = [
 }
 
 @media (max-width: 768px) {
-  .navListItem {
+  .navigation-list-item {
     padding-inline-start: 0.8rem;
     border-inline-start: solid 0.5rem var(--fgWeak);
     transition: border-inline-start-color var(--hoverTransitionDuration) var(--hoverTransitionFunction);
   }
 
   @media (hover: hover) {
-    .navListItem:hover {
+    .navigation-list-item:hover {
       border-inline-start-color: var(--accent);
     }
   }
 
   @media (hover: none) {
-    .navListItem:active {
+    .navigation-list-item:active {
       border-inline-start-color: var(--accent);
     }
   }
 }
 
-.navListItem>a {
+.navigation-list-item>a {
   transition: color var(--hoverTransitionDuration) var(--hoverTransitionFunction);
 }
 
 @media (hover: hover) {
-  .navListItem>a:hover {
+  .navigation-list-item>a:hover {
     color: var(--accent);
   }
 }
 
 @media (hover: none) {
-  .navListItem>a:active {
+  .navigation-list-item>a:active {
     color: var(--accent);
   }
 }
 
-.buttonsContainer {
+.buttons-container {
   flex: 1 1;
   display: block flex;
   justify-content: flex-end;
   column-gap: 0.5rem;
 }
 
-.buttonsContainer>button {
+.buttons-container>button {
   cursor: pointer;
   inline-size: var(--darkModeSwitchAndMenuButtonSize);
   block-size: var(--darkModeSwitchAndMenuButtonSize);
@@ -304,32 +304,32 @@ const menuItems = [
 }
 
 @media (hover: hover) {
-  .buttonsContainer>button:hover {
+  .buttons-container>button:hover {
     background-color: var(--bgStrong);
   }
 }
 
 @media (hover: none) {
-  .buttonsContainer>button:active {
+  .buttons-container>button:active {
     background-color: var(--bgStrong);
   }
 }
 
-.colorSwitch>svg {
+.button-color-switch>svg {
   margin: calc((var(--darkModeSwitchAndMenuButtonSize) - 1.4rem) / 2);
 }
 
-.menuButton {
+.button-menu {
   display: none;
 }
 
 @media (max-width: 768px) {
-  .menuButton {
+  .button-menu {
     display: block;
   }
 }
 
-.menuButton>svg {
+.button-menu>svg {
   margin: calc((var(--darkModeSwitchAndMenuButtonSize) - 1.2rem) / 2);
 }
 </style>

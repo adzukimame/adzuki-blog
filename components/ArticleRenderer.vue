@@ -1,7 +1,7 @@
 <template>
   <ContentRenderer :value="content"
                    tag="article"
-                   class="articleRenderer">
+                   class="article-renderer">
     <template #empty>
       <h2>コンテンツはありません</h2>
     </template>
@@ -17,52 +17,52 @@ defineProps<{
 </script>
 
 <style>
-.articleRenderer {
+.article-renderer {
   display: block;
 }
 
-.articleRenderer>:is(h1, h2, h3, h4, h5, h6) {
+.article-renderer>:is(h1, h2, h3, h4, h5, h6) {
   margin-block-start: 1.8rem;
   margin-block-end: 1rem;
 }
 
-.articleRenderer>h1 {
+.article-renderer>h1 {
   color: var(--fgStrong);
   font-size: 1.6rem;
   padding-block-end: 1.2rem;
   border-block-end: solid 0.3rem var(--split);
 }
 
-.articleRenderer>h2 {
+.article-renderer>h2 {
   font-size: 1.3rem;
   border-block-end: solid 0.3rem var(--split);
 }
 
-.articleRenderer>h3 {
+.article-renderer>h3 {
   font-size: 1.1rem;
 }
 
-.articleRenderer>h1:first-child {
+.article-renderer>h1:first-child {
   margin-block-start: 0;
 }
 
-.articleRenderer p {
+.article-renderer p {
   margin-block: 1.8rem;
 }
 
-.articleRenderer h2+p {
+.article-renderer h2+p {
   margin-block-start: 1rem;
 }
 
-.articleRenderer :not(h1, h2, h3, h4, h5, h6)>a {
+.article-renderer :not(h1, h2, h3, h4, h5, h6)>a {
   color: var(--accent);
 }
 
-.articleRenderer .articleToc {
+.article-renderer .article-toc {
   margin-block: 2rem;
 }
 
-.articleRenderer .imageViewer {
+.article-renderer .image-viewer {
   margin-block: 3rem;
 }
 </style>

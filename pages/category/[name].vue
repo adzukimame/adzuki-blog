@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="categoryName">
+    <div class="category-name">
       カテゴリ「{{ category === 'undefined' ? '未設定' : category }}」の投稿
     </div>
     <main ref="articleListOuter">
@@ -127,7 +127,7 @@ useSeoMeta({
 </script>
 
 <style scoped>
-.categoryName {
+.category-name {
   font-size: 1.2rem;
   padding-block-end: 0.4rem;
   border-block-end: solid 2px var(--split);

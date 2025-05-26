@@ -26,7 +26,7 @@
       <IconChevronLeft size="1rem"
                        aria-hidden="true" />
     </NuxtLink>
-    <div class="button pageNumberOuter"
+    <div class="button page-number-outer"
          data-testid="page-number"
          :aria-label="`${currentPageNumber}ページ目`">
       <span ref="pageNumberSpanEl">
@@ -130,18 +130,18 @@ watch(() => props.currentPageNumber, (newPageNumber) => {
 }
 
 @media (hover: hover) {
-  .button:not(.pageNumberOuter, .disabled):hover {
+  .button:not(.page-number-outer, .disabled):hover {
     border-block-end-color: var(--fgWeak);
   }
 }
 
 @media (hover: none) {
-  .button:not(.pageNumberOuter, .disabled):active {
+  .button:not(.page-number-outer, .disabled):active {
     border-block-end-color: var(--fgWeak);
   }
 }
 
-.button.pageNumberOuter {
+.button.page-number-outer {
   font-size: 0.8rem;
   padding: calc((var(--button-size) - 1px * 2 - 0.8rem) / 2);
   cursor: default;
