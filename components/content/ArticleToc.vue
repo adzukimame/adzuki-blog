@@ -1,40 +1,41 @@
 <template>
   <details v-if="toc && toc.links.length > 0"
            :open="tocOpened ? true : undefined"
-           class="articleToc"
-           :class="$style.container"
+           class="article-toc container"
            @toggle="(event) => {
              if (event.newState === 'open') { tocOpened = true }
              else if (event.newState === 'closed') { tocOpened = false }
            }">
-    <summary :class="$style.summary"
+    <summary class="summary"
              @click.prevent="onSummaryClick">
       <div>
         目次
       </div>
-      <IconChevronDown :size="$style.accordionIconSize"
-                       :class="$style.accordionIcon" />
+      <IconChevronDown size="1.2rem"
+                       class="accordion-icon" />
     </summary>
-    <ul ref="listEl"
-        :class="$style.list">
-      <template v-for="item in toc.links"
-                :key="item.id">
-        <li :class="$style.listItemH2">
-          <NuxtLink :to="`#${item.id}`">
-            {{ item.text }}
-          </NuxtLink>
-        </li>
-        <template v-if="item.children && item.children.length > 0">
-          <li v-for="child in item.children"
-              :key="child.id"
-              :class="$style.listItemH3">
-            <NuxtLink :to="`#${child.id}`">
-              {{ child.text }}
+    <nav>
+      <ul ref="listEl"
+          class="list">
+        <template v-for="item in toc.links"
+                  :key="item.id">
+          <li class="list-item-h2">
+            <NuxtLink :to="`#${item.id}`">
+              {{ item.text }}
             </NuxtLink>
           </li>
+          <template v-if="item.children && item.children.length > 0">
+            <li v-for="child in item.children"
+                :key="child.id"
+                class="list-item-h3">
+              <NuxtLink :to="`#${child.id}`">
+                {{ child.text }}
+              </NuxtLink>
+            </li>
+          </template>
         </template>
-      </template>
-    </ul>
+      </ul>
+    </nav>
   </details>
 </template>
 
@@ -106,7 +107,7 @@ const onSummaryClick = (_event: MouseEvent) => {
 };
 </script>
 
-<style module>
+<style scoped>
 .container {
   display: block;
   background-color: var(--bgStrong);
@@ -142,25 +143,19 @@ const onSummaryClick = (_event: MouseEvent) => {
   }
 }
 
-@value accordionIconSize 1.2rem;
-
-:export {
-  accordionIconSize: accordionIconSize;
-}
-
-.accordionIcon {
+.accordion-icon {
   transition: transform v-bind(summaryTransitionDurationText) v-bind(summaryTransitionFunction);
 }
 
-:root:global(.writing-mode-vertical-rl) .accordionIcon {
+:root.writing-mode-vertical-rl .accordion-icon {
   transform: rotate(0.25turn);
 }
 
-.container[open] .accordionIcon {
+.container[open] .accordion-icon {
   transform: rotate(0.5turn);
 }
 
-:root:global(.writing-mode-vertical-rl) .container[open] .accordionIcon {
+:root.writing-mode-vertical-rl .container[open] .accordion-icon {
   transform: rotate(0.75turn);
 }
 
@@ -180,15 +175,15 @@ const onSummaryClick = (_event: MouseEvent) => {
   border-block-start: dashed 1px var(--split);
 }
 
-.list>.listItemH2>a {
+.list>.list-item-h2>a {
   color: var(--fg);
 }
 
-.listItemH3 {
+.list-item-h3 {
   padding-inline-start: 1.5rem;
 }
 
-.list>.listItemH3>a {
+.list>.list-item-h3>a {
   color: var(--fgWeak);
 }
 

@@ -29,3 +29,11 @@ logs
 # cloudflare
 .wrangler
 .dev.vars
+
+# tests
+coverage
+
+# storybook
+*storybook.log
+storybook-static
+__screenshots__

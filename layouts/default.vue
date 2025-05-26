@@ -2,12 +2,14 @@
   <div>
     <AppHeader @menu-opened="menuOpened = true"
                @menu-closed="menuOpened = false" />
-    <div :class="[$style.slotContainer, { [$style.menuOpened]: menuOpened }]"
+    <div class="slot-container"
+         :class="{ menuOpened }"
          :inert="menuOpened ? true : undefined"
-         :aria-hidden="menuOpened ? true : undefined">
+         :aria-hidden="menuOpened ? true : undefined"
+         data-testid="slot-container">
       <slot />
     </div>
-    <AppFooter :class="{ [$style.menuOpened]: menuOpened }"
+    <AppFooter :class="{ menuOpened }"
                :inert="menuOpened ? true : undefined"
                :aria-hidden="menuOpened ? true : undefined" />
   </div>
@@ -17,8 +19,8 @@
 const menuOpened = ref(false);
 </script>
 
-<style module>
-.slotContainer {
+<style scoped>
+.slot-container {
   max-inline-size: 768px;
   padding-block: 32px;
   padding-inline: 24px;
@@ -30,14 +32,14 @@ const menuOpened = ref(false);
 }
 
 @media (max-width: 768px) {
-  .slotContainer {
+  .slot-container {
     inline-size: 100%;
     padding: 24px;
     margin-inline: 0;
   }
 }
 
-:root:global(.writing-mode-vertical-rl) .slotContainer {
+:root.writing-mode-vertical-rl .slot-container {
   inline-size: 100%;
   padding-inline: 32px;
   margin-inline: 0;

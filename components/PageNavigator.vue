@@ -1,15 +1,16 @@
 <template>
-  <div :class="$style.container">
+  <div class="container">
     <NuxtLink :to="{
                 path: $route.path,
                 query: { ...($route.query), ...(backwardEnabled ? { [pageQueryParam]: 1 } : {}) },
                 hash: $route.hash,
               }"
-              :class="[$style.button, { [$style.disabled]: !backwardEnabled }]"
+              class="button"
+              :class="{ disabled: !backwardEnabled }"
               :tabindex="backwardEnabled ? undefined : -1"
               :aria-hidden="backwardEnabled ? undefined : true"
               aria-label="最初のページに戻る">
-      <IconChevronsLeft :size="$style.iconSize"
+      <IconChevronsLeft size="1rem"
                         aria-hidden="true" />
     </NuxtLink>
     <NuxtLink :to="{
@@ -17,14 +18,16 @@
                 query: { ...($route.query), ...(backwardEnabled ? { [pageQueryParam]: currentPageNumber - 1 } : {}) },
                 hash: $route.hash,
               }"
-              :class="[$style.button, { [$style.disabled]: !backwardEnabled }]"
+              class="button"
+              :class="{ disabled: !backwardEnabled }"
               :tabindex="backwardEnabled ? undefined : -1"
               :aria-hidden="backwardEnabled ? undefined : true"
               aria-label="1ページ前に戻る">
-      <IconChevronLeft :size="$style.iconSize"
+      <IconChevronLeft size="1rem"
                        aria-hidden="true" />
     </NuxtLink>
-    <div :class="[$style.button, $style.pageNumberOuter]"
+    <div class="button page-number-outer"
+         data-testid="page-number"
          :aria-label="`${currentPageNumber}ページ目`">
       <span ref="pageNumberSpanEl">
         {{ pageNumberForDisplay }}
@@ -35,11 +38,12 @@
                 query: { ...($route.query), ...(forwardEnabled ? { [pageQueryParam]: currentPageNumber + 1 } : {}) },
                 hash: $route.hash,
               }"
-              :class="[$style.button, { [$style.disabled]: !forwardEnabled }]"
+              class="button"
+              :class="{ disabled: !forwardEnabled }"
               :tabindex="forwardEnabled ? undefined : -1"
               :aria-hidden="forwardEnabled ? undefined : true"
               aria-label="1ページ次に進む">
-      <IconChevronRight :size="$style.iconSize"
+      <IconChevronRight size="1rem"
                         aria-hidden="true" />
     </NuxtLink>
     <NuxtLink :to="{
@@ -47,11 +51,12 @@
                 query: { ...($route.query), ...(forwardEnabled ? { [pageQueryParam]: Math.ceil(itemsLength / itemsPerPage) } : {}) },
                 hash: $route.hash,
               }"
-              :class="[$style.button, { [$style.disabled]: !forwardEnabled }]"
+              class="button"
+              :class="{ disabled: !forwardEnabled }"
               :tabindex="forwardEnabled ? undefined : -1"
               :aria-hidden="forwardEnabled ? undefined : true"
               aria-label="最後のページに進む">
-      <IconChevronsRight :size="$style.iconSize"
+      <IconChevronsRight size="1rem"
                          aria-hidden="true" />
     </NuxtLink>
   </div>
@@ -98,20 +103,15 @@ watch(() => props.currentPageNumber, (newPageNumber) => {
 });
 </script>
 
-<style module>
-@value buttonSize 2.2rem;
-@value iconSize 1rem;
-
-:export {
-  iconSize: iconSize;
-}
-
+<style scoped>
 .container {
+  --button-size: 2.2rem;
+  --icon-size: 1rem;
   display: block flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
-  block-size: buttonSize;
+  block-size: var(--button-size);
   column-gap: 1px;
 }
 
@@ -120,7 +120,7 @@ watch(() => props.currentPageNumber, (newPageNumber) => {
   text-align: center;
   line-height: 0.7;
   align-content: center;
-  min-inline-size: buttonSize;
+  min-inline-size: var(--button-size);
   border-block-end: solid 0.3rem var(--split);
   transition: border-block-end-color var(--hoverTransitionDuration) var(--hoverTransitionFunction);
 }
@@ -130,25 +130,25 @@ watch(() => props.currentPageNumber, (newPageNumber) => {
 }
 
 @media (hover: hover) {
-  .button:not(.pageNumberOuter, .disabled):hover {
+  .button:not(.page-number-outer, .disabled):hover {
     border-block-end-color: var(--fgWeak);
   }
 }
 
 @media (hover: none) {
-  .button:not(.pageNumberOuter, .disabled):active {
+  .button:not(.page-number-outer, .disabled):active {
     border-block-end-color: var(--fgWeak);
   }
 }
 
-.button.pageNumberOuter {
+.button.page-number-outer {
   font-size: 0.8rem;
-  padding: calc((buttonSize - 1px * 2 - 0.8rem) / 2);
+  padding: calc((var(--button-size) - 1px * 2 - 0.8rem) / 2);
   cursor: default;
 }
 
 .button>svg {
-  margin: calc((buttonSize - 1px * 2 - iconSize) / 2);
+  margin: calc((var(--button-size) - 1px * 2 - var(--icon-size)) / 2);
   transition: filter var(--pageTransitionDuration) var(--pageTransitionFunction);
 }
 
@@ -157,7 +157,7 @@ watch(() => props.currentPageNumber, (newPageNumber) => {
   opacity: 0.5;
 }
 
-:root:global(.writing-mode-vertical-rl) .button>svg {
+:root.writing-mode-vertical-rl .button>svg {
   transform: rotate(0.25turn);
 }
 </style>

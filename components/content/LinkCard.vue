@@ -1,33 +1,36 @@
 <template>
   <ClientOnly>
     <div v-if="status === 'idle' || status === 'pending'"
-         :class="$style.container">
-      <div :class="$style.title">
+         class="container">
+      <div class="title">
         Loading url preview...
       </div>
     </div>
     <NuxtLink v-else
               :to="runtimeConfig.public.origin === urlObj.origin ? `${urlObj.pathname}${urlObj.search}` : url.toString()"
               :target="runtimeConfig.public.origin === urlObj.origin ? undefined : '_blank'"
-              :class="$style.container">
-      <div :class="[$style.title, $style.loaded]">
+              class="container">
+      <div class="title loaded"
+           data-testid="title">
         {{ (data && data.title) ? data.title : url }}
       </div>
-      <div :class="$style.description">
+      <div class="description"
+           data-testid="description">
         {{ (data && data.description) ? data.description : '説明はありません' }}
       </div>
-      <div :class="$style.faviconAndHostnameContainer">
+      <div class="favicon-and-hostname-container">
         <img :src="data?.icon ?? undefined"
-             :class="$style.favicon"
+             class="favicon"
              :alt="`${urlObj.hostname} のfavicon画像`">
-        <div :class="$style.hostname">
+        <div class="hostname"
+             data-testid="hostname">
           {{ urlObj.hostname }}
         </div>
       </div>
     </NuxtLink>
     <template #fallback>
-      <div :class="$style.container">
-        <div :class="$style.title">
+      <div class="container">
+        <div class="title">
           Loading url preview...
         </div>
       </div>
@@ -58,7 +61,7 @@ const { data, status } = await useLazyFetch<SummalyResult>(
 );
 </script>
 
-<style module>
+<style scoped>
 .container {
   display: block grid;
   grid-template-rows: 2rem 1.6rem 1.6rem;
@@ -104,7 +107,7 @@ const { data, status } = await useLazyFetch<SummalyResult>(
   overflow: clip;
 }
 
-.faviconAndHostnameContainer {
+.favicon-and-hostname-container {
   display: block flex;
   font-size: 0.8rem;
   align-items: center;

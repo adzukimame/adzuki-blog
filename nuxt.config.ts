@@ -5,7 +5,14 @@ import meta from './content/meta.json' with { type: 'json' };
 export default defineNuxtConfig({
   compatibilityDate: '2025-05-24',
   devtools: { enabled: true },
-  modules: ['@nuxt/content', '@nuxt/image', '@nuxt/eslint', '@nuxt/scripts', '@nuxtjs/turnstile'],
+  modules: [
+    '@nuxt/content',
+    '@nuxt/image',
+    '@nuxt/eslint',
+    '@nuxt/scripts',
+    '@nuxtjs/turnstile',
+    '@nuxt/test-utils/module',
+  ],
   runtimeConfig: {
     public: {
       cfWebAnalyticsToken: '',

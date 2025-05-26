@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div :class="$style.categoryName">
+    <div class="category-name">
       カテゴリ「{{ category === 'undefined' ? '未設定' : category }}」の投稿
     </div>
     <main ref="articleListOuter">
@@ -10,7 +10,7 @@
                    :items-length="articleCount ?? 0"
                    :items-per-page="ARTICLE_PER_PAGE"
                    page-query-param="p"
-                   :class="$style.navigator" />
+                   class="navigator" />
   </div>
 </template>
 
@@ -126,8 +126,8 @@ useSeoMeta({
 });
 </script>
 
-<style module>
-.categoryName {
+<style scoped>
+.category-name {
   font-size: 1.2rem;
   padding-block-end: 0.4rem;
   border-block-end: solid 2px var(--split);
