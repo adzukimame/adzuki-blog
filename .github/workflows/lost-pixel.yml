@@ -90,9 +90,8 @@ jobs:
       env:
         DOWNLOAD_PATH: ${{ steps.download-baseline.outputs.download-path }}
       run: |
-        Get-ChildItem -Force "$env:DOWNLOAD_PATH/lost-pixel-baseline"
         New-Item -Path . -ItemType Directory -Name .lostpixel
-        Move-Item -Path "$env:DOWNLOAD_PATH/lost-pixel-baseline/baseline" -Destination ./.lostpixel/
+        Move-Item -Path "$env:DOWNLOAD_PATH/lost-pixel-baseline" -Destination ./.lostpixel/baseline
     - name: Lost Pixel
       run: pnpm lost-pixel
     - name: Upload artifact
