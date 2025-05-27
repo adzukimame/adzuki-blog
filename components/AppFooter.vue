@@ -1,7 +1,7 @@
 <template>
   <footer class="footer">
     <div class="copyright">
-      Copyright © {{ new Date().getFullYear() }} {{ runtimeConfig.public.authorName }}.
+      Copyright © {{ new Date().getFullYear() }} {{ runtimeConfig.public.authorName }}. All Rights Reserved.
     </div>
   </footer>
 </template>

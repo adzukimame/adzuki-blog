@@ -74,7 +74,7 @@ jobs:
           Move-Item -Path "$env:DOWNLOAD_PATH/lost-pixel-baseline" -Destination ./.lostpixel/baseline
       - name: Lost Pixel (head)
         run: pnpm lost-pixel
-      - name: Upload artifact
+      - name: Upload artifact (head)
         if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v4
         with:
