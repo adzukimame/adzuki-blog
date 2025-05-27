@@ -31,8 +31,7 @@ jobs:
         id: get-ref
         run: |
           "ref=$(Get-Content -Path ./latest/.lostpixel-baseline)" >> $env:GITHUB_OUTPUT
-          Get-ChildItem -Force
-          Remove-Item -Path ./latest -Recurse
+          Remove-Item -Path ./latest -Recurse -Force
       - uses: actions/checkout@v4
         with:
           ref: ${{ steps.get-ref.outputs.ref }}
