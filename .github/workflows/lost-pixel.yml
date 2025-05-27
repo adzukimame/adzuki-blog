@@ -12,14 +12,23 @@ env:
   LOST_PIXEL_DISABLE_TELEMETRY: 1
 
 jobs:
-  lost-pixel:
-    runs-on: ubuntu-latest
+  lost-pixel-baseline:
+    runs-on: windows-latest
 
     permissions:
       contents: read
 
+    outputs:
+      baseline-artifact-id: ${{ steps.upload-baseline.outputs.artifact-id }}
+
     steps:
+      - name: Get Lost Pixel baseline ref
+        id: get-ref
+        run: |
+          "ref=$(Get-Content -Path .lostpixel-baseline)" >> $env:GITHUB_OUTPUT
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.get-ref.outputs.ref }}
       - name: Install pnpm
         uses: pnpm/action-setup@v4
       - name: Set up Node.js
@@ -34,12 +43,57 @@ jobs:
         run: pnpm run story:build
       - name: Lost Pixel
         run: pnpm lost-pixel
+        env:
+          LOST_PIXEL_MODE: update
       - name: Upload artifact
-        if: ${{ !cancelled() }}
+        id: upload-baseline
         uses: actions/upload-artifact@v4
         with:
-          name: lost-pixel-result
+          name: lost-pixel-baseline
           path: |
             .lostpixel/baseline
-            .lostpixel/current
-            .lostpixel/difference
+
+  lost-pixel:
+    runs-on: windows-latest
+
+    permissions:
+      contents: read
+
+    needs: lost-pixel-baseline
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Install pnpm
+      uses: pnpm/action-setup@v4
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version-file: '.node-version'
+        cache: 'pnpm'
+    - run: corepack enable
+    - run: pnpm install --frozen-lockfile
+    - run: pnpx playwright install --with-deps
+    - name: Build story
+      run: pnpm run story:build
+    - name: Download baseline from artifact
+      id: download-baseline
+      uses: actions/download-artifact@v4
+      with:
+        artifact-ids: ${{ needs.lost-pixel-baseline.outputs.baseline-artifact-id }}
+    - name: Expand baseline artifact
+      env:
+        DOWNLOAD_PATH: ${{ steps.download-baseline.outputs.download-path }}
+      run: |
+        New-Item -Path . -ItemType Directory -Name .lostpixel
+        Move-Item -Path "$env:DOWNLOAD_PATH/baseline" -Destination .lostpixel/
+    - name: Lost Pixel
+      run: pnpm lost-pixel
+    - name: Upload artifact
+      if: ${{ !cancelled() }}
+      uses: actions/upload-artifact@v4
+      with:
+        name: lost-pixel-result
+        path: |
+          .lostpixel/baseline
+          .lostpixel/current
+          .lostpixel/difference
