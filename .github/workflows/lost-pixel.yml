@@ -30,7 +30,7 @@ jobs:
       - name: Get Lost Pixel baseline ref
         id: get-ref
         run: |
-          "ref=$(Get-Content -Path ./latest/.lostpixel-baseline)" >> $env:GITHUB_OUTPUT
+          Write-Output "ref=$(Get-Content -Path ./latest/.lostpixel-baseline)" >> $env:GITHUB_OUTPUT
           Remove-Item -Path ./latest -Recurse -Force
       - uses: actions/checkout@v4
         with:
@@ -91,7 +91,7 @@ jobs:
         DOWNLOAD_PATH: ${{ steps.download-baseline.outputs.download-path }}
       run: |
         New-Item -Path . -ItemType Directory -Name .lostpixel
-        Move-Item -Path "$env:DOWNLOAD_PATH/baseline" -Destination ./.lostpixel/
+        Move-Item -Path "$env:DOWNLOAD_PATH/lost-pixel-baseline/baseline" -Destination ./.lostpixel/
     - name: Lost Pixel
       run: pnpm lost-pixel
     - name: Upload artifact
