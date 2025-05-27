@@ -1,0 +1,36 @@
+name: Lost Pixel
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+permissions: {}
+
+env:
+  LOST_PIXEL_DISABLE_TELEMETRY: 1
+
+jobs:
+  lost-pixel:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.node-version'
+          cache: 'pnpm'
+      - run: corepack enable
+      - run: pnpm install --frozen-lockfile
+      - run: pnpx playwright install --with-deps
+      - name: Build story
+        run: pnpm run story:build
+      - name: Lost Pixel
+        uses: lost-pixel/lost-pixel@v3.22.0
