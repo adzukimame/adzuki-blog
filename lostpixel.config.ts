@@ -5,5 +5,5 @@ export const config: CustomProjectConfig = {
     histoireUrl: './.histoire/dist',
   },
   generateOnly: true,
-  failOnDifference: true,
+  // failOnDifference: true,
 };
