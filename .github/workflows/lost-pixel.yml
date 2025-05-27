@@ -35,7 +35,9 @@ jobs:
       - name: Lost Pixel
         run: pnpm lost-pixel
       - run: ls -al
+        if: ${{ !cancelled() }}
       - run: ls -al .lostpixel
+        if: ${{ !cancelled() }}
       - name: Upload artifact
         if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v4
