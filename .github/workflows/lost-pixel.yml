@@ -34,12 +34,12 @@ jobs:
         run: pnpm run story:build
       - name: Lost Pixel
         run: pnpm lost-pixel
-      - run: ls -alR .lostpixel
-        if: ${{ !cancelled() }}
       - name: Upload artifact
         if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v4
         with:
           name: lost-pixel-result
           path: |
-            .lostpixel
+            .lostpixel/baseline
+            .lostpixel/current
+            .lostpixel/difference
