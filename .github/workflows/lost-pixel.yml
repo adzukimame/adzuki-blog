@@ -41,4 +41,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: lost-pixel-result
-          path: .lostpixel
+          path: |
+            .lostpixel
