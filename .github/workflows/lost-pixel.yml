@@ -33,7 +33,7 @@ jobs:
       - name: Build story
         run: pnpm run story:build
       - name: Lost Pixel
-        uses: lost-pixel/lost-pixel@v3.22.0
+        run: pnpm lost-pixel
       - name: Upload artifact
         if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v4
