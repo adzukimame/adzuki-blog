@@ -5,5 +5,5 @@ export const config: CustomProjectConfig = {
     histoireUrl: './.histoire/dist',
   },
   generateOnly: true,
-  failOnDifference: true,
+  failOnDifference: process.env.LOST_PIXEL_MODE !== 'update',
 };
