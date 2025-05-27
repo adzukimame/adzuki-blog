@@ -12,14 +12,11 @@ env:
   LOST_PIXEL_DISABLE_TELEMETRY: 1
 
 jobs:
-  lost-pixel-baseline:
+  lost-pixel:
     runs-on: windows-latest
 
     permissions:
       contents: read
-
-    outputs:
-      baseline-artifact-id: ${{ steps.upload-baseline.outputs.artifact-id }}
 
     steps:
       - uses: actions/checkout@v4
@@ -27,12 +24,13 @@ jobs:
           path: latest
           sparse-checkout: |
             .lostpixel-baseline
-      - name: Get Lost Pixel baseline ref
+      - name: Get baseline ref
         id: get-ref
         run: |
           Write-Output "ref=$(Get-Content -Path ./latest/.lostpixel-baseline)" >> $env:GITHUB_OUTPUT
           Remove-Item -Path ./latest -Recurse -Force
-      - uses: actions/checkout@v4
+      - name: Checkout (baseline)
+        uses: actions/checkout@v4
         with:
           ref: ${{ steps.get-ref.outputs.ref }}
       - name: Install pnpm
@@ -44,14 +42,14 @@ jobs:
           cache: 'pnpm'
       - run: corepack enable
       - run: pnpm install --frozen-lockfile
-      - run: pnpx playwright install --with-deps
-      - name: Build story
+      - run: pnpx playwright install chromium --with-deps
+      - name: Build story (baseline)
         run: pnpm run story:build
-      - name: Lost Pixel
+      - name: Lost Pixel (baseline)
         run: pnpm lost-pixel
         env:
           LOST_PIXEL_MODE: update
-      - name: Upload artifact
+      - name: Upload artifact (baseline)
         id: upload-baseline
         uses: actions/upload-artifact@v4
         with:
@@ -59,47 +57,29 @@ jobs:
           path: |
             .lostpixel/baseline
 
-  lost-pixel:
-    runs-on: windows-latest
-
-    permissions:
-      contents: read
-
-    needs: lost-pixel-baseline
-
-    steps:
-    - uses: actions/checkout@v4
-    - name: Install pnpm
-      uses: pnpm/action-setup@v4
-    - name: Set up Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version-file: '.node-version'
-        cache: 'pnpm'
-    - run: corepack enable
-    - run: pnpm install --frozen-lockfile
-    - run: pnpx playwright install --with-deps
-    - name: Build story
-      run: pnpm run story:build
-    - name: Download baseline from artifact
-      id: download-baseline
-      uses: actions/download-artifact@v4
-      with:
-        artifact-ids: ${{ needs.lost-pixel-baseline.outputs.baseline-artifact-id }}
-    - name: Expand baseline artifact
-      env:
-        DOWNLOAD_PATH: ${{ steps.download-baseline.outputs.download-path }}
-      run: |
-        New-Item -Path . -ItemType Directory -Name .lostpixel
-        Move-Item -Path "$env:DOWNLOAD_PATH/lost-pixel-baseline" -Destination ./.lostpixel/baseline
-    - name: Lost Pixel
-      run: pnpm lost-pixel
-    - name: Upload artifact
-      if: ${{ !cancelled() }}
-      uses: actions/upload-artifact@v4
-      with:
-        name: lost-pixel-result
-        path: |
-          .lostpixel/baseline
-          .lostpixel/current
-          .lostpixel/difference
+      - uses: actions/checkout@v4
+      - run: pnpm install --frozen-lockfile
+      - name: Build story (head)
+        run: pnpm run story:build
+      - name: Download baseline from artifact
+        id: download-baseline
+        uses: actions/download-artifact@v4
+        with:
+          artifact-ids: ${{ steps.upload-baseline.outputs.artifact-id }}
+      - name: Expand baseline artifact
+        env:
+          DOWNLOAD_PATH: ${{ steps.download-baseline.outputs.download-path }}
+        run: |
+          New-Item -Path . -ItemType Directory -Name .lostpixel
+          Move-Item -Path "$env:DOWNLOAD_PATH/lost-pixel-baseline" -Destination ./.lostpixel/baseline
+      - name: Lost Pixel (head)
+        run: pnpm lost-pixel
+      - name: Upload artifact
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: lost-pixel-result
+          path: |
+            .lostpixel/baseline
+            .lostpixel/current
+            .lostpixel/difference
