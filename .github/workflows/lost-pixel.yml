@@ -22,10 +22,16 @@ jobs:
       baseline-artifact-id: ${{ steps.upload-baseline.outputs.artifact-id }}
 
     steps:
+      - uses: actions/checkout@v4
+        with:
+          path: latest
+          sparse-checkout: |
+            .lostpixel-baseline
       - name: Get Lost Pixel baseline ref
         id: get-ref
         run: |
-          "ref=$(Get-Content -Path .lostpixel-baseline)" >> $env:GITHUB_OUTPUT
+          "ref=$(Get-Content -Path ./latest/.lostpixel-baseline)" >> $env:GITHUB_OUTPUT
+          Remove-Item -Path ./latest -Recurse
       - uses: actions/checkout@v4
         with:
           ref: ${{ steps.get-ref.outputs.ref }}
@@ -85,7 +91,7 @@ jobs:
         DOWNLOAD_PATH: ${{ steps.download-baseline.outputs.download-path }}
       run: |
         New-Item -Path . -ItemType Directory -Name .lostpixel
-        Move-Item -Path "$env:DOWNLOAD_PATH/baseline" -Destination .lostpixel/
+        Move-Item -Path "$env:DOWNLOAD_PATH/baseline" -Destination ./.lostpixel/
     - name: Lost Pixel
       run: pnpm lost-pixel
     - name: Upload artifact
