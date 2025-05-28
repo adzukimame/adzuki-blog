@@ -74,30 +74,30 @@ export const interpretAndMarkup = () => {
   let markup = '';
 
   if (differingStories.length === 0) {
-    markup += 'No stories with differences was found.\n\n';
+    markup += '✅No stories with differences was found.\n\n';
   }
   else {
-    markup += `${differingStories.length} stories/variants have differences.
+    markup += `❌${differingStories.length} stories/variants have differences.
 |Story Title|Variant Title|Story Path|
 |-----------|-------------|----------|
 ${differingStories.map(storyInfo => `|${storyInfo.title}|${storyInfo.variantTitle}|${storyInfo.relativePath}|`).join('\n')}\n\n`;
   }
 
   if (addedStories.length === 0) {
-    markup += 'There is no newly added stories.\n\n';
+    markup += '✅There is no newly added stories.\n\n';
   }
   else {
-    markup += `${addedStories.length} stories/variants were added.
+    markup += `⚠️${addedStories.length} stories/variants were added.
 |Story Title|Variant Title|Story Path|
 |-----------|-------------|----------|
 ${addedStories.map(storyInfo => `|${storyInfo.title}|${storyInfo.variantTitle}|${storyInfo.relativePath}|`).join('\n')}\n\n`;
   }
 
   if (dissappearedImages.length === 0) {
-    markup += 'No removed stories detected.';
+    markup += '✅No removed stories detected.';
   }
   else {
-    markup += `${dissappearedImages.length} stories/variants appear to have been removed.
+    markup += `❌${dissappearedImages.length} stories/variants appear to have been removed.
 |baseline Image Name|
 |-------------------|
 ${dissappearedImages.map(name => `|${name}|`).join('\n')}\n`;
