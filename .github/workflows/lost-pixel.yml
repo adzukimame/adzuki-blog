@@ -47,7 +47,9 @@ jobs:
       - name: Get playwright version
         id: get-playwright-version
         run: |
+          pnpm list --depth 1
           Write-Output "version=$((pnpm list --depth 1 --json | ConvertFrom-Json -Depth 10).devDependencies.'lost-pixel'.dependencies.'playwright-core'.version)" >> $GITHUB_OUTPUT
+          Get-ChildItem Env:
           Write-Output "local-appdata=$env:LOCALAPPDATA" >> $GITHUB_OUTPUT
       - name: Cache playwright browsers
         id: cache-playwright-browsers
