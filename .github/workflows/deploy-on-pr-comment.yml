@@ -39,7 +39,7 @@ jobs:
         with:
           result-encoding: string
           script: |
-            const res = github.rest.issues.createComment({
+            const res = await github.rest.issues.createComment({
               owner: process.env.GITHUB_REPOSITORY_OWNER,
               repo: process.env.GITHUB_REPOSITORY.replace(`${process.env.GITHUB_REPOSITORY_OWNER}/`, ''),
               issue_number: process.env.ISSUE_NUMBER,
@@ -62,7 +62,7 @@ jobs:
           COMMENT_ID: ${{ needs.comment_workflow_url.outputs.comment_id }}
         with:
           script: |
-            github.rest.issues.updateComment({
+            await github.rest.issues.updateComment({
               owner: process.env.GITHUB_REPOSITORY_OWNER,
               repo: process.env.GITHUB_REPOSITORY.replace(`${process.env.GITHUB_REPOSITORY_OWNER}/`, ''),
               comment_id: process.env.COMMENT_ID,
@@ -86,7 +86,7 @@ jobs:
           COMMENT_ID: ${{ needs.comment_workflow_url.outputs.comment_id }}
         with:
           script: |
-            github.rest.issues.updateComment({
+            await github.rest.issues.updateComment({
               owner: process.env.GITHUB_REPOSITORY_OWNER,
               repo: process.env.GITHUB_REPOSITORY.replace(`${process.env.GITHUB_REPOSITORY_OWNER}/`, ''),
               comment_id: process.env.COMMENT_ID,
