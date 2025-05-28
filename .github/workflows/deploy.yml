@@ -94,7 +94,7 @@ jobs:
                   'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                  content: `New ${ process.env.DEPLOYMENT_ENV } deployment was created in ${process.env.GITHUB_REPOSITORY} by ${process.env.GITHUB_TRIGGERING_ACTOR}\n\nTake a peek over at ${process.env.DEPLOYMENT_URL}\n\nCheck workflow run details at https://github.com/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID}`
+                  content: `New ${ process.env.DEPLOYMENT_ENV } deployment was created in ${process.env.GITHUB_REPOSITORY} by ${process.env.GITHUB_TRIGGERING_ACTOR}\n\nTake a peek over at <${process.env.DEPLOYMENT_URL}>\n\nCheck workflow run details at <https://github.com/${process.env.GITHUB_REPOSITORY}/actions/runs/${context.runId}>`
                 }),
               });
             }

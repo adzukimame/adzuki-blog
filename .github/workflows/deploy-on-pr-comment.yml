@@ -40,8 +40,7 @@ jobs:
           result-encoding: string
           script: |
             const res = await github.rest.issues.createComment({
-              owner: process.env.GITHUB_REPOSITORY_OWNER,
-              repo: process.env.GITHUB_REPOSITORY.replace(`${process.env.GITHUB_REPOSITORY_OWNER}/`, ''),
+              ...context.repo,
               issue_number: process.env.ISSUE_NUMBER,
               body: `Deployment is ongoing.\n\nCheck logs at https://github.com/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID}`
             });
@@ -63,10 +62,9 @@ jobs:
         with:
           script: |
             await github.rest.issues.updateComment({
-              owner: process.env.GITHUB_REPOSITORY_OWNER,
-              repo: process.env.GITHUB_REPOSITORY.replace(`${process.env.GITHUB_REPOSITORY_OWNER}/`, ''),
+              ...context.repo,
               comment_id: process.env.COMMENT_ID,
-              body: `Deployment is ongoing.\n\nCheck logs at https://github.com/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID}\n\nDeployment successfully finished.`
+              body: `Deployment is ongoing.\n\nCheck logs at https://github.com/${process.env.GITHUB_REPOSITORY}/actions/runs/${context.runId}\n\nDeployment successfully finished.`
             });
 
   comment_deployment_failure:
@@ -77,7 +75,7 @@ jobs:
 
     needs: [comment_workflow_url, invoke_deployment]
 
-    if: ${{ always() && needs.comment_workflow_url.result == 'success' && needs.invoke_deployment.result == 'failure' && github.event_name == 'issue_comment' && github.event.issue.pull_request && github.event.comment.body == '/preview' && github.event.comment.user.login == github.repository_owner }}
+    if: ${{ always() && needs.comment_workflow_url.result == 'success' && needs.invoke_deployment.result == 'failure' }}
 
     steps:
       - name: Comment deployment failure
@@ -87,8 +85,7 @@ jobs:
         with:
           script: |
             await github.rest.issues.updateComment({
-              owner: process.env.GITHUB_REPOSITORY_OWNER,
-              repo: process.env.GITHUB_REPOSITORY.replace(`${process.env.GITHUB_REPOSITORY_OWNER}/`, ''),
+              ...context.repo,
               comment_id: process.env.COMMENT_ID,
-              body: `Deployment is ongoing.\n\nCheck logs at https://github.com/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID}\n\nDeployment failed.`
+              body: `Deployment is ongoing.\n\nCheck logs at https://github.com/${process.env.GITHUB_REPOSITORY}/actions/runs/${context.runId}\n\nDeployment failed.`
             });
