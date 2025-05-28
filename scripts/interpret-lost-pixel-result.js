@@ -1,9 +1,8 @@
 // @ts-check
-import { readdirSync } from 'node:fs';
-import histoire from '../.histoire/dist/histoire.json' with { type: 'json' };
+import { readdirSync, readFileSync } from 'node:fs';
 
-// const rawHistoire = readFileSync('.histoire/dist/histoire.json', { encoding: 'utf8' });
-// const histoire = JSON.parse(rawHistoire);
+const rawHistoire = readFileSync('.histoire/dist/histoire.json', { encoding: 'utf8' });
+const histoire = JSON.parse(rawHistoire);
 
 /**
  * @param {string} path
@@ -28,10 +27,10 @@ export const interpret = () => {
     const storyId = imageName.slice(0, imageName.indexOf('_'));
     const variantTitle = imageName.slice(imageName.indexOf('_') + 1, imageName.length);
 
-    const story = histoire.stories.find(story => story.id === storyId && story.variants.some(variant => variant.title === variantTitle));
+    const story = histoire.stories.find(/** @param {any} story */ story => story.id === storyId && story.variants.some(/** @param {any} variant */ variant => variant.title === variantTitle));
     if (story === undefined) return undefined;
 
-    const variant = story.variants.find(variant => variant.title === variantTitle);
+    const variant = story.variants.find(/** @param {any} variant */ variant => variant.title === variantTitle);
     if (variant === undefined) return undefined;
 
     return {
@@ -47,10 +46,10 @@ export const interpret = () => {
     const storyId = imageName.slice(0, imageName.indexOf('_'));
     const variantTitle = imageName.slice(imageName.indexOf('_') + 1, imageName.length);
 
-    const story = histoire.stories.find(story => story.id === storyId && story.variants.some(variant => variant.title === variantTitle));
+    const story = histoire.stories.find(/** @param {any} story */ story => story.id === storyId && story.variants.some(/** @param {any} variant */ variant => variant.title === variantTitle));
     if (story === undefined) return undefined;
 
-    const variant = story.variants.find(variant => variant.title === variantTitle);
+    const variant = story.variants.find(/** @param {any} variant */ variant => variant.title === variantTitle);
     if (variant === undefined) return undefined;
 
     return {

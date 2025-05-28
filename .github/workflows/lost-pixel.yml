@@ -68,7 +68,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           artifact-ids: ${{ steps.upload-baseline.outputs.artifact-id }}
-      - name: Expand baseline artifact
+      - name: Move baseline files
         env:
           DOWNLOAD_PATH: ${{ steps.download-baseline.outputs.download-path }}
         run: |
