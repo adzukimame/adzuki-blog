@@ -78,7 +78,7 @@ export const interpretAndMarkup = () => {
   }
   else {
     markup += `${differingStories.length} stories/variants have differences.
-|story title|variant title|story path|
+|Story Title|Variant Title|Story Path|
 |-----------|-------------|----------|
 ${differingStories.map(storyInfo => `|${storyInfo.title}|${storyInfo.variantTitle}|${storyInfo.relativePath}|`).join('\n')}\n\n`;
   }
@@ -88,7 +88,7 @@ ${differingStories.map(storyInfo => `|${storyInfo.title}|${storyInfo.variantTitl
   }
   else {
     markup += `${addedStories.length} stories/variants were added.
-|story title|variant title|story path|
+|Story Title|Variant Title|Story Path|
 |-----------|-------------|----------|
 ${addedStories.map(storyInfo => `|${storyInfo.title}|${storyInfo.variantTitle}|${storyInfo.relativePath}|`).join('\n')}\n\n`;
   }
@@ -98,7 +98,7 @@ ${addedStories.map(storyInfo => `|${storyInfo.title}|${storyInfo.variantTitle}|$
   }
   else {
     markup += `${dissappearedImages.length} stories/variants appear to have been removed.
-|baseline image name|
+|baseline Image Name|
 |-------------------|
 ${dissappearedImages.map(name => `|${name}|`).join('\n')}\n`;
   }
