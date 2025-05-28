@@ -77,6 +77,15 @@ jobs:
       - name: Lost Pixel (head)
         id: lost-pixel-head
         run: pnpm lost-pixel
+      - name: Fail if story disappeared
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { interpret } = require('./scripts/interpret-lost-pixel-result.js');
+            const { dissappearedImages } = interpret();
+            if (dissappearedImages.length > 0) {
+              core.setFailed('Possible removed stories detected.');
+            }
       - name: Upload artifact (head)
         if: ${{ always() && steps.lost-pixel-head.outcome != 'cancelled' && steps.lost-pixel-head.outcome != 'skipped' }}
         uses: actions/upload-artifact@v4
