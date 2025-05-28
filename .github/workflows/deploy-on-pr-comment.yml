@@ -8,13 +8,27 @@ permissions: {}
 
 jobs:
   invoke_deployment:
+    permissions:
+      contents: read
+
+    if: ${{ github.event_name == 'issue_comment' && github.event.issue.pull_request && github.event.comment.body == '/preview' && github.event.comment.user.login == github.repository_owner }}
+
+    uses: ./.github/workflows/deploy.yml
+    with:
+      ref: refs/pull/${{ github.event.issue.number }}/head
+
+    secrets: inherit
+
+  comment_workflow_url:
     runs-on: ubuntu-latest
 
     permissions:
-      contents: read
       pull-requests: write
 
     if: ${{ github.event_name == 'issue_comment' && github.event.issue.pull_request && github.event.comment.body == '/preview' && github.event.comment.user.login == github.repository_owner }}
+
+    outputs:
+      comment_id: ${{ steps.comment.outputs.result }}
 
     steps:
       - name: Comment workflow url
@@ -31,15 +45,21 @@ jobs:
               issue_number: process.env.ISSUE_NUMBER,
               body: `Deployment is ongoing.\n\nCheck logs at https://github.com/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID}`
             });
-            return res.id;
-      - uses: ./.github/workflows/deploy.yml
-        with:
-          ref: refs/pull/${{ github.event.issue.number }}/head
-      - name: Comment workflow result (success)
-        if: ${{ !failure() }}
+            return res.data.id;
+  
+  comment_deployment_success:
+    runs-on: ubuntu-latest
+
+    permissions:
+      pull-requests: write
+
+    needs: [comment_workflow_url, invoke_deployment]
+
+    steps:
+      - name: Comment deployment success
         uses: actions/github-script@v7
         env:
-          COMMENT_ID: ${{ steps.comment.outputs.result }}
+          COMMENT_ID: ${{ needs.comment_workflow_url.outputs.comment_id }}
         with:
           script: |
             github.rest.issues.updateComment({
@@ -48,11 +68,22 @@ jobs:
               comment_id: process.env.COMMENT_ID,
               body: `Deployment is ongoing.\n\nCheck logs at https://github.com/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID}\n\nDeployment successfully finished.`
             });
-      - name: Comment workflow result (failure)
-        if: ${{ failure() }}
+
+  comment_deployment_failure:
+    runs-on: ubuntu-latest
+
+    permissions:
+      pull-requests: write
+
+    needs: [comment_workflow_url, invoke_deployment]
+
+    if: ${{ always() && needs.comment_workflow_url.result == 'success' && needs.invoke_deployment.result == 'failure' && github.event_name == 'issue_comment' && github.event.issue.pull_request && github.event.comment.body == '/preview' && github.event.comment.user.login == github.repository_owner }}
+
+    steps:
+      - name: Comment deployment failure
         uses: actions/github-script@v7
         env:
-          COMMENT_ID: ${{ steps.comment.outputs.result }}
+          COMMENT_ID: ${{ needs.comment_workflow_url.outputs.comment_id }}
         with:
           script: |
             github.rest.issues.updateComment({
