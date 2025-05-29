@@ -32,7 +32,8 @@
     "typescript": "^5.8.3",
     "ufo": "^1.6.1",
     "vue": "latest",
-    "wrangler": "^4.16.1"
+    "wrangler": "^4.16.1",
+    "zod": "^3.25.34"
   },
   "devDependencies": {
     "@histoire/plugin-nuxt": "1.0.0-alpha.2",
@@ -43,6 +44,7 @@
     "happy-dom": "^17.4.7",
     "histoire": "1.0.0-alpha.2",
     "lost-pixel": "^3.22.0",
+    "typescript-eslint": "^8.33.0",
     "vitest": "^3.1.4"
   }
 }

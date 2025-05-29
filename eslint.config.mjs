@@ -1,12 +1,20 @@
 // @ts-check
+import tseslint from 'typescript-eslint';
 import withNuxt from './.nuxt/eslint.config.mjs';
 
 export default withNuxt(
   {
     files: ['**/*.vue', '**/*.ts'],
+    ignores: ['tests/**/*.ts'],
+    languageOptions: {
+      parserOptions: {
+        projectService: true,
+        tsconfigRootDir: import.meta.dirname,
+      },
+    },
     rules: {
+      ...tseslint.configs.strictTypeChecked.find(config => config.name === 'typescript-eslint/strict-type-checked')?.rules,
       'no-console': 'error',
-      '@typescript-eslint/no-explicit-any': 'error',
       '@stylistic/comma-dangle': ['error', {
         arrays: 'always-multiline',
         objects: 'always-multiline',
@@ -18,6 +26,29 @@ export default withNuxt(
         tuples: 'always-multiline',
       }],
       'nuxt/nuxt-config-keys-order': 'off',
+      '@typescript-eslint/restrict-template-expressions': ['error', {
+        allow: [{ name: ['Error', 'URL', 'URLSearchParams'], from: 'lib' }],
+        allowAny: false,
+        allowBoolean: false,
+        allowNever: false,
+        allowNullish: false,
+        allowNumber: true,
+        allowRegExp: false,
+      }],
+      '@typescript-eslint/no-confusing-void-expression': ['error', {
+        ignoreArrowShorthand: true,
+        ignoreVoidOperator: false,
+        ignoreVoidReturningFunctions: false,
+      }],
+      '@typescript-eslint/no-floating-promises': ['error', {
+        allowForKnownSafeCalls: [
+          { from: 'package', package: 'vue', name: 'nextTick' },
+        ],
+        allowForKnownSafePromises: [],
+        checkThenables: false,
+        ignoreIIFE: false,
+        ignoreVoid: true,
+      }],
     },
   },
   {

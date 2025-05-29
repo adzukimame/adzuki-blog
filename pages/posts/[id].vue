@@ -9,7 +9,13 @@ const runtimeConfig = useRuntimeConfig();
 
 const route = useRoute();
 
-const id = computed(() => Array.isArray(route.params.id) ? route.params.id[0] : route.params.id);
+const id = computed(() => {
+  const id = Array.isArray(route.params.id) ? route.params.id[0] : route.params.id;
+  if (id === undefined) {
+    throw createError({ statusCode: 404, statusMessage: 'Page not found' });
+  }
+  return id;
+});
 
 const { data } = await useAsyncData(
   `content:/posts/${id.value}`,
@@ -22,15 +28,15 @@ const { data } = await useAsyncData(
     watch: [id],
     transform: (content) => {
       const tocEnabled = (content.body?.toc?.links.length ?? -1) > 1;
-      const h1Index = tocEnabled ? content.body!.children.findIndex(node => node.type === 'element' && node.tag === 'h1') : -1;
-      const h2Index = tocEnabled ? content.body!.children.findIndex(node => node.type === 'element' && node.tag === 'h2') : -1;
+      const h1Index = tocEnabled ? content.body?.children.findIndex(node => node.type === 'element' && node.tag === 'h1') ?? -1 : -1;
+      const h2Index = tocEnabled ? content.body?.children.findIndex(node => node.type === 'element' && node.tag === 'h2') ?? -1 : -1;
 
-      if (h1Index !== -1 && h2Index !== -1) {
-        content.body!.children.splice(h2Index, 0, {
+      if (h1Index !== -1 && h2Index !== -1 && content.body?.toc !== undefined) {
+        content.body.children.splice(h2Index, 0, {
           type: 'element',
           tag: 'article-toc',
           props: {
-            toc: content.body!.toc!,
+            toc: content.body.toc,
           },
           children: [],
         });
@@ -62,19 +68,15 @@ if (data.value) {
   });
 
   useServerSeoMeta({
-    ogTitle: `${data.value.title} - ${runtimeConfig.public.siteName}`,
-    ogDescription: `${data.value.title} - ${runtimeConfig.public.siteName}`,
+    ogTitle: `${data.value.title ?? id.value} - ${runtimeConfig.public.siteName}`,
+    ogDescription: `${data.value.title ?? id.value} - ${runtimeConfig.public.siteName}`,
   });
 
   useSeoMeta({
-    description: `${data.value.title} - ${runtimeConfig.public.siteName}`,
+    description: `${data.value.title ?? id.value} - ${runtimeConfig.public.siteName}`,
   });
 }
 else {
-  const event = useRequestEvent();
-
-  if (event) {
-    setResponseStatus(event, 404);
-  }
+  throw createError({ statusCode: 404, statusMessage: 'Page not found' });
 }
 </script>

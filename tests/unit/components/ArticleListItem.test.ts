@@ -71,13 +71,13 @@ describe('ArticleListItem', async () => {
 
     test('カテゴリの表示が正しい', () => {
       expect(component.get('[data-testid="category"]').findAll('a')).toHaveLength(2);
-      expect(component.get('[data-testid="category"]').findAll('a')[0].text()).toBe('aCategory1');
-      expect(component.get('[data-testid="category"]').findAll('a')[1].text()).toBe('aCategory2');
+      expect(component.get('[data-testid="category"]').findAll('a')[0]!.text()).toBe('aCategory1');
+      expect(component.get('[data-testid="category"]').findAll('a')[1]!.text()).toBe('aCategory2');
     });
 
     test('カテゴリのリンク先が正しい', () => {
-      expect(component.get('[data-testid="category"]').findAll('a')[0].attributes('href')).toBe('/category/aCategory1');
-      expect(component.get('[data-testid="category"]').findAll('a')[1].attributes('href')).toBe('/category/aCategory2');
+      expect(component.get('[data-testid="category"]').findAll('a')[0]?.attributes('href')).toBe('/category/aCategory1');
+      expect(component.get('[data-testid="category"]').findAll('a')[1]?.attributes('href')).toBe('/category/aCategory2');
     });
   });
 

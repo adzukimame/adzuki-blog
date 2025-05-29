@@ -18,7 +18,16 @@ registerEndpoint('/api/url-preview', async (event) => {
       description: 'a description',
       sitename: 'a site name',
       url: 'http://localhost:3001/linked-page',
-    } as SummalyResult;
+      thumbnail: null,
+      activityPub: null,
+      fediverseCreator: null,
+      player: {
+        url: null,
+        width: null,
+        height: null,
+        allow: [],
+      },
+    } satisfies SummalyResult;
   }
   else {
     return createError('error');

@@ -20,9 +20,9 @@ export default defineEventHandler(async (event) => {
   }
 
   const query = getQuery(event).url;
-  const targetUrl = Array.isArray(query) ? query[0] : query;
+  const targetUrl: unknown = Array.isArray(query) ? query[0] : query;
 
-  if (!targetUrl || !URL.canParse(targetUrl)) {
+  if (typeof targetUrl !== 'string' || !URL.canParse(targetUrl)) {
     setResponseHeader(event, 'Cache-Control', 'public, max-age=6048000, immutable');
 
     return createError({
