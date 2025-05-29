@@ -1,6 +1,12 @@
 <template>
   <Story>
-    <Variant title="default">
+    <Variant
+      title="default"
+      :meta="{
+        shotParams: {
+          click: 'summary',
+        },
+      }">
       <ArticleToc v-bind="defaultData" />
     </Variant>
     <Variant title="UndefinedToc">

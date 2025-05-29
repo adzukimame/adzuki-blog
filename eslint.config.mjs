@@ -5,15 +5,7 @@ import withNuxt from './.nuxt/eslint.config.mjs';
 export default withNuxt(
   {
     files: ['**/*.vue', '**/*.ts'],
-    ignores: ['tests/**/*.ts'],
-    languageOptions: {
-      parserOptions: {
-        projectService: true,
-        tsconfigRootDir: import.meta.dirname,
-      },
-    },
     rules: {
-      ...tseslint.configs.strictTypeChecked.find(config => config.name === 'typescript-eslint/strict-type-checked')?.rules,
       'no-console': 'error',
       '@stylistic/comma-dangle': ['error', {
         arrays: 'always-multiline',
@@ -26,6 +18,19 @@ export default withNuxt(
         tuples: 'always-multiline',
       }],
       'nuxt/nuxt-config-keys-order': 'off',
+    },
+  },
+  {
+    files: ['**/*.vue', '**/*.ts'],
+    ignores: ['tests/**/*.ts', 'lostpixel.config.ts'],
+    languageOptions: {
+      parserOptions: {
+        projectService: true,
+        tsconfigRootDir: import.meta.dirname,
+      },
+    },
+    rules: {
+      ...tseslint.configs.strictTypeChecked.find(config => config.name === 'typescript-eslint/strict-type-checked')?.rules,
       '@typescript-eslint/restrict-template-expressions': ['error', {
         allow: [{ name: ['Error', 'URL', 'URLSearchParams'], from: 'lib' }],
         allowAny: false,
