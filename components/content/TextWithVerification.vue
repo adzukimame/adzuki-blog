@@ -7,16 +7,25 @@
         'callback': turnstileCallback,
         'error-callback': turnstileErrorCallback,
       }" />
-    <div v-if="loading">
-      アクセスの検証が完了すると、ここに内容が表示されます。
-    </div>
-    <div v-else-if="error !== false">
+    <div v-if="error !== false">
       {{ error === 'verification' ? '検証に失敗したため' : error === 'rendering' ? '描画に失敗したため' : 'エラーが発生したため' }}、表示できません。
     </div>
     <div
       v-else
       ref="textBlock"
-      class="text-block" />
+      class="text-block">
+      <span v-if="loading">アクセスの検証が完了すると、ここに内容が表示されます。</span>
+      <canvas
+        v-for="idx in textLength"
+        :key="idx"
+        :ref="(el) => {
+          if (el) {
+            canvasRefs[idx - 1] = el as unknown as HTMLCanvasElement;
+          }
+        }"
+        width="0"
+        height="0" />
+    </div>
     <template #fallback>
       <div class="placeholder" />
     </template>
@@ -32,8 +41,40 @@ const writingMode = useWritingMode();
 
 const loading = ref(true);
 const error = ref<boolean | 'verification' | 'rendering'>(false);
-const textBlock = useTemplateRef('textBlock');
-const text = ref<string>();
+const textLength = ref<number>(0);
+const canvasRefs = ref<(HTMLCanvasElement | null)[]>([]);
+
+let measureCanvas: HTMLCanvasElement | undefined = undefined;
+let measureCtx: CanvasRenderingContext2D | null = null;
+
+const renderOneCanvas = (canvas: HTMLCanvasElement, char: string) => {
+  const bodyComputedStyle = getComputedStyle(document.body);
+  const fontSize = parseFloat(bodyComputedStyle.fontSize);
+  const lineHeight = parseFloat(bodyComputedStyle.lineHeight);
+
+  if (!measureCanvas) measureCanvas = document.createElement('canvas');
+  if (!measureCtx) measureCtx = measureCanvas.getContext('2d');
+  if (measureCtx) measureCtx.font = bodyComputedStyle.font;
+
+  const realWidth = Math.ceil(measureCtx?.measureText(char).width ?? fontSize);
+
+  canvas.width = writingMode.value === null ? realWidth : lineHeight;
+  canvas.height = writingMode.value === null ? lineHeight : fontSize;
+  canvas.style.pointerEvents = 'none';
+  canvas.addEventListener('contextmenu', ev => ev.preventDefault());
+  canvas.style.writingMode = 'horizontal-tb';
+
+  const ctx = canvas.getContext('2d');
+  if (ctx === null) {
+    error.value = 'rendering';
+    return;
+  }
+  ctx.font = bodyComputedStyle.font;
+  ctx.fillStyle = bodyComputedStyle.color;
+  ctx.textBaseline = 'middle';
+  ctx.textAlign = 'center';
+  ctx.fillText(char, (writingMode.value === null ? realWidth : lineHeight) / 2, (writingMode.value === null ? lineHeight : fontSize) / 2);
+};
 
 const turnstileCallback = (token: string) => {
   $fetch.raw('/api/text-with-verification', {
@@ -47,8 +88,6 @@ const turnstileCallback = (token: string) => {
     }),
     watch: [() => props.name],
   }).then(async (response): Promise<[ArrayBuffer, Uint8Array]> => {
-    loading.value = false;
-
     const header = response.headers.get('X-Attached-Payload');
     if (header === null) {
       throw new Error();
@@ -65,68 +104,33 @@ const turnstileCallback = (token: string) => {
       throw new Error();
     }
 
+    textLength.value = data.size;
+
     return [await data.arrayBuffer(), rand];
-  }).then(([buffer, rand]) => {
+  }).then(async ([buffer, rand]) => {
     const byteArray = new Uint8Array(buffer);
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    text.value = new TextDecoder().decode(byteArray.map((byte, idx) => byte ^ rand[idx]!));
-  }).catch(() => {
-    error.value = true;
+
     loading.value = false;
+
+    await nextTick();
+
+    let i = 0;
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    for (const char of new TextDecoder().decode(byteArray.map((byte, idx) => byte ^ rand[idx]!))) {
+      const c = canvasRefs.value[i];
+      if (c) renderOneCanvas(c, char);
+      i++;
+    }
+  }).catch(() => {
+    loading.value = false;
+    error.value = true;
   });
 };
 
 const turnstileErrorCallback = () => {
-  error.value = 'verification';
   loading.value = false;
+  error.value = 'verification';
 };
-
-const renderCanvas = () => {
-  if (text.value === undefined || textBlock.value === null) {
-    error.value = 'rendering';
-    return;
-  }
-
-  const textBlockComputedStyle = getComputedStyle(textBlock.value);
-  const fontSize = parseFloat(textBlockComputedStyle.fontSize);
-  const lineHeight = parseFloat(textBlockComputedStyle.lineHeight);
-
-  const measureCanvas = document.createElement('canvas');
-  const measureCtx = measureCanvas.getContext('2d');
-  if (measureCtx) measureCtx.font = textBlockComputedStyle.font;
-
-  for (const char of text.value) {
-    const realWidth = Math.ceil(measureCtx?.measureText(char).width ?? fontSize);
-
-    const canvas = document.createElement('canvas');
-    canvas.width = writingMode.value === null ? realWidth : lineHeight;
-    canvas.height = writingMode.value === null ? lineHeight : fontSize;
-    canvas.style.pointerEvents = 'none';
-    canvas.addEventListener('contextmenu', ev => ev.preventDefault());
-    canvas.style.writingMode = 'horizontal-tb';
-
-    // なぜ？
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-    textBlock.value.appendChild(canvas);
-
-    const ctx = canvas.getContext('2d');
-    if (ctx === null) {
-      error.value = 'rendering';
-      return;
-    }
-    ctx.font = textBlockComputedStyle.font;
-    ctx.fillStyle = textBlockComputedStyle.color;
-    ctx.textBaseline = 'middle';
-    ctx.textAlign = 'center';
-    ctx.fillText(char, (writingMode.value === null ? realWidth : lineHeight) / 2, (writingMode.value === null ? lineHeight : fontSize) / 2);
-  }
-};
-
-watch([text, textBlock], ([newText, newTextBlock]) => {
-  if (newText !== undefined && newTextBlock !== null) {
-    renderCanvas();
-  }
-});
 </script>
 
 <style scoped>
