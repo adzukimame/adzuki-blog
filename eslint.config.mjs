@@ -57,7 +57,7 @@ export default withNuxt(
       'vue/require-v-for-key': 'error',
       'vue/no-use-v-if-with-v-for': 'error',
       'vue/html-closing-bracket-newline': [
-        'warn',
+        'error',
         {
           singleline: 'never',
           multiline: 'never',
@@ -68,12 +68,13 @@ export default withNuxt(
         },
       ],
       'vue/first-attribute-linebreak': [
-        'warn',
+        'error',
         {
           singleline: 'beside',
-          multiline: 'beside',
+          multiline: 'below',
         },
       ],
+      'vue/attribute-hyphenation': 'error',
     },
   },
 );

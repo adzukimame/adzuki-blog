@@ -5,9 +5,10 @@
     </div>
     <main>
       <ul class="category-list">
-        <li v-for="item in categoryList"
-            :key="item[0]"
-            class="category-list-item">
+        <li
+          v-for="item in categoryList"
+          :key="item[0]"
+          class="category-list-item">
           <NuxtLink :to="`/category/${item[0]}`">
             {{ `${item[0] === 'undefined' ? '未設定' : item[0]} (${item[1]})` }}
           </NuxtLink>

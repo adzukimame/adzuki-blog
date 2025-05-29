@@ -6,11 +6,12 @@
     <main ref="articleListOuter">
       <ArticleList :articles="articles" />
     </main>
-    <PageNavigator :current-page-number="pageNumber"
-                   :items-length="articleCount ?? 0"
-                   :items-per-page="ARTICLE_PER_PAGE"
-                   page-query-param="p"
-                   class="navigator" />
+    <PageNavigator
+      :current-page-number="pageNumber"
+      :items-length="articleCount ?? 0"
+      :items-per-page="ARTICLE_PER_PAGE"
+      page-query-param="p"
+      class="navigator" />
   </div>
 </template>
 

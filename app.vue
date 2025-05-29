@@ -1,6 +1,7 @@
 <template>
-  <Html :class="[{ 'color-scheme-dark': colorScheme === 'dark' }, { 'writing-mode-vertical-rl': writingMode === 'vertical-rl' }]"
-        translate="no" />
+  <Html
+    :class="[{ 'color-scheme-dark': colorScheme === 'dark' }, { 'writing-mode-vertical-rl': writingMode === 'vertical-rl' }]"
+    translate="no" />
   <NuxtLayout>
     <NuxtPage />
   </NuxtLayout>

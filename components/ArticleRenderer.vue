@@ -1,7 +1,8 @@
 <template>
-  <ContentRenderer :value="content"
-                   tag="article"
-                   class="article-renderer">
+  <ContentRenderer
+    :value="content"
+    tag="article"
+    class="article-renderer">
     <template #empty>
       <h2>コンテンツはありません</h2>
     </template>

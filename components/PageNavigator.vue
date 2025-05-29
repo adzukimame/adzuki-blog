@@ -1,106 +1,115 @@
 <template>
   <div class="container">
-    <NuxtLink :to="{
-                path: route.path,
-                query: { ...(route.query), ...(backwardEnabled ? { [pageQueryParam]: 1 } : {}) },
-                hash: route.hash,
-              }"
-              class="button"
-              :class="{ disabled: !backwardEnabled }"
-              :tabindex="backwardEnabled ? undefined : -1"
-              :aria-hidden="backwardEnabled ? undefined : true"
-              aria-label="最初のページに戻る">
-      <svg xmlns="http://www.w3.org/2000/svg"
-           width="1rem"
-           height="1rem"
-           size="1rem"
-           viewBox="0 0 24 24"
-           fill="none"
-           stroke="currentColor"
-           stroke-width="2"
-           stroke-linecap="round"
-           stroke-linejoin="round"
-           aria-hidden="true">
+    <NuxtLink
+      :to="{
+        path: route.path,
+        query: { ...(route.query), ...(backwardEnabled ? { [pageQueryParam]: 1 } : {}) },
+        hash: route.hash,
+      }"
+      class="button"
+      :class="{ disabled: !backwardEnabled }"
+      :tabindex="backwardEnabled ? undefined : -1"
+      :aria-hidden="backwardEnabled ? undefined : true"
+      aria-label="最初のページに戻る">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="1rem"
+        height="1rem"
+        size="1rem"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true">
         <path d="M11 7l-5 5l5 5" />
         <path d="M17 7l-5 5l5 5" />
       </svg>
     </NuxtLink>
-    <NuxtLink :to="{
-                path: route.path,
-                query: { ...(route.query), ...(backwardEnabled ? { [pageQueryParam]: currentPageNumber - 1 } : {}) },
-                hash: route.hash,
-              }"
-              class="button"
-              :class="{ disabled: !backwardEnabled }"
-              :tabindex="backwardEnabled ? undefined : -1"
-              :aria-hidden="backwardEnabled ? undefined : true"
-              aria-label="1ページ前に戻る">
-      <svg xmlns="http://www.w3.org/2000/svg"
-           width="1rem"
-           height="1rem"
-           size="1rem"
-           viewBox="0 0 24 24"
-           fill="none"
-           stroke="currentColor"
-           stroke-width="2"
-           stroke-linecap="round"
-           stroke-linejoin="round"
-           aria-hidden="true">
+    <NuxtLink
+      :to="{
+        path: route.path,
+        query: { ...(route.query), ...(backwardEnabled ? { [pageQueryParam]: currentPageNumber - 1 } : {}) },
+        hash: route.hash,
+      }"
+      class="button"
+      :class="{ disabled: !backwardEnabled }"
+      :tabindex="backwardEnabled ? undefined : -1"
+      :aria-hidden="backwardEnabled ? undefined : true"
+      aria-label="1ページ前に戻る">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="1rem"
+        height="1rem"
+        size="1rem"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true">
         <path d="M15 6l-6 6l6 6" />
       </svg>
     </NuxtLink>
-    <div class="button page-number-outer"
-         data-testid="page-number"
-         :aria-label="`${currentPageNumber}ページ目`">
+    <div
+      class="button page-number-outer"
+      data-testid="page-number"
+      :aria-label="`${currentPageNumber}ページ目`">
       <span ref="pageNumberEl">
         {{ pageNumberForDisplay }}
       </span>
     </div>
-    <NuxtLink :to="{
-                path: route.path,
-                query: { ...(route.query), ...(forwardEnabled ? { [pageQueryParam]: currentPageNumber + 1 } : {}) },
-                hash: route.hash,
-              }"
-              class="button"
-              :class="{ disabled: !forwardEnabled }"
-              :tabindex="forwardEnabled ? undefined : -1"
-              :aria-hidden="forwardEnabled ? undefined : true"
-              aria-label="1ページ次に進む">
-      <svg xmlns="http://www.w3.org/2000/svg"
-           width="1rem"
-           height="1rem"
-           size="1rem"
-           viewBox="0 0 24 24"
-           fill="none"
-           stroke="currentColor"
-           stroke-width="2"
-           stroke-linecap="round"
-           stroke-linejoin="round"
-           aria-hidden="true">
+    <NuxtLink
+      :to="{
+        path: route.path,
+        query: { ...(route.query), ...(forwardEnabled ? { [pageQueryParam]: currentPageNumber + 1 } : {}) },
+        hash: route.hash,
+      }"
+      class="button"
+      :class="{ disabled: !forwardEnabled }"
+      :tabindex="forwardEnabled ? undefined : -1"
+      :aria-hidden="forwardEnabled ? undefined : true"
+      aria-label="1ページ次に進む">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="1rem"
+        height="1rem"
+        size="1rem"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true">
         <path d="M9 6l6 6l-6 6" />
       </svg>
     </NuxtLink>
-    <NuxtLink :to="{
-                path: route.path,
-                query: { ...(route.query), ...(forwardEnabled ? { [pageQueryParam]: Math.ceil(itemsLength / itemsPerPage) } : {}) },
-                hash: route.hash,
-              }"
-              class="button"
-              :class="{ disabled: !forwardEnabled }"
-              :tabindex="forwardEnabled ? undefined : -1"
-              :aria-hidden="forwardEnabled ? undefined : true"
-              aria-label="最後のページに進む">
-      <svg xmlns="http://www.w3.org/2000/svg"
-           width="1rem"
-           height="1rem"
-           size="1rem"
-           viewBox="0 0 24 24"
-           fill="none"
-           stroke="currentColor"
-           stroke-width="2"
-           stroke-linecap="round"
-           stroke-linejoin="round"
-           aria-hidden="true">
+    <NuxtLink
+      :to="{
+        path: route.path,
+        query: { ...(route.query), ...(forwardEnabled ? { [pageQueryParam]: Math.ceil(itemsLength / itemsPerPage) } : {}) },
+        hash: route.hash,
+      }"
+      class="button"
+      :class="{ disabled: !forwardEnabled }"
+      :tabindex="forwardEnabled ? undefined : -1"
+      :aria-hidden="forwardEnabled ? undefined : true"
+      aria-label="最後のページに進む">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="1rem"
+        height="1rem"
+        size="1rem"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true">
         <path d="M7 7l5 5l-5 5" />
         <path d="M13 7l5 5l-5 5" />
       </svg>
