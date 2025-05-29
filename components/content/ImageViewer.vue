@@ -54,6 +54,7 @@ const props = defineProps({
 });
 
 const refinedSrc = computed(() => {
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
   if (props.src?.startsWith('/') && !props.src.startsWith('//')) {
     const _base = withLeadingSlash(withTrailingSlash(useRuntimeConfig().app.baseURL));
     if (_base !== '/' && !props.src.startsWith(_base)) {

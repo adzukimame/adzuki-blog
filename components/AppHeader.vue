@@ -114,10 +114,8 @@ const runtimeConfig = useRuntimeConfig();
 const colorScheme = useColorScheme();
 
 const updateColorScheme = (newColorScheme: 'dark' | 'light') => {
-  if (newColorScheme === 'dark' || newColorScheme === 'light') {
-    colorScheme.value = newColorScheme;
-    window.localStorage.setItem('colorScheme', newColorScheme);
-  }
+  colorScheme.value = newColorScheme;
+  window.localStorage.setItem('colorScheme', newColorScheme);
 };
 
 const isNarrow = ref(false);

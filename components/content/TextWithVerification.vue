@@ -36,31 +36,38 @@ const text = ref<string>();
 const turnstileCallback = (token: string) => {
   $fetch.raw('/api/text-with-verification', {
     method: 'POST',
-    body: {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
       name: props.name,
       token,
-    },
+    }),
     watch: [() => props.name],
-  }).then((response) => {
+  }).then(async (response): Promise<[ArrayBuffer, Uint8Array]> => {
     loading.value = false;
 
     const header = response.headers.get('X-Attached-Payload');
     if (header === null) {
-      error.value = true;
-      return;
+      throw new Error();
     }
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const rand = Uint8Array.from(atob(header), char => char.codePointAt(0)!);
 
     const data = response._data;
     if (!(data instanceof Blob)) {
-      error.value = true;
-      return;
+      throw new Error();
     }
 
-    data.arrayBuffer().then((buffer) => {
-      const byteArray = new Uint8Array(buffer);
-      text.value = new TextDecoder().decode(byteArray.map((byte, idx) => byte ^ rand[idx]));
-    });
+    if (data.size !== rand.length) {
+      throw new Error();
+    }
+
+    return [await data.arrayBuffer(), rand];
+  }).then(([buffer, rand]) => {
+    const byteArray = new Uint8Array(buffer);
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    text.value = new TextDecoder().decode(byteArray.map((byte, idx) => byte ^ rand[idx]!));
   }).catch(() => {
     error.value = true;
     loading.value = false;
@@ -86,8 +93,8 @@ const renderCanvas = () => {
   const measureCtx = measureCanvas.getContext('2d');
   if (measureCtx) measureCtx.font = textBlockComputedStyle.font;
 
-  for (let i = 0; i < text.value.length; i++) {
-    const realWidth = Math.ceil(measureCtx?.measureText(text.value[i])?.width ?? fontSize);
+  for (const char of text.value) {
+    const realWidth = Math.ceil(measureCtx?.measureText(char).width ?? fontSize);
 
     const canvas = document.createElement('canvas');
     canvas.width = writingMode.value === null ? realWidth : lineHeight;
@@ -96,6 +103,8 @@ const renderCanvas = () => {
     canvas.addEventListener('contextmenu', ev => ev.preventDefault());
     canvas.style.writingMode = 'horizontal-tb';
 
+    // なぜ？
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     textBlock.value.appendChild(canvas);
 
     const ctx = canvas.getContext('2d');
@@ -107,7 +116,7 @@ const renderCanvas = () => {
     ctx.fillStyle = textBlockComputedStyle.color;
     ctx.textBaseline = 'middle';
     ctx.textAlign = 'center';
-    ctx.fillText(text.value[i], (writingMode.value === null ? realWidth : lineHeight) / 2, (writingMode.value === null ? lineHeight : fontSize) / 2);
+    ctx.fillText(char, (writingMode.value === null ? realWidth : lineHeight) / 2, (writingMode.value === null ? lineHeight : fontSize) / 2);
   }
 };
 

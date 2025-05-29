@@ -62,7 +62,7 @@ watch(pageNumber, (newPageNumber) => {
   anim?.addEventListener('finish', () => {
     pageNumberForDisplay.value = newPageNumber;
 
-    articleListOuter.value!.animate([
+    articleListOuter.value?.animate([
       { opacity: 0, filter: 'blur(4px)' },
       { opacity: 1 },
     ], {
@@ -93,7 +93,7 @@ const { data: articles } = await useAsyncData(
 );
 
 useServerHead({
-  link: runtimeConfig.public.authorSocialLinks.map(link => ({ rel: 'me', href: link })),
+  link: runtimeConfig.public.authorSocialLinks.filter(link => typeof link === 'string').map(link => ({ rel: 'me', href: link })),
 });
 
 useHead({

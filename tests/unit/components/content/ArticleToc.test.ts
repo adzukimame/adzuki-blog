@@ -49,10 +49,10 @@ describe('ArticleToc', () => {
 
     test('内容が正しい', () => {
       expect(component.findAll('a')).toHaveLength(2);
-      expect(component.findAll('a')[0].attributes('href')).toBe('#id1');
-      expect(component.findAll('a')[0].text()).toBe('text1');
-      expect(component.findAll('a')[1].attributes('href')).toBe('#id2');
-      expect(component.findAll('a')[1].text()).toBe('text2');
+      expect(component.findAll('a')[0]?.attributes('href')).toBe('#id1');
+      expect(component.findAll('a')[0]?.text()).toBe('text1');
+      expect(component.findAll('a')[1]?.attributes('href')).toBe('#id2');
+      expect(component.findAll('a')[1]?.text()).toBe('text2');
     });
 
     test('クリックすると閉じる', async () => {

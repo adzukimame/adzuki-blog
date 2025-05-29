@@ -28,10 +28,10 @@ describe('AppHeader', () => {
 
     test('ナビゲーションの内容が正しい', () => {
       expect(component.get('nav').findAll('a')).toHaveLength(2);
-      expect(component.get('nav').findAll('a')[0].text()).toBe('カテゴリ一覧');
-      expect(component.get('nav').findAll('a')[0].attributes('href')).toBe('/category');
-      expect(component.get('nav').findAll('a')[1].text()).toBe('About');
-      expect(component.get('nav').findAll('a')[1].attributes('href')).toBe('/pages/about');
+      expect(component.get('nav').findAll('a')[0]?.text()).toBe('カテゴリ一覧');
+      expect(component.get('nav').findAll('a')[0]?.attributes('href')).toBe('/category');
+      expect(component.get('nav').findAll('a')[1]?.text()).toBe('About');
+      expect(component.get('nav').findAll('a')[1]?.attributes('href')).toBe('/pages/about');
     });
 
     test('ダークモード切り替えボタンが表示されている', () => {

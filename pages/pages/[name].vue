@@ -9,7 +9,13 @@ const runtimeConfig = useRuntimeConfig();
 
 const route = useRoute();
 
-const name = computed(() => Array.isArray(route.params.name) ? route.params.name[0] : route.params.name);
+const name = computed(() => {
+  const name = Array.isArray(route.params.name) ? route.params.name[0] : route.params.name;
+  if (name === undefined) {
+    throw createError({ statusCode: 404, statusMessage: 'Page not found' });
+  }
+  return name;
+});
 
 const { data } = await useAsyncData(
   `content:/pages/${name.value}`,
@@ -29,19 +35,15 @@ if (data.value) {
   });
 
   useServerSeoMeta({
-    ogTitle: `${data.value.title} - ${runtimeConfig.public.siteName}`,
-    ogDescription: `${data.value.title} - ${runtimeConfig.public.siteName}`,
+    ogTitle: `${data.value.title ?? name.value} - ${runtimeConfig.public.siteName}`,
+    ogDescription: `${data.value.title ?? name.value} - ${runtimeConfig.public.siteName}`,
   });
 
   useSeoMeta({
-    description: `${data.value.title} - ${runtimeConfig.public.siteName}`,
+    description: `${data.value.title ?? name.value} - ${runtimeConfig.public.siteName}`,
   });
 }
 else {
-  const event = useRequestEvent();
-
-  if (event) {
-    setResponseStatus(event, 404);
-  }
+  throw createError({ statusCode: 404, statusMessage: 'Page not found' });
 }
 </script>

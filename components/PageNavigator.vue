@@ -52,7 +52,7 @@
     <div class="button page-number-outer"
          data-testid="page-number"
          :aria-label="`${currentPageNumber}ページ目`">
-      <span ref="pageNumberSpanEl">
+      <span ref="pageNumberEl">
         {{ pageNumberForDisplay }}
       </span>
     </div>
@@ -123,10 +123,10 @@ const backwardEnabled = computed(() => props.itemsLength > 0 && props.currentPag
 const forwardEnabled = computed(() => props.currentPageNumber * props.itemsPerPage < props.itemsLength);
 
 const pageNumberForDisplay = ref(props.currentPageNumber);
-const pageNumberSpanEl = ref<HTMLSpanElement | null>(null);
+const pageNumberEl = ref<HTMLSpanElement | null>(null);
 
 watch(() => props.currentPageNumber, (newPageNumber) => {
-  const anim = pageNumberSpanEl.value?.animate([
+  const anim = pageNumberEl.value?.animate([
     { opacity: 1 },
     { opacity: 0, filter: 'blur(4px)' },
   ], {
@@ -137,7 +137,7 @@ watch(() => props.currentPageNumber, (newPageNumber) => {
   anim?.addEventListener('finish', () => {
     pageNumberForDisplay.value = newPageNumber;
 
-    pageNumberSpanEl.value!.animate([
+    pageNumberEl.value?.animate([
       { opacity: 0, filter: 'blur(4px)' },
       { opacity: 1 },
     ], {

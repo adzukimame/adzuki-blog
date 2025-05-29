@@ -77,19 +77,7 @@ const props = defineProps<{
   item: Pick<ParsedContent, '_id' | '_path' | 'title' | 'description' | 'category' | 'created' | 'hideDescription'> | ParsedContent;
 }>();
 
-const normalizedCategory = computed<Array<string> | undefined>(() => {
-  if (Array.isArray(props.item.category)) {
-    const filtered = props.item.category.filter((el, idx, arr) => typeof el === 'string' && el !== 'undefined' && arr.indexOf(el) === idx);
-
-    return filtered.length > 0 ? filtered : undefined;
-  }
-  else if (typeof props.item.category === 'string' && props.item.category !== 'undefined') {
-    return [props.item.category];
-  }
-  else {
-    return undefined;
-  }
-});
+const normalizedCategory = computed<Array<string> | undefined>(() => normalizeCategory(props.item.category));
 </script>
 
 <style scoped>

@@ -20,9 +20,15 @@ const runtimeConfig = useRuntimeConfig();
 
 const route = useRoute();
 
-const ARTICLE_PER_PAGE = 12;
+const ARTICLE_PER_PAGE = 10;
 
-const category = computed(() => Array.isArray(route.params.name) ? route.params.name[0] : route.params.name);
+const category = computed(() => {
+  const category = Array.isArray(route.params.name) ? route.params.name[0] : route.params.name;
+  if (category === undefined) {
+    throw createError({ statusCode: 404, statusMessage: 'Page not found' });
+  }
+  return category;
+});
 
 const { data: articleCount } = await useAsyncData(
   `articleCount:/category/${category.value}`,
@@ -74,7 +80,7 @@ watch(pageNumber, (newPageNumber) => {
   anim?.addEventListener('finish', () => {
     pageNumberForDisplay.value = newPageNumber;
 
-    articleListOuter.value!.animate([
+    articleListOuter.value?.animate([
       { opacity: 0, filter: 'blur(4px)' },
       { opacity: 1 },
     ], {

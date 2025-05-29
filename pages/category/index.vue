@@ -23,30 +23,22 @@ const runtimeConfig = useRuntimeConfig();
 const { data } = await useAsyncData(() => queryContent('posts').only('category').find());
 
 const categoryList = computed(() => {
-  if (data === null || data.value === null) {
+  if (data.value === null) {
     return [];
   }
 
   const map = new Map<string, number>();
 
   data.value.forEach((content) => {
-    if (Array.isArray(content.category)) {
-      const filtered: Array<string> = content.category.filter((el, idx, arr) => typeof el === 'string' && el !== 'undefined' && arr.indexOf(el) === idx);
+    const normalizedCategory = normalizeCategory(content.category);
 
-      if (filtered.length === 0) {
-        map.set('undefined', (map.get('undefined') ?? 0) + 1);
-      }
-      else {
-        for (const cat of filtered) {
-          map.set(cat, (map.get(cat) ?? 0) + 1);
-        }
-      }
-    }
-    else if (content.category === 'undefined' || content.category === undefined) {
+    if (normalizedCategory === undefined) {
       map.set('undefined', (map.get('undefined') ?? 0) + 1);
     }
-    else if (typeof content.category === 'string') {
-      map.set(content.category, (map.get(content.category) ?? 0) + 1);
+    else {
+      for (const cat of normalizedCategory) {
+        map.set(cat, (map.get(cat) ?? 0) + 1);
+      }
     }
   });
 
