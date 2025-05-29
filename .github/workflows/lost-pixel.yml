@@ -27,14 +27,14 @@ jobs:
           sparse-checkout: |
             .lostpixel-baseline
       - name: Get baseline ref
-        id: get-ref
+        id: get-baseline-ref
         run: |
           Write-Output "ref=$(Get-Content -Path ./latest/.lostpixel-baseline)" >> $env:GITHUB_OUTPUT
           Remove-Item -Path ./latest -Recurse -Force
       - name: Checkout (baseline)
         uses: actions/checkout@v4
         with:
-          ref: ${{ steps.get-ref.outputs.ref }}
+          ref: ${{ steps.get-baseline-ref.outputs.ref }}
       - name: Install pnpm
         uses: pnpm/action-setup@v4
       - name: Set up Node.js

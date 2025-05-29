@@ -15,7 +15,7 @@ jobs:
 
     uses: ./.github/workflows/deploy.yml
     with:
-      ref: refs/pull/${{ github.event.issue.number }}/head
+      ref: refs/pull/${{ github.event.issue.number }}/merge
 
     secrets: inherit
 
