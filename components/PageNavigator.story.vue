@@ -1,6 +1,15 @@
 <template>
   <Story>
-    <Variant title="default">
+    <Variant
+      title="default"
+      :meta="{
+        interact: [
+          [{ hover: '[aria-label=\'最初のページに戻る\']' }],
+          [{ hover: '[aria-label=\'1ページ前に戻る\']' }],
+          [{ hover: '[aria-label=\'1ページ次に進む\']' }],
+          [{ hover: '[aria-label=\'最後のページに進む\']' }],
+        ],
+      }">
       <PageNavigator v-bind="defaultData" />
     </Variant>
     <Variant title="FirstPage">

@@ -3,9 +3,9 @@
     <Variant
       title="default"
       :meta="{
-        shotParams: {
-          click: 'summary',
-        },
+        interact: [
+          [{ click: 'summary' }],
+        ],
       }">
       <ArticleToc v-bind="defaultData" />
     </Variant>

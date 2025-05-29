@@ -13,14 +13,13 @@ env:
 
 jobs:
   lost-pixel:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     permissions:
       contents: read
       pull-requests: write
 
     steps:
-      - run: git config --system core.longPaths true
       - uses: actions/checkout@v4
         with:
           path: latest
@@ -29,8 +28,8 @@ jobs:
       - name: Get baseline ref
         id: get-baseline-ref
         run: |
-          Write-Output "ref=$(Get-Content -Path ./latest/.lostpixel-baseline)" >> $env:GITHUB_OUTPUT
-          Remove-Item -Path ./latest -Recurse -Force
+          echo "ref=$(cat latest/.lostpixel-baseline)" >> $env:GITHUB_OUTPUT
+          rm -rf ./latest
       - name: Checkout (baseline)
         uses: actions/checkout@v4
         with:
@@ -47,13 +46,12 @@ jobs:
       - name: Get playwright version
         id: get-playwright-version
         run: |
-          Write-Output "version=$((pnpm list --depth 1 --json | ConvertFrom-Json -Depth 10).devDependencies.'lost-pixel'.dependencies.'playwright-core'.version)" >> $env:GITHUB_OUTPUT
-          Write-Output "local-appdata=$env:LOCALAPPDATA" >> $env:GITHUB_OUTPUT
+          echo "version=$(pnpm list --depth 1 --json | cat | jq -r '.[0].devDependencies."lost-pixel".dependencies."playwright-core".version')" >> $env:GITHUB_OUTPUT
       - name: Cache playwright browsers
         id: cache-playwright-browsers
         uses: actions/cache@v4
         with:
-          path: ${{ steps.get-playwright-version.outputs.local-appdata }}\ms-playwright
+          path: ~/.cache/ms-playwright
           key: playwright-browsers-${{ runner.os }}-${{ steps.get-playwright-version.outputs.version }}-chromium
       - name: Install playwright browsers
         if: ${{ steps.cache-playwright-browsers.outputs.cache-hit != 'true' }}
@@ -88,8 +86,8 @@ jobs:
         env:
           DOWNLOAD_PATH: ${{ steps.download-baseline.outputs.download-path }}
         run: |
-          New-Item -Path . -ItemType Directory -Name .lostpixel
-          Move-Item -Path "$env:DOWNLOAD_PATH/lost-pixel-baseline" -Destination ./.lostpixel/baseline
+          mkdir .lostpixel
+          mv "$DOWNLOAD_PATH/lost-pixel-baseline" ./.lostpixel/baseline
       - name: Lost Pixel (head)
         id: lost-pixel-head
         run: pnpm lost-pixel

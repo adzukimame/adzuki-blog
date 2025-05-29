@@ -3,9 +3,9 @@
     <Variant
       title="default"
       :meta="{
-        shotParams: {
-          hover: 'article',
-        },
+        interact: [
+          [{ hover: 'article' }],
+        ],
       }">
       <ArticleListItem v-bind="defaultData" />
     </Variant>
