@@ -1,44 +1,50 @@
 <template>
-  <details v-if="toc && toc.links.length > 0"
-           :open="tocOpened ? true : undefined"
-           class="article-toc container"
-           @toggle="(event) => {
-             if (event.newState === 'open') { tocOpened = true }
-             else if (event.newState === 'closed') { tocOpened = false }
-           }">
-    <summary class="summary"
-             @click.prevent="onSummaryClick">
+  <details
+    v-if="toc && toc.links.length > 0"
+    :open="tocOpened ? true : undefined"
+    class="article-toc container"
+    @toggle="(event) => {
+      if (event.newState === 'open') { tocOpened = true }
+      else if (event.newState === 'closed') { tocOpened = false }
+    }">
+    <summary
+      class="summary"
+      @click.prevent="onSummaryClick">
       <div>
         目次
       </div>
-      <svg xmlns="http://www.w3.org/2000/svg"
-           width="1.2rem"
-           height="1.2rem"
-           size="1.2rem"
-           viewBox="0 0 24 24"
-           fill="none"
-           stroke="currentColor"
-           stroke-width="2"
-           stroke-linecap="round"
-           stroke-linejoin="round"
-           class="accordion-icon">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="1.2rem"
+        height="1.2rem"
+        size="1.2rem"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="accordion-icon">
         <path d="M6 9l6 6l6 -6" />
       </svg>
     </summary>
     <nav>
-      <ul ref="listEl"
-          class="list">
-        <template v-for="item in toc.links"
-                  :key="item.id">
+      <ul
+        ref="listEl"
+        class="list">
+        <template
+          v-for="item in toc.links"
+          :key="item.id">
           <li class="list-item-h2">
             <NuxtLink :to="`#${item.id}`">
               {{ item.text }}
             </NuxtLink>
           </li>
           <template v-if="item.children && item.children.length > 0">
-            <li v-for="child in item.children"
-                :key="child.id"
-                class="list-item-h3">
+            <li
+              v-for="child in item.children"
+              :key="child.id"
+              class="list-item-h3">
               <NuxtLink :to="`#${child.id}`">
                 {{ child.text }}
               </NuxtLink>

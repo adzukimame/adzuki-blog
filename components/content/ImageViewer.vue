@@ -1,28 +1,32 @@
 <!-- https://github.com/nuxt-modules/mdc/blob/44fef672139208dc1b53442cebc97bd98e5684a7/src/runtime/components/prose/ProseImg.vue -->
 
 <template>
-  <div class="image-viewer container"
-       @click="openModal">
-    <component :is="ImageComponent"
-               :src="refinedSrc"
-               :alt="alt"
-               :width="width"
-               :height="height"
-               class="image"
-               data-testid="image" />
+  <div
+    class="image-viewer container"
+    @click="openModal">
+    <component
+      :is="ImageComponent"
+      :src="refinedSrc"
+      :alt="alt"
+      :width="width"
+      :height="height"
+      class="image"
+      data-testid="image" />
   </div>
   <Teleport to="body">
-    <div v-if="modalOpened"
-         ref="modalContainerEl"
-         class="modal-container"
-         data-testid="modal-container"
-         @click="closeModal">
-      <component :is="ImageComponent"
-                 :src="refinedSrc"
-                 :alt="alt"
-                 :width="width"
-                 :height="height"
-                 class="modal-image" />
+    <div
+      v-if="modalOpened"
+      ref="modalContainerEl"
+      class="modal-container"
+      data-testid="modal-container"
+      @click="closeModal">
+      <component
+        :is="ImageComponent"
+        :src="refinedSrc"
+        :alt="alt"
+        :width="width"
+        :height="height"
+        class="modal-image" />
     </div>
   </Teleport>
 </template>

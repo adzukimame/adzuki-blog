@@ -1,65 +1,75 @@
 <template>
   <article class="container">
-    <NuxtLink :to="item._path"
-              class="title-and-description-container"
-              data-testid="link">
-      <div class="title"
-           data-testid="title">
+    <NuxtLink
+      :to="item._path"
+      class="title-and-description-container"
+      data-testid="link">
+      <div
+        class="title"
+        data-testid="title">
         {{ item.title }}
       </div>
-      <div class="description"
-           data-testid="description">
+      <div
+        class="description"
+        data-testid="description">
         {{ item.hideDescription ? '…' : item.description }}
       </div>
     </NuxtLink>
     <div class="category-and-date-container">
-      <div class="category-container"
-           data-testid="category">
-        <svg xmlns="http://www.w3.org/2000/svg"
-             width="1rem"
-             height="1rem"
-             size="1rem"
-             viewBox="0 0 24 24"
-             fill="none"
-             stroke="currentColor"
-             stroke-width="2"
-             stroke-linecap="round"
-             stroke-linejoin="round"
-             aria-hidden="true">
+      <div
+        class="category-container"
+        data-testid="category">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="1rem"
+          height="1rem"
+          size="1rem"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true">
           <path d="M5 4h4l3 3h7a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-11a2 2 0 0 1 2 -2" />
         </svg>
-        <NuxtLink v-if="normalizedCategory === undefined"
-                  :to="'/category/undefined'"
-                  class="category">
+        <NuxtLink
+          v-if="normalizedCategory === undefined"
+          :to="'/category/undefined'"
+          class="category">
           未設定
         </NuxtLink>
         <template v-else>
-          <NuxtLink v-for="category in normalizedCategory"
-                    :key="category"
-                    :to="`/category/${category}`"
-                    class="category">
+          <NuxtLink
+            v-for="category in normalizedCategory"
+            :key="category"
+            :to="`/category/${category}`"
+            class="category">
             {{ category }}
           </NuxtLink>
         </template>
       </div>
-      <div class="date-container"
-           data-testid="created">
-        <svg xmlns="http://www.w3.org/2000/svg"
-             width="1rem"
-             height="1rem"
-             size="1rem"
-             viewBox="0 0 24 24"
-             fill="none"
-             stroke="currentColor"
-             stroke-width="2"
-             stroke-linecap="round"
-             stroke-linejoin="round"
-             aria-hidden="true">
+      <div
+        class="date-container"
+        data-testid="created">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="1rem"
+          height="1rem"
+          size="1rem"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true">
           <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" />
           <path d="M12 7v5l3 3" />
         </svg>
-        <time v-if="!Number.isNaN(Date.parse(item.created))"
-              :datetime="item.created">
+        <time
+          v-if="!Number.isNaN(Date.parse(item.created))"
+          :datetime="item.created">
           {{ new Intl.DateTimeFormat('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' }).format(new Date(item.created)) }}
         </time>
         <div v-else>

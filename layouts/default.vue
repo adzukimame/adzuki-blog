@@ -1,17 +1,20 @@
 <template>
   <div>
-    <AppHeader @menu-opened="menuOpened = true"
-               @menu-closed="menuOpened = false" />
-    <div class="slot-container"
-         :class="{ menuOpened }"
-         :inert="menuOpened ? true : undefined"
-         :aria-hidden="menuOpened ? true : undefined"
-         data-testid="slot-container">
+    <AppHeader
+      @menu-opened="menuOpened = true"
+      @menu-closed="menuOpened = false" />
+    <div
+      class="slot-container"
+      :class="{ menuOpened }"
+      :inert="menuOpened ? true : undefined"
+      :aria-hidden="menuOpened ? true : undefined"
+      data-testid="slot-container">
       <slot />
     </div>
-    <AppFooter :class="{ menuOpened }"
-               :inert="menuOpened ? true : undefined"
-               :aria-hidden="menuOpened ? true : undefined" />
+    <AppFooter
+      :class="{ menuOpened }"
+      :inert="menuOpened ? true : undefined"
+      :aria-hidden="menuOpened ? true : undefined" />
   </div>
 </template>
 

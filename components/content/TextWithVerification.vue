@@ -1,20 +1,22 @@
 <template>
   <ClientOnly>
-    <NuxtTurnstile class="turnstile-widget"
-                   :options="{
-                     'appearance': 'always',
-                     'callback': turnstileCallback,
-                     'error-callback': turnstileErrorCallback,
-                   }" />
+    <NuxtTurnstile
+      class="turnstile-widget"
+      :options="{
+        'appearance': 'always',
+        'callback': turnstileCallback,
+        'error-callback': turnstileErrorCallback,
+      }" />
     <div v-if="loading">
       アクセスの検証が完了すると、ここに内容が表示されます。
     </div>
     <div v-else-if="error !== false">
       {{ error === 'verification' ? '検証に失敗したため' : error === 'rendering' ? '描画に失敗したため' : 'エラーが発生したため' }}、表示できません。
     </div>
-    <div v-else
-         ref="textBlock"
-         class="text-block" />
+    <div
+      v-else
+      ref="textBlock"
+      class="text-block" />
     <template #fallback>
       <div class="placeholder" />
     </template>

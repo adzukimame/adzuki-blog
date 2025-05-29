@@ -1,10 +1,12 @@
 <template>
   <div>
-    <div v-if="articles && articles.length > 0"
-         class="article-list">
-      <ArticleListItem v-for="item in articles"
-                       :key="item._id"
-                       :item="item" />
+    <div
+      v-if="articles && articles.length > 0"
+      class="article-list">
+      <ArticleListItem
+        v-for="item in articles"
+        :key="item._id"
+        :item="item" />
     </div>
     <div v-else>
       コンテンツはありません
