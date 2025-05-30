@@ -54,6 +54,9 @@ export default withNuxt(
         ignoreIIFE: false,
         ignoreVoid: true,
       }],
+      '@typescript-eslint/consistent-type-assertions': ['error', {
+        assertionStyle: 'never',
+      }],
     },
   },
   {

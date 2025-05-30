@@ -115,8 +115,7 @@
 
 <script setup lang="ts">
 const emits = defineEmits<{
-  (e: 'menuOpened'): void;
-  (e: 'menuClosed'): void; // eslint-disable-line @typescript-eslint/unified-signatures
+  (e: 'menuOpened' | 'menuClosed'): void;
 }>();
 
 const appConfig = useAppConfig();

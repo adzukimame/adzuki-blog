@@ -7,19 +7,18 @@ import type { getSerializedStoryData } from 'histoire/dist/node/build-serialize.
 
 const server = await launchStaticWebServer('.histoire/dist');
 
+export const interactSchema = z.array(z.union([
+  z.object({ click: z.string() }),
+  z.object({ hover: z.string() }),
+  z.object({ sleep: z.number() }),
+])).min(1);
+
 export const metaInteractSchema = z.union([
-  z.array(
-    z.array(
-      z.union([
-        z.object({ click: z.string() }),
-        z.object({ hover: z.string() }),
-        z.object({ sleep: z.number() }),
-      ])
-    ).min(1)
-  ).min(1),
+  z.array(interactSchema).min(1),
   z.undefined(),
 ]);
 
+// eslint-disable-next-line @typescript-eslint/consistent-type-assertions -- バリデータを書くとかしてスキーマを実際にチェックするのは現実的でない
 const histoire = JSON.parse(readFileSync('./.histoire/dist/histoire.json', { encoding: 'utf8' })) as ReturnType<typeof getSerializedStoryData>;
 
 const customPages = histoire.stories.map((story) => {
@@ -37,12 +36,12 @@ const customPages = histoire.stories.map((story) => {
       interact: [
         ...(storyInteract ?? []),
         ...(variantInteract ?? []),
-      ] as NonNullable<z.infer<typeof metaInteractSchema>>,
+      ],
     };
   });
 }).flat(
 ).filter(
-  variants => variants !== undefined
+  variant => variant !== undefined
 ).map(variant => variant.interact.map(i => ({
   storyId: variant.storyId,
   variantId: variant.variantId,
@@ -75,7 +74,7 @@ export const config: CustomProjectConfig = {
 
     const rawInteract = url.searchParams.get('interact');
     if (rawInteract !== null) {
-      const interact = JSON.parse(decodeURIComponent(rawInteract)) as NonNullable<z.infer<typeof metaInteractSchema>>[number];
+      const interact = interactSchema.parse(JSON.parse(decodeURIComponent(rawInteract)));
 
       for (const i of interact) {
         if ('click' in i) await page.click(i.click);

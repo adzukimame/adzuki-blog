@@ -18,11 +18,7 @@
       <canvas
         v-for="idx in textLength"
         :key="idx"
-        :ref="(el) => {
-          if (el) {
-            canvasRefs[idx - 1] = el as unknown as HTMLCanvasElement;
-          }
-        }"
+        :ref="(el) => canvasRefFunc(el, idx - 1)"
         width="0"
         height="0" />
     </div>
@@ -43,6 +39,12 @@ const loading = ref(true);
 const error = ref<boolean | 'verification' | 'rendering'>(false);
 const textLength = ref<number>(0);
 const canvasRefs = ref<(HTMLCanvasElement | null)[]>([]);
+
+const canvasRefFunc = (element: Element | globalThis.ComponentPublicInstance | null, index: number) => {
+  if (element instanceof HTMLCanvasElement) {
+    canvasRefs.value[index] = element;
+  }
+};
 
 let measureCanvas: HTMLCanvasElement | undefined = undefined;
 let measureCtx: CanvasRenderingContext2D | null = null;
@@ -93,14 +95,15 @@ const turnstileCallback = (token: string) => {
       throw new Error();
     }
 
-    const rand = Uint8Array.from(atob(header), char => char.codePointAt(0) as number);
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- Stringのイテレータから得られる各文字は長さ1以上のはず
+    const rand = Uint8Array.from(atob(header), char => char.codePointAt(0)!);
 
     const data = response._data;
     if (!(data instanceof Blob)) {
       throw new Error();
     }
 
-    if (data.size !== rand.length) {
+    if (data.size !== rand.byteLength) {
       throw new Error();
     }
 
@@ -116,7 +119,8 @@ const turnstileCallback = (token: string) => {
 
     let i = 0;
 
-    for (const char of new TextDecoder().decode(byteArray.map((byte, idx) => byte ^ rand[idx] as number))) {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- byteArrayの元のBlobのバイト数とrandのバイト数が等しいことは上で確認済み
+    for (const char of new TextDecoder().decode(byteArray.map((byte, idx) => byte ^ rand[idx]!))) {
       const c = canvasRefs.value[i];
       if (c) renderOneCanvas(c, char);
       i++;

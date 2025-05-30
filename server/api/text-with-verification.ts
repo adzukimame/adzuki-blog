@@ -7,8 +7,11 @@ export default defineEventHandler(async (event) => {
     return createError({ statusCode: 405, statusMessage: 'Method Not Allowed' });
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- NUXT_***環境変数の値にJSON文字列を設定するとruntimeConfigの該当プロパティの値はオブジェクトになるが、型に反映されていない
-  if (typeof config.protectedTexts !== 'object' || config.protectedTexts === null) {
+  const protectedTextsSchema = z.record(z.string(), z.string());
+
+  const protectedTexts = protectedTextsSchema.safeParse(config.protectedTexts);
+
+  if (!protectedTexts.success) {
     return createError({ statusCode: 500, statusMessage: 'Internal Server Error' });
   }
 
@@ -21,7 +24,8 @@ export default defineEventHandler(async (event) => {
     name: z.string(),
   });
 
-  const body = await readValidatedBody(event, body => requestBodySchema.safeParse(body));
+  // eslint-disable-next-line @typescript-eslint/unbound-method -- 冗長
+  const body = await readValidatedBody(event, requestBodySchema.safeParse);
 
   if (!body.success) {
     return createError({ statusCode: 400, statusMessage: 'Bad Request' });
@@ -35,10 +39,9 @@ export default defineEventHandler(async (event) => {
     return createError({ statusCode: 400, statusMessage: 'Bad Request' });
   }
 
-  // NUXT_***環境変数の値にJSON文字列を設定するとruntimeConfigの該当プロパティの値はオブジェクトになるが、型に反映されていない
-  const protectedTexts = config.protectedTexts as unknown as Record<string, unknown>;
+  const text = protectedTexts.data[body.data.name];
 
-  if (!Object.hasOwn(protectedTexts, body.data.name) || typeof protectedTexts[body.data.name] !== 'string') {
+  if (text === undefined) {
     return createError({ statusCode: 400, statusMessage: 'Bad Request' });
   }
 
@@ -46,11 +49,12 @@ export default defineEventHandler(async (event) => {
 
   setResponseHeader(event, 'Content-Type', 'application/octet-stream');
 
-  const byteArray = new TextEncoder().encode(protectedTexts[body.data.name] as string);
+  const byteArray = new TextEncoder().encode(text);
 
-  const randomValues = crypto.getRandomValues(new Uint8Array(byteArray.length));
+  const randomValues = crypto.getRandomValues(new Uint8Array(byteArray.byteLength));
 
   setResponseHeader(event, 'X-Attached-Payload', btoa(Array.from(randomValues, byte => String.fromCodePoint(byte)).join('')));
 
-  return byteArray.map((byte, idx) => byte ^ randomValues[idx] as number);
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- randomValuesのバイト数はbyteArrayのバイト数と同じ
+  return byteArray.map((byte, idx) => byte ^ randomValues[idx]!);
 });

@@ -12,6 +12,6 @@ export const mockHTMLElementAnimate: typeof HTMLElement.prototype.animate = (_ke
     animation.dispatchEvent(new Event('finish'));
   }, duration);
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- テスト対象のコンポーネント側からは、addEventlistenerが呼べればいいので
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- テスト対象のコンポーネント側からは、addEventlistenerが呼べればいい
   return animation as any;
 };

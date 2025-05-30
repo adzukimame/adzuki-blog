@@ -5,6 +5,6 @@ import GlobalWrapper from './GlobalWrapper.vue';
 import '../assets/css/main.css';
 
 export const setupVue3 = defineSetupVue3((api) => {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- ドキュメント通りに書いていてもエラーになるので (https://histoire.dev/guide/vue3/wrapper.html)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- ドキュメント通りに書いていてもエラーになる (https://histoire.dev/guide/vue3/wrapper.html)
   api.addWrapper(GlobalWrapper);
 });
