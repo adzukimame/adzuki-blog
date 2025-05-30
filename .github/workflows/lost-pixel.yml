@@ -120,7 +120,7 @@ jobs:
           script: |
             const { interpretAndMarkup } = require('./scripts/interpret-lost-pixel-result.js');
             const markup = interpretAndMarkup();
-            const content = `### Lost Pixel Result\n\n${markup}\n\n[Download screenshots](${process.env.ARTIFACT_URL}) `;
+            const content = `### Lost Pixel Result\n\n${markup}\n\n[Download screenshots](${process.env.ARTIFACT_URL})`;
             await github.rest.issues.createComment({
               ...context.repo,
               issue_number: process.env.PR_NUMBER,
