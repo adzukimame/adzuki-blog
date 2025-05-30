@@ -58,7 +58,7 @@ jobs:
         env:
           PLAYWRIGHT_VERSION: ${{ steps.get-playwright-version.outputs.version }}
         run: |
-          pnpx playwright@$env:PLAYWRIGHT_VERSION install chromium --with-deps
+          pnpx playwright@$PLAYWRIGHT_VERSION install chromium --with-deps
       - name: Build story (baseline)
         run: pnpm run story:build
       - name: Lost Pixel (baseline)
