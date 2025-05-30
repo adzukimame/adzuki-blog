@@ -1,14 +1,17 @@
+import { readFile } from 'node:fs/promises';
 import { launchStaticWebServer } from 'lost-pixel/dist/crawler/utils.js';
 import sanitizeFilename from 'sanitize-filename';
 import type { CustomProjectConfig } from 'lost-pixel';
 
 const server = await launchStaticWebServer('.histoire/dist');
 
-const customPages: NonNullable<CustomProjectConfig['pageShots']>['pages'] = await import('./.histoire/dist/histoire.json').then((histoire) => {
-  return histoire.stories.map((story) => {
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+const customPages: NonNullable<CustomProjectConfig['pageShots']>['pages'] = await readFile('./.histoire/dist/histoire.json', { encoding: 'utf8' }).then(text => JSON.parse(text)).then((histoire) => {
+  return histoire.stories.map((story: any) => {
     const storyInteract = 'meta' in story && story.meta !== null && typeof story.meta === 'object' && 'interact' in story.meta && Array.isArray(story.meta.interact) ? story.meta?.interact : undefined;
 
-    return story.variants.map((variant) => {
+    return story.variants.map((variant: any) => {
       const variantInteract = 'meta' in variant ? variant.meta?.interact : undefined;
 
       if (storyInteract === undefined && variantInteract === undefined) return undefined;
@@ -20,14 +23,14 @@ const customPages: NonNullable<CustomProjectConfig['pageShots']>['pages'] = awai
         interact: [...(storyInteract ?? []), ...(variantInteract ?? [])] as NonNullable<typeof variantInteract>,
       };
     });
-  }).flat().filter(variant => variant !== undefined).map((variant) => {
-    return variant.interact.map(i => ({
+  }).flat().filter((variant: any) => variant !== undefined).map((variant: any) => {
+    return variant.interact.map((i: any) => ({
       storyId: variant.storyId,
       variantId: variant.variantId,
       variantTitle: variant.variantTitle,
       interact: i,
     }));
-  }).flat().map((variant) => {
+  }).flat().map((variant: any) => {
     const url = new URL(server.url);
     url.pathname = '/__sandbox.html';
     url.searchParams.set('storyId', variant.storyId);
@@ -36,7 +39,7 @@ const customPages: NonNullable<CustomProjectConfig['pageShots']>['pages'] = awai
 
     return {
       path: url.pathname + url.search,
-      name: sanitizeFilename(`${variant.storyId}_${variant.variantTitle}_${variant.interact.map(i => Object.entries(i).map(pair => pair.join('_')).join('_')).join('-')}`),
+      name: sanitizeFilename(`${variant.storyId}_${variant.variantTitle}_${variant.interact.map((i: any) => Object.entries(i).map(pair => pair.join('_')).join('_')).join('-')}`),
     };
   });
 });
@@ -53,7 +56,6 @@ export const config: CustomProjectConfig = {
     const url = new URL(page.url());
 
     if (url.searchParams.has('interact')) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const interact: any[] = JSON.parse(decodeURIComponent(url.searchParams.get('interact')!));
 
       for (const i of interact) {
@@ -66,3 +68,5 @@ export const config: CustomProjectConfig = {
   generateOnly: true,
   failOnDifference: process.env.LOST_PIXEL_MODE !== 'update',
 };
+
+/* eslint-enable @typescript-eslint/no-explicit-any */
