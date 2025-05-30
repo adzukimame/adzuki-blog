@@ -1,9 +1,9 @@
 import { launchStaticWebServer } from 'lost-pixel/dist/crawler/utils.js';
+import sanitizeFilename from 'sanitize-filename';
 import type { CustomProjectConfig } from 'lost-pixel';
 
 const server = await launchStaticWebServer('.histoire/dist');
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
 const customPages: NonNullable<CustomProjectConfig['pageShots']>['pages'] = await import('./.histoire/dist/histoire.json').then((histoire) => {
   return histoire.stories.map((story) => {
     const storyInteract = 'meta' in story && story.meta !== null && typeof story.meta === 'object' && 'interact' in story.meta && Array.isArray(story.meta.interact) ? story.meta?.interact : undefined;
@@ -36,11 +36,10 @@ const customPages: NonNullable<CustomProjectConfig['pageShots']>['pages'] = awai
 
     return {
       path: url.pathname + url.search,
-      name: `${variant.storyId}_${variant.variantTitle}_${variant.interact.map(i => Object.entries(i).map(pair => pair.join('_')).join('_')).join('-')}`,
+      name: sanitizeFilename(`${variant.storyId}_${variant.variantTitle}_${variant.interact.map(i => Object.entries(i).map(pair => pair.join('_')).join('_')).join('-')}`),
     };
   });
 });
-/* eslint-enable @typescript-eslint/no-explicit-any */
 
 export const config: CustomProjectConfig = {
   histoireShots: {

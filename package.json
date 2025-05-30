@@ -44,6 +44,7 @@
     "happy-dom": "^17.4.7",
     "histoire": "1.0.0-alpha.2",
     "lost-pixel": "^3.22.0",
+    "sanitize-filename": "^1.6.3",
     "typescript-eslint": "^8.33.0",
     "vitest": "^3.1.4"
   }
