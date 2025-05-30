@@ -82,7 +82,7 @@ export const interpretAndMarkup = () => {
   }
   else {
     markup += `❌${differingStories.length} stories/variants have differences.
-|Story Title|Variant Title|Story Path|Interact|
+|Story Title|Variant Title|Story Path|Interaction|
 |-----------|-------------|----------|--------|
 ${differingStories.map(storyInfo => `|${storyInfo.title}|${storyInfo.variantTitle}|${storyInfo.relativePath}|${storyInfo.interact ?? ''}|`).join('\n')}\n\n`;
   }
@@ -92,7 +92,7 @@ ${differingStories.map(storyInfo => `|${storyInfo.title}|${storyInfo.variantTitl
   }
   else {
     markup += `⚠️${addedStories.length} stories/variants were added.
-|Story Title|Variant Title|Story Path|Interact|
+|Story Title|Variant Title|Story Path|Interaction|
 |-----------|-------------|----------|--------|
 ${addedStories.map(storyInfo => `|${storyInfo.title}|${storyInfo.variantTitle}|${storyInfo.relativePath}|${storyInfo.interact ?? ''}|`).join('\n')}\n\n`;
   }
