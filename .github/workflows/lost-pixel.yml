@@ -28,7 +28,7 @@ jobs:
       - name: Get baseline ref
         id: get-baseline-ref
         run: |
-          echo "ref=$(cat latest/.lostpixel-baseline)" >> $env:GITHUB_OUTPUT
+          echo "ref=$(cat latest/.lostpixel-baseline)" >> $GITHUB_OUTPUT
           rm -rf ./latest
       - name: Checkout (baseline)
         uses: actions/checkout@v4
@@ -46,7 +46,7 @@ jobs:
       - name: Get playwright version
         id: get-playwright-version
         run: |
-          echo "version=$(pnpm list --depth 1 --json | cat | jq -r '.[0].devDependencies."lost-pixel".dependencies."playwright-core".version')" >> $env:GITHUB_OUTPUT
+          echo "version=$(pnpm list --depth 1 --json | cat | jq -r '.[0].devDependencies."lost-pixel".dependencies."playwright-core".version')" >> $GITHUB_OUTPUT
       - name: Cache playwright browsers
         id: cache-playwright-browsers
         uses: actions/cache@v4
