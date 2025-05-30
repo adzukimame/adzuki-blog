@@ -8,6 +8,13 @@
 </template>
 
 <script setup lang="ts">
+import type { Story, Variant } from 'histoire';
+
+defineProps<{
+  story: Story;
+  variant?: Variant;
+}>();
+
 // media query
 // const colorScheme = ref<'light' | 'dark'>(window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
 // window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', (event) => {

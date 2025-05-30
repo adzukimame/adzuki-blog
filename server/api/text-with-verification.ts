@@ -7,8 +7,7 @@ export default defineEventHandler(async (event) => {
     return createError({ statusCode: 405, statusMessage: 'Method Not Allowed' });
   }
 
-  // NUXT_***環境変数の値にJSON文字列を設定するとruntimeConfigの該当プロパティの値はオブジェクトになるが、型に反映されていない
-  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- NUXT_***環境変数の値にJSON文字列を設定するとruntimeConfigの該当プロパティの値はオブジェクトになるが、型に反映されていない
   if (typeof config.protectedTexts !== 'object' || config.protectedTexts === null) {
     return createError({ statusCode: 500, statusMessage: 'Internal Server Error' });
   }

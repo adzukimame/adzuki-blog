@@ -9,7 +9,7 @@ export default defineEventHandler((event) => {
     'X-XSS-Protection': '0',
     'Permissions-Policy': 'microphone=(), camera=(), geolocation=()',
     'X-Robots-Tag': 'noindex, nofollow, noarchive, nosnippet, noimageindex, noai, noimageai',
-    // eslint-disable-next-line @stylistic/quotes
+    // eslint-disable-next-line @stylistic/quotes -- 外側を二重引用符にした方が見やすい
     'Content-Security-Policy': "default-src 'none'; style-src 'unsafe-inline' 'self'; img-src 'self'; media-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none';",
   });
 
@@ -25,7 +25,7 @@ export default defineEventHandler((event) => {
       // allow
     }
     else {
-      // eslint-disable-next-line @stylistic/quotes
+      // eslint-disable-next-line @stylistic/quotes -- 外側を二重引用符にした方が見やすい
       setResponseHeader(event, 'Content-Security-Policy', "default-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none';");
 
       throw createError({

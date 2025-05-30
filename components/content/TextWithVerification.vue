@@ -92,8 +92,8 @@ const turnstileCallback = (token: string) => {
     if (header === null) {
       throw new Error();
     }
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const rand = Uint8Array.from(atob(header), char => char.codePointAt(0)!);
+
+    const rand = Uint8Array.from(atob(header), char => char.codePointAt(0) as number);
 
     const data = response._data;
     if (!(data instanceof Blob)) {
@@ -115,8 +115,8 @@ const turnstileCallback = (token: string) => {
     await nextTick();
 
     let i = 0;
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    for (const char of new TextDecoder().decode(byteArray.map((byte, idx) => byte ^ rand[idx]!))) {
+
+    for (const char of new TextDecoder().decode(byteArray.map((byte, idx) => byte ^ rand[idx] as number))) {
       const c = canvasRefs.value[i];
       if (c) renderOneCanvas(c, char);
       i++;

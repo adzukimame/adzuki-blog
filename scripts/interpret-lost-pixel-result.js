@@ -1,8 +1,23 @@
 // @ts-check
 import { readdirSync, readFileSync } from 'node:fs';
+import { z } from 'zod/v4';
 
-const rawHistoire = readFileSync('.histoire/dist/histoire.json', { encoding: 'utf8' });
-const histoire = JSON.parse(rawHistoire);
+// TODO Node.jsが.tsファイルの解決に対応したら、../lostpixel.config.tsをインポートして使うようにする
+const metaInteractSchema = z.union([
+  z.array(
+    z.array(
+      z.union([
+        z.object({ click: z.string() }),
+        z.object({ hover: z.string() }),
+        z.object({ sleep: z.number() }),
+      ]),
+    ).min(1),
+  ).min(1),
+  z.undefined(),
+]);
+
+/** @type {ReturnType<typeof import('histoire/dist/node/build-serialize.js')['getSerializedStoryData']>} */
+const histoire = JSON.parse(readFileSync('.histoire/dist/histoire.json', { encoding: 'utf8' }));
 
 /**
  * @param {string} path
@@ -26,13 +41,20 @@ export const interpret = () => {
 
     const [storyId, variantTitle, interactStr] = imageName.split('_');
 
-    const story = histoire.stories.find(/** @param {any} story */ story => story.id === storyId && story.variants.some(/** @param {any} variant */ variant => variant.title === variantTitle));
+    const story = histoire.stories.find(story => story.id === storyId && story.variants.some(variant => variant.title === variantTitle));
     if (story === undefined) return undefined;
 
-    const variant = story.variants.find(/** @param {any} variant */ variant => variant.title === variantTitle);
+    const variant = story.variants.find(variant => variant.title === variantTitle);
     if (variant === undefined) return undefined;
 
-    const interact = variant.meta?.interact?.find(/** @param {any} i */ i => i.map(/** @param {any} op */ op => Object.entries(op).map(pair => pair.join('-')).join('--')).join('---') === interactStr);
+    const storyInteract = metaInteractSchema.safeParse(story.meta && 'interact' in story.meta ? story.meta.interact : undefined);
+    const variantInteract = metaInteractSchema.safeParse(variant.meta && 'interact' in variant.meta ? variant.meta.interact : undefined);
+
+    const interact = storyInteract.success && storyInteract.data
+      ? storyInteract.data.find(i => i.map(op => Object.entries(op).map(pair => pair.join('-')).join('--')).join('---') === interactStr)
+      : variantInteract.success && variantInteract.data
+        ? variantInteract.data.find(i => i.map(op => Object.entries(op).map(pair => pair.join('-')).join('--')).join('---') === interactStr)
+        : undefined;
 
     return {
       id: story.id,
@@ -47,13 +69,20 @@ export const interpret = () => {
   const differingStories = differenceImages.map((imageName) => {
     const [storyId, variantTitle, interactStr] = imageName.split('_');
 
-    const story = histoire.stories.find(/** @param {any} story */ story => story.id === storyId && story.variants.some(/** @param {any} variant */ variant => variant.title === variantTitle));
+    const story = histoire.stories.find(story => story.id === storyId && story.variants.some(/** @param {any} variant */ variant => variant.title === variantTitle));
     if (story === undefined) return undefined;
 
-    const variant = story.variants.find(/** @param {any} variant */ variant => variant.title === variantTitle);
+    const variant = story.variants.find(variant => variant.title === variantTitle);
     if (variant === undefined) return undefined;
 
-    const interact = variant.meta?.interact?.find(/** @param {any} i */ i => i.map(/** @param {any} op */ op => Object.entries(op).map(pair => pair.join('-')).join('--')).join('---') === interactStr);
+    const storyInteract = metaInteractSchema.safeParse(story.meta && 'interact' in story.meta ? story.meta.interact : undefined);
+    const variantInteract = metaInteractSchema.safeParse(variant.meta && 'interact' in variant.meta ? variant.meta.interact : undefined);
+
+    const interact = storyInteract.success && storyInteract.data
+      ? storyInteract.data.find(i => i.map(op => Object.entries(op).map(pair => pair.join('-')).join('--')).join('---') === interactStr)
+      : variantInteract.success && variantInteract.data
+        ? variantInteract.data.find(i => i.map(op => Object.entries(op).map(pair => pair.join('-')).join('--')).join('---') === interactStr)
+        : undefined;
 
     return {
       id: story.id,

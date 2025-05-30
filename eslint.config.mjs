@@ -22,7 +22,7 @@ export default withNuxt(
   },
   {
     files: ['**/*.vue', '**/*.ts'],
-    ignores: ['tests/**/*.ts', 'lostpixel.config.ts'],
+    ignores: ['tests/**/*.ts'],
     languageOptions: {
       parserOptions: {
         projectService: true,
