@@ -1,8 +1,8 @@
 import { defineSetupVue3 } from '@histoire/plugin-vue';
 
-import GlobalWrapper from './histoire/GlobalWrapper.vue';
+import GlobalWrapper from './GlobalWrapper.vue';
 
-import './assets/css/main.css';
+import '../assets/css/main.css';
 
 /* eslint-disable */
 
