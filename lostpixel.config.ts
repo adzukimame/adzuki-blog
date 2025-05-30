@@ -1,25 +1,15 @@
 import { readFileSync } from 'node:fs';
-import { z } from 'zod/v4';
 import sanitizeFilename from 'sanitize-filename';
+import sjson from 'secure-json-parse';
 import { launchStaticWebServer } from 'lost-pixel/dist/crawler/utils.js';
 import type { CustomProjectConfig } from 'lost-pixel';
-import type { getSerializedStoryData } from 'histoire/dist/node/build-serialize.js';
+import { interactSchema, metaInteractSchema, serializedStorySchema } from './histoire/util.js';
 
 const server = await launchStaticWebServer('.histoire/dist');
 
-export const interactSchema = z.array(z.union([
-  z.object({ click: z.string() }),
-  z.object({ hover: z.string() }),
-  z.object({ sleep: z.number() }),
-])).min(1);
-
-export const metaInteractSchema = z.union([
-  z.array(interactSchema).min(1),
-  z.undefined(),
-]);
-
-// eslint-disable-next-line @typescript-eslint/consistent-type-assertions -- バリデータを書くとかしてスキーマを実際にチェックするのは現実的でない
-const histoire = JSON.parse(readFileSync('./.histoire/dist/histoire.json', { encoding: 'utf8' })) as ReturnType<typeof getSerializedStoryData>;
+const histoire = serializedStorySchema.parse(sjson.parse(
+  readFileSync('./.histoire/dist/histoire.json', { encoding: 'utf8' })
+));
 
 const customPages = histoire.stories.map((story) => {
   const storyInteract = metaInteractSchema.parse(story.meta && 'interact' in story.meta ? story.meta.interact : undefined);
@@ -74,7 +64,7 @@ export const config: CustomProjectConfig = {
 
     const rawInteract = url.searchParams.get('interact');
     if (rawInteract !== null) {
-      const interact = interactSchema.parse(JSON.parse(decodeURIComponent(rawInteract)));
+      const interact = interactSchema.parse(sjson.parse(decodeURIComponent(rawInteract)));
 
       for (const i of interact) {
         if ('click' in i) await page.click(i.click);
