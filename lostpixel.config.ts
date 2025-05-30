@@ -39,7 +39,7 @@ const customPages: NonNullable<CustomProjectConfig['pageShots']>['pages'] = awai
 
     return {
       path: url.pathname + url.search,
-      name: sanitizeFilename(`${variant.storyId}_${variant.variantTitle}_${variant.interact.map((i: any) => Object.entries(i).map(pair => pair.join('_')).join('_')).join('-')}`),
+      name: sanitizeFilename(`${variant.storyId}_${variant.variantTitle}_${variant.interact.map((op: any) => Object.entries(op).map(pair => pair.join('-')).join('--')).join('---')}`),
     };
   });
 });

@@ -24,8 +24,7 @@ export const interpret = () => {
   const addedStories = currentImages.map((imageName) => {
     if (baselineImages.includes(imageName)) return undefined;
 
-    const storyId = imageName.slice(0, imageName.indexOf('_'));
-    const variantTitle = imageName.slice(imageName.indexOf('_') + 1, imageName.length);
+    const [storyId, variantTitle, interactStr] = imageName.split('_');
 
     const story = histoire.stories.find(/** @param {any} story */ story => story.id === storyId && story.variants.some(/** @param {any} variant */ variant => variant.title === variantTitle));
     if (story === undefined) return undefined;
@@ -33,18 +32,20 @@ export const interpret = () => {
     const variant = story.variants.find(/** @param {any} variant */ variant => variant.title === variantTitle);
     if (variant === undefined) return undefined;
 
+    const interact = variant.meta?.interact?.find(/** @param {any} i */ i => i.map(/** @param {any} op */ op => Object.entries(op).map(pair => pair.join('-')).join('--')).join('---') === interactStr);
+
     return {
       id: story.id,
       title: story.title,
       relativePath: story.relativePath,
       variantId: variant.id,
       variantTitle: variant.title,
+      interact: interact ? JSON.stringify(interact) : undefined,
     };
   }).filter(storyInfo => storyInfo !== undefined);
 
   const differingStories = differenceImages.map((imageName) => {
-    const storyId = imageName.slice(0, imageName.indexOf('_'));
-    const variantTitle = imageName.slice(imageName.indexOf('_') + 1, imageName.length);
+    const [storyId, variantTitle, interactStr] = imageName.split('_');
 
     const story = histoire.stories.find(/** @param {any} story */ story => story.id === storyId && story.variants.some(/** @param {any} variant */ variant => variant.title === variantTitle));
     if (story === undefined) return undefined;
@@ -52,12 +53,15 @@ export const interpret = () => {
     const variant = story.variants.find(/** @param {any} variant */ variant => variant.title === variantTitle);
     if (variant === undefined) return undefined;
 
+    const interact = variant.meta?.interact?.find(/** @param {any} i */ i => i.map(/** @param {any} op */ op => Object.entries(op).map(pair => pair.join('-')).join('--')).join('---') === interactStr);
+
     return {
       id: story.id,
       title: story.title,
       relativePath: story.relativePath,
       variantId: variant.id,
       variantTitle: variant.title,
+      interact: interact ? JSON.stringify(interact) : undefined,
     };
   }).filter(storyInfo => storyInfo !== undefined);
 
@@ -78,9 +82,9 @@ export const interpretAndMarkup = () => {
   }
   else {
     markup += `❌${differingStories.length} stories/variants have differences.
-|Story Title|Variant Title|Story Path|
-|-----------|-------------|----------|
-${differingStories.map(storyInfo => `|${storyInfo.title}|${storyInfo.variantTitle}|${storyInfo.relativePath}|`).join('\n')}\n\n`;
+|Story Title|Variant Title|Story Path|Interact|
+|-----------|-------------|----------|--------|
+${differingStories.map(storyInfo => `|${storyInfo.title}|${storyInfo.variantTitle}|${storyInfo.relativePath}|${storyInfo.interact ?? ''}|`).join('\n')}\n\n`;
   }
 
   if (addedStories.length === 0) {
@@ -88,9 +92,9 @@ ${differingStories.map(storyInfo => `|${storyInfo.title}|${storyInfo.variantTitl
   }
   else {
     markup += `⚠️${addedStories.length} stories/variants were added.
-|Story Title|Variant Title|Story Path|
-|-----------|-------------|----------|
-${addedStories.map(storyInfo => `|${storyInfo.title}|${storyInfo.variantTitle}|${storyInfo.relativePath}|`).join('\n')}\n\n`;
+|Story Title|Variant Title|Story Path|Interact|
+|-----------|-------------|----------|--------|
+${addedStories.map(storyInfo => `|${storyInfo.title}|${storyInfo.variantTitle}|${storyInfo.relativePath}|${storyInfo.interact ?? ''}|`).join('\n')}\n\n`;
   }
 
   if (dissappearedImages.length === 0) {
