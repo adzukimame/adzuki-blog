@@ -22,7 +22,7 @@ export default withNuxt(
   },
   {
     files: ['**/*.vue', '**/*.ts'],
-    ignores: ['tests/**/*.ts', 'lostpixel.config.ts'],
+    ignores: ['tests/**/*.ts'],
     languageOptions: {
       parserOptions: {
         projectService: true,
@@ -53,6 +53,9 @@ export default withNuxt(
         checkThenables: false,
         ignoreIIFE: false,
         ignoreVoid: true,
+      }],
+      '@typescript-eslint/consistent-type-assertions': ['error', {
+        assertionStyle: 'never',
       }],
     },
   },
