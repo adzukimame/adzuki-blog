@@ -69,7 +69,7 @@ export const interpret = () => {
   const differingStories = differenceImages.map((imageName) => {
     const [storyId, variantTitle, interactStr] = imageName.split('_');
 
-    const story = histoire.stories.find(story => story.id === storyId && story.variants.some(/** @param {any} variant */ variant => variant.title === variantTitle));
+    const story = histoire.stories.find(story => story.id === storyId && story.variants.some(variant => variant.title === variantTitle));
     if (story === undefined) return undefined;
 
     const variant = story.variants.find(variant => variant.title === variantTitle);
