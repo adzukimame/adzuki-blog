@@ -40,6 +40,7 @@ export default defineNuxtConfig({
   typescript: {
     tsConfig: {
       compilerOptions: {
+        checkJs: true,
         noUncheckedIndexedAccess: true,
       },
     },
