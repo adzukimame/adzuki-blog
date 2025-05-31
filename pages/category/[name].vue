@@ -23,13 +23,7 @@ const route = useRoute();
 
 const ARTICLE_PER_PAGE = 10;
 
-const category = computed(() => {
-  const category = Array.isArray(route.params.name) ? route.params.name[0] : route.params.name;
-  if (category === undefined) {
-    throw createError({ statusCode: 404, statusMessage: 'Page not found' });
-  }
-  return category;
-});
+const category = computed(() => Array.isArray(route.params.name) ? route.params.name[0] : route.params.name);
 
 const { data: articleCount } = await useAsyncData(
   `articleCount:/category/${category.value}`,

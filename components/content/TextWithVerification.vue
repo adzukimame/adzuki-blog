@@ -119,8 +119,7 @@ const turnstileCallback = (token: string) => {
 
     let i = 0;
 
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- byteArrayの元のBlobのバイト数とrandのバイト数が等しいことは上で確認済み
-    for (const char of new TextDecoder().decode(byteArray.map((byte, idx) => byte ^ rand[idx]!))) {
+    for (const char of new TextDecoder().decode(byteArray.map((byte, idx) => byte ^ rand[idx]))) {
       const c = canvasRefs.value[i];
       if (c) renderOneCanvas(c, char);
       i++;

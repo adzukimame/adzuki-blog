@@ -9,13 +9,7 @@ const runtimeConfig = useRuntimeConfig();
 
 const route = useRoute();
 
-const id = computed(() => {
-  const id = Array.isArray(route.params.id) ? route.params.id[0] : route.params.id;
-  if (id === undefined) {
-    throw createError({ statusCode: 404, statusMessage: 'Page not found' });
-  }
-  return id;
-});
+const id = computed(() => Array.isArray(route.params.id) ? route.params.id[0] : route.params.id);
 
 const { data } = await useAsyncData(
   `content:/posts/${id.value}`,
