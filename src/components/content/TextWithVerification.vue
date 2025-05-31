@@ -54,8 +54,8 @@ const renderOneCanvas = (canvas: HTMLCanvasElement, char: string) => {
   const fontSize = parseFloat(bodyComputedStyle.fontSize);
   const lineHeight = parseFloat(bodyComputedStyle.lineHeight);
 
-  if (!measureCanvas) measureCanvas = document.createElement('canvas');
-  if (!measureCtx) measureCtx = measureCanvas.getContext('2d');
+  measureCanvas ??= document.createElement('canvas');
+  measureCtx ??= measureCanvas.getContext('2d');
   if (measureCtx) measureCtx.font = bodyComputedStyle.font;
 
   const realWidth = Math.ceil(measureCtx?.measureText(char).width ?? fontSize);

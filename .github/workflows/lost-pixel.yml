@@ -24,9 +24,33 @@ jobs:
             .lostpixel-baseline
       - name: Get baseline ref
         id: get-baseline-ref
-        run: |
-          echo "ref=$(cat latest/.lostpixel-baseline)" >> $GITHUB_OUTPUT
-          rm -rf ./latest
+        uses: actions/github-script@v7
+        env:
+          REF: ${{ github.ref }}
+        with:
+          result-encoding: string
+          script: |
+            const { readFileSync } = require('node:fs');
+
+            const baselineRef= readFileSync('latest/.lostpixel-baseline', { encoding: 'utf8' }).split('\n')[0];
+
+            if (baselineRef.match(/^refs\/pull\/\d+\/merge$/) && baselineRef === process.env.REF) {
+              core.setOutput('ref', baselineRef);
+            }
+            else if (baselineRef.match(/^refs\/pull\/\d+\/merge$/)) {
+              const prNum = baselineRef.match(/^refs\/pull\/(\d+)\/merge$/)[1];
+              const res = await github.rest.pulls.get({
+                ...context.repo,
+                pull_number: prNum,
+              });
+              const sha = res.data.merge_commit_sha;
+              core.setOutput('ref', sha);
+            }
+            else {
+              core.setOutput('ref', baselineRef);
+            }
+
+            io.rmRF('latest')
       - name: Checkout (baseline)
         uses: actions/checkout@v4
         with:

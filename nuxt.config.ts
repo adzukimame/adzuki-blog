@@ -1,9 +1,11 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 
+import { resolve } from 'node:path';
 import meta from './content/meta.json' with { type: 'json' };
 
 export default defineNuxtConfig({
   compatibilityDate: '2025-05-24',
+  srcDir: 'src/',
   devtools: { enabled: true },
   modules: [
     '@nuxt/content',
@@ -37,12 +39,28 @@ export default defineNuxtConfig({
       },
     },
   },
+  typescript: {
+    tsConfig: {
+      compilerOptions: {
+        checkJs: true,
+        noUncheckedIndexedAccess: true,
+      },
+    },
+  },
   css: [
     '~/assets/css/main.css',
   ],
   content: {
+    sources: {
+      content: {
+        driver: 'fs',
+        base: resolve(import.meta.dirname, 'content'),
+      },
+    },
     ignores: [
-      '/meta.json',
+      '^\\.',
+      '^-',
+      '/meta.json$',
     ],
     locales: [
       'ja-JP',

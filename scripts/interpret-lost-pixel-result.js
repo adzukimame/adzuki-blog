@@ -5,7 +5,7 @@ import sanitizeFilename from 'sanitize-filename';
 import { serializedStorySchema } from '../histoire/schema.js';
 
 const histoire = serializedStorySchema.parse(sjson.parse(
-  readFileSync('.histoire/dist/histoire.json', { encoding: 'utf8' }),
+  readFileSync('.histoire/dist/histoire.json', { encoding: 'utf8' })
 ));
 
 /**

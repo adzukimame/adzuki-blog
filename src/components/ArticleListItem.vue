@@ -87,7 +87,7 @@ const props = defineProps<{
   item: Pick<ParsedContent, '_id' | '_path' | 'title' | 'description' | 'category' | 'created' | 'hideDescription'> | ParsedContent;
 }>();
 
-const normalizedCategory = computed<Array<string> | undefined>(() => normalizeCategory(props.item.category));
+const normalizedCategory = computed<string[] | undefined>(() => normalizeCategory(props.item.category));
 </script>
 
 <style scoped>
