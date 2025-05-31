@@ -34,11 +34,11 @@ jobs:
 
             const baselineRef= readFileSync('latest/.lostpixel-baseline', { encoding: 'utf8' }).split('\n')[0];
 
-            if (baselineRef.startsWith('refs/pull/') && baselineRef === process.env.REF) {
+            if (baselineRef.match(/^refs\/pull\/\d+\/merge$/) && baselineRef === process.env.REF) {
               core.setOutput('ref', baselineRef);
             }
-            else if (baselineRef.startsWith('refs/pull/')) {
-              const prNum = baselineRef.match(/^refs\/pull\/(\d+)\/merge/)[1];
+            else if (baselineRef.match(/^refs\/pull\/\d+\/merge$/)) {
+              const prNum = baselineRef.match(/^refs\/pull\/(\d+)\/merge$/)[1];
               const res = await github.rest.pulls.get({
                 ...context.repo,
                 pull_number: prNum,
