@@ -29,7 +29,6 @@
     "@nuxtjs/turnstile": "1.0.0",
     "nuxt": "^3.17.4",
     "remark-breaks": "^4.0.0",
-    "typescript": "^5.8.3",
     "ufo": "^1.6.1",
     "vue": "latest",
     "wrangler": "^4.16.1",
@@ -46,7 +45,9 @@
     "lost-pixel": "^3.22.0",
     "sanitize-filename": "^1.6.3",
     "secure-json-parse": "^4.0.0",
+    "typescript": "^5.8.3",
     "typescript-eslint": "^8.33.0",
-    "vitest": "^3.1.4"
+    "vitest": "^3.1.4",
+    "vue-tsc": "^2.2.10"
   }
 }

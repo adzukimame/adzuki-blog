@@ -89,11 +89,6 @@ export default defineNuxtConfig({
   $production: {
     nitro: {
       preset: 'cloudflare-pages',
-      prerender: {
-        ignore: [
-          /\/api\/_content\/cache.\d+.json/,
-        ],
-      },
     },
   },
 });
