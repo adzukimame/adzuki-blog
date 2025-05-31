@@ -11,7 +11,6 @@ export default defineVitestConfig({
         'app.config.ts',
         'scripts',
         'histoire.config.ts',
-        'histoire.setup.ts',
         'histoire',
         '**/*.story.vue',
         'lostpixel.config.ts',

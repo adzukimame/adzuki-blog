@@ -3,7 +3,7 @@ import sanitizeFilename from 'sanitize-filename';
 import sjson from 'secure-json-parse';
 import { launchStaticWebServer } from 'lost-pixel/dist/crawler/utils.js';
 import type { CustomProjectConfig } from 'lost-pixel';
-import { interactSchema, metaInteractSchema, serializedStorySchema } from './histoire/util.js';
+import { interactSchema, metaInteractSchema, serializedStorySchema } from './histoire/schema.js';
 
 const server = await launchStaticWebServer('.histoire/dist');
 
