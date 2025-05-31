@@ -1,7 +1,7 @@
 import { beforeAll, describe, expect, test } from 'vitest';
 import { mountSuspended } from '@nuxt/test-utils/runtime';
-import { sleep, mockHTMLElementAnimate } from '~/tests/util';
-import ImageViewer from '~/components/content/ImageViewer.vue';
+import { sleep, mockHTMLElementAnimate } from '@@/tests/util';
+import ImageViewer from '@/components/content/ImageViewer.vue';
 
 describe('ImageViewer', async () => {
   beforeAll(() => {

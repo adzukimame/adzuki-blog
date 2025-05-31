@@ -1,7 +1,7 @@
 import { beforeAll, describe, expect, test } from 'vitest';
 import { mountSuspended } from '@nuxt/test-utils/runtime';
-import { sleep, mockHTMLElementAnimate } from '~/tests/util';
-import ArticleToc from '~/components/content/ArticleToc.vue';
+import { sleep, mockHTMLElementAnimate } from '@@/tests/util';
+import ArticleToc from '@/components/content/ArticleToc.vue';
 
 describe('ArticleToc', () => {
   describe('目次が空のとき', () => {
