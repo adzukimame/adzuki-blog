@@ -115,7 +115,9 @@
 
 <script setup lang="ts">
 const emits = defineEmits<{
-  (e: 'menuOpened' | 'menuClosed'): void;
+  // (e: 'menuOpened' | 'menuClosed'): void;
+  menuOpened: [];
+  menuClosed: [];
 }>();
 
 const appConfig = useAppConfig();

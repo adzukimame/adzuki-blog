@@ -54,8 +54,8 @@ const renderOneCanvas = (canvas: HTMLCanvasElement, char: string) => {
   const fontSize = parseFloat(bodyComputedStyle.fontSize);
   const lineHeight = parseFloat(bodyComputedStyle.lineHeight);
 
-  if (!measureCanvas) measureCanvas = document.createElement('canvas');
-  if (!measureCtx) measureCtx = measureCanvas.getContext('2d');
+  measureCanvas ??= document.createElement('canvas');
+  measureCtx ??= measureCanvas.getContext('2d');
   if (measureCtx) measureCtx.font = bodyComputedStyle.font;
 
   const realWidth = Math.ceil(measureCtx?.measureText(char).width ?? fontSize);
@@ -119,7 +119,8 @@ const turnstileCallback = (token: string) => {
 
     let i = 0;
 
-    for (const char of new TextDecoder().decode(byteArray.map((byte, idx) => byte ^ rand[idx]))) {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- byteArrayの元のBlobのバイト数とrandのバイト数が等しいことは上で確認済み
+    for (const char of new TextDecoder().decode(byteArray.map((byte, idx) => byte ^ rand[idx]!))) {
       const c = canvasRefs.value[i];
       if (c) renderOneCanvas(c, char);
       i++;

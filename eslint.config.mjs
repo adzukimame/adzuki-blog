@@ -7,10 +7,17 @@ export default withNuxt(
     files: ['**/*.{js,mjs,ts,vue}'],
   },
   {
-    files: ['**/*.vue', '**/*.ts'],
+    files: ['**/*.{ts,vue}'],
     ignores: ['tests/**/*.ts'],
+    languageOptions: {
+      parserOptions: {
+        projectService: true,
+        tsconfigRootDir: import.meta.dirname,
+      },
+    },
     rules: {
-      ...tseslint.configs.strictTypeChecked.find(config => config.name === 'typescript-eslint/strict-type-checked')?.rules,
+      ...(tseslint.configs.strictTypeChecked.map(config => config.rules).reduce((acc, rules) => ({ ...acc, ...rules }))),
+      ...(tseslint.configs.stylisticTypeChecked.map(config => config.rules).reduce((acc, rules) => ({ ...acc, ...rules }))),
       '@typescript-eslint/restrict-template-expressions': ['error', {
         allow: [{ name: ['Error', 'URL', 'URLSearchParams'], from: 'lib' }],
         allowAny: false,
@@ -37,14 +44,6 @@ export default withNuxt(
       '@typescript-eslint/consistent-type-assertions': ['error', {
         assertionStyle: 'never',
       }],
-    },
-  },
-  {
-    languageOptions: {
-      parserOptions: {
-        projectService: true,
-        tsconfigRootDir: import.meta.dirname,
-      },
     },
   },
   {
