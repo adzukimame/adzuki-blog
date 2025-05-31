@@ -37,6 +37,11 @@ export default defineNuxtConfig({
       },
     },
   },
+  typescript: {
+    tsConfig: {
+      noUncheckedIndexedAccess: true,
+    },
+  },
   css: [
     '~/assets/css/main.css',
   ],
@@ -82,6 +87,11 @@ export default defineNuxtConfig({
   $production: {
     nitro: {
       preset: 'cloudflare-pages',
+      prerender: {
+        ignore: [
+          /\/api\/_content\/cache.\d+.json/,
+        ],
+      },
     },
   },
 });
