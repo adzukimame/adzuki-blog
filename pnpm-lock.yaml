@@ -78,6 +78,9 @@ importers:
       sanitize-filename:
         specifier: ^1.6.3
         version: 1.6.3
+      secure-json-parse:
+        specifier: ^4.0.0
+        version: 4.0.0
       typescript-eslint:
         specifier: ^8.33.0
         version: 8.33.0(eslint@9.27.0(jiti@2.4.2))(typescript@5.8.3)
@@ -5578,6 +5581,9 @@ packages:
   section-matter@1.0.0:
     resolution: {integrity: sha512-vfD3pmTzGpufjScBh50YHKzEu2lxBWhVEHsNGoEXmCmn2hKGfeNLYMzCJpe8cD7gqX7TJluOVpBkAequ6dgMmA==}
     engines: {node: '>=4'}
+
+  secure-json-parse@4.0.0:
+    resolution: {integrity: sha512-dxtLJO6sc35jWidmLxo7ij+Eg48PM/kleBsxpC8QJE0qJICe+KawkDQmvCMZUr9u7WKVHgMW6vy3fQ7zMiFZMA==}
 
   semver@6.3.1:
     resolution: {integrity: sha512-BR7VvDCVHO+q2xBEWskxS6DJE1qRnb7DxzUrogb71CWoSficBxYsiAGd+Kl0mmq/MprG9yArRkyrQxTO6XjMzA==}
@@ -13348,6 +13354,8 @@ snapshots:
     dependencies:
       extend-shallow: 2.0.1
       kind-of: 6.0.3
+
+  secure-json-parse@4.0.0: {}
 
   semver@6.3.1: {}
 
