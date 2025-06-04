@@ -35,7 +35,16 @@ export default defineEventHandler(async (event) => {
   url.searchParams.set('url', targetUrl);
 
   try {
-    return await $fetch<SummalyResult>(url.toString());
+    const summary = await $fetch<SummalyResult>(url.toString());
+
+    if (summary.icon && typeof config.mediaProxyUrl === 'string' && URL.canParse(config.mediaProxyUrl)) {
+      const proxiedIconUrl = new URL(config.mediaProxyUrl);
+      proxiedIconUrl.pathname = 'preview.webp';
+      proxiedIconUrl.searchParams.set('url', summary.icon);
+      summary.icon = proxiedIconUrl.toString();
+    }
+
+    return summary;
   }
   catch {
     setResponseHeader(event, 'Cache-Control', 'public, max-age=216000, immutable');
