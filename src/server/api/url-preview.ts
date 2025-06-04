@@ -49,7 +49,7 @@ export default defineEventHandler(async (event) => {
       }
 
       if (summary.thumbnail && URL.canParse(summary.thumbnail)) {
-        const proxiedThumbnailUrl = new URL(config.summalyProxyUrl);
+        const proxiedThumbnailUrl = new URL(config.mediaProxyUrl);
         proxiedThumbnailUrl.pathname = 'preview.webp';
         proxiedThumbnailUrl.searchParams.set('url', summary.thumbnail);
         summary.thumbnail = proxiedThumbnailUrl.toString();
