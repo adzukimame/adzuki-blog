@@ -31,12 +31,11 @@ export default defineEventHandler(async (event) => {
     });
   }
 
+  const url = new URL(config.summalyProxyUrl);
+  url.searchParams.set('url', targetUrl);
+
   try {
-    return await $fetch<SummalyResult>(config.summalyProxyUrl, {
-      query: {
-        url: targetUrl,
-      },
-    });
+    return await $fetch<SummalyResult>(url.toString());
   }
   catch {
     setResponseHeader(event, 'Cache-Control', 'public, max-age=216000, immutable');
