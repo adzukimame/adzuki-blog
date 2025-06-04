@@ -29,6 +29,7 @@ export default defineNuxtConfig({
       ...meta,
     },
     summalyProxyUrl: '',
+    mediaProxyUrl: '',
     imgAndMediaSrc: [''],
     protectedTexts: '{}',
   },
