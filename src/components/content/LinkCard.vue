@@ -2,7 +2,7 @@
   <ClientOnly>
     <div
       v-if="status === 'idle' || status === 'pending'"
-      class="container">
+      class="fallbackContainer">
       <div class="title">
         Loading url preview...
       </div>
@@ -11,31 +11,38 @@
       v-else
       :to="runtimeConfig.public.origin === urlObj.origin ? `${urlObj.pathname}${urlObj.search}` : url.toString()"
       :target="runtimeConfig.public.origin === urlObj.origin ? undefined : '_blank'"
-      class="container">
-      <div
-        class="title loaded"
-        data-testid="title">
-        {{ (data && data.title) ? data.title : url }}
-      </div>
-      <div
-        class="description"
-        data-testid="description">
-        {{ (data && data.description) ? data.description : '説明はありません' }}
-      </div>
-      <div class="favicon-and-hostname-container">
-        <img
-          :src="data?.icon ?? undefined"
-          class="favicon"
-          :alt="`${urlObj.hostname} のfavicon画像`">
+      class="container"
+      :class="{ withThumbnail: data?.thumbnail != null }">
+      <div class="lettersContainer">
         <div
-          class="hostname"
-          data-testid="hostname">
-          {{ urlObj.hostname }}
+          class="title loaded"
+          data-testid="title">
+          {{ (data && data.title) ? data.title : url }}
+        </div>
+        <div
+          class="description"
+          data-testid="description">
+          {{ (data && data.description) ? data.description : '説明はありません' }}
+        </div>
+        <div class="favicon-and-hostname-container">
+          <img
+            :src="data?.icon ?? undefined"
+            class="favicon"
+            :alt="`${urlObj.hostname} のfavicon画像`">
+          <div
+            class="hostname"
+            data-testid="hostname">
+            {{ urlObj.hostname }}
+          </div>
         </div>
       </div>
+      <img
+        v-if="data?.thumbnail"
+        :src="data.thumbnail"
+        class="thumbnail">
     </NuxtLink>
     <template #fallback>
-      <div class="container">
+      <div class="fallbackContainer">
         <div class="title">
           Loading url preview...
         </div>
@@ -70,6 +77,26 @@ const { data, status } = await useLazyFetch<SummalyResult>(
 <style scoped>
 .container {
   display: block grid;
+  grid-template-columns: auto 0;
+  background-color: var(--bgStrong);
+  border: solid 1px var(--split);
+  border-radius: 6px;
+  line-height: 2;
+  transition: background-color var(--colorSchemeTransitionDuration);
+}
+
+.container.withThumbnail {
+  grid-template-columns: auto calc((2rem + 1.6rem + 1.6rem) * 16 / 9);
+}
+
+.lettersContainer {
+  display: block grid;
+  grid-template-rows: 2rem 1.6rem 1.6rem;
+  padding-inline-start: 1rem;
+}
+
+.fallbackContainer {
+  display: block grid;
   grid-template-rows: 2rem 1.6rem 1.6rem;
   padding-inline-start: 1rem;
   background-color: var(--bgStrong);
@@ -93,14 +120,14 @@ const { data, status } = await useLazyFetch<SummalyResult>(
 }
 
 @media (hover: hover) {
-  .container:hover>.title.loaded {
+  .lettersContainer:hover>.title.loaded {
     color: var(--fgStrong);
     text-decoration: underline;
   }
 }
 
 @media (hover: none) {
-  .container:active>.title.loaded {
+  .lettersContainer:active>.title.loaded {
     color: var(--fgStrong);
     text-decoration: underline;
   }
@@ -130,5 +157,12 @@ const { data, status } = await useLazyFetch<SummalyResult>(
   color: var(--fg);
   overflow: clip;
   padding-inline-start: 0.5rem;
+}
+
+.thumbnail {
+  block-size: calc(2rem + 1.6rem + 1.6rem);
+  object-position: 50% 50%;
+  object-fit: cover;
+  margin-inline-start: auto;
 }
 </style>
