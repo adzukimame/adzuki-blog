@@ -37,11 +37,26 @@ export default defineEventHandler(async (event) => {
   try {
     const summary = await $fetch<SummalyResult>(url.toString());
 
-    if (summary.icon && typeof config.mediaProxyUrl === 'string' && URL.canParse(config.mediaProxyUrl)) {
-      const proxiedIconUrl = new URL(config.mediaProxyUrl);
-      proxiedIconUrl.pathname = 'preview.webp';
-      proxiedIconUrl.searchParams.set('url', summary.icon);
-      summary.icon = proxiedIconUrl.toString();
+    if (typeof config.mediaProxyUrl === 'string' && URL.canParse(config.mediaProxyUrl)) {
+      if (summary.icon && URL.canParse(summary.icon)) {
+        const proxiedIconUrl = new URL(config.mediaProxyUrl);
+        proxiedIconUrl.pathname = 'preview.webp';
+        proxiedIconUrl.searchParams.set('url', summary.icon);
+        summary.icon = proxiedIconUrl.toString();
+      }
+      else {
+        summary.icon = null;
+      }
+
+      if (summary.thumbnail && URL.canParse(summary.thumbnail)) {
+        const proxiedThumbnailUrl = new URL(config.summalyProxyUrl);
+        proxiedThumbnailUrl.pathname = 'preview.webp';
+        proxiedThumbnailUrl.searchParams.set('url', summary.thumbnail);
+        summary.thumbnail = proxiedThumbnailUrl.toString();
+      }
+      else {
+        summary.thumbnail = null;
+      }
     }
 
     return summary;
