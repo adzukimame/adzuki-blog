@@ -151,7 +151,7 @@ const closeModal = () => {
   display: block flex;
   position: fixed;
   inset: 0;
-  background-color: color-mix(in srgb, var(--bg) 70%, transparent);
+  background-color: color-mix(in oklch, var(--bg) 80%, transparent);
 }
 
 .modal-image {

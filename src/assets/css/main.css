@@ -1,25 +1,25 @@
 :root {
-  --bg: #f6f6f6;
-  --bgStrong: #fefefe;
-  --fg: #282828;
-  --fgStrong: #040404;
-  --fgWeak: #4a4a4a;
-  --accent: #b02e22;
-  --split: #dfdfdf77;
-  --scrollbarBg: #fdfdfd;
-  --scrollbarFg: #9f9f9f;
+  --bg: oklch(97% 0 0deg);
+  --bgStrong: oklch(99% 0 0deg);
+  --fg: oklch(28% 0 0deg);
+  --fgStrong: oklch(11% 0 0deg);
+  --fgWeak: oklch(48% 0 0deg);
+  --accent: oklch(50% 0.1686 6deg);
+  --split: oklch(90% 0 0deg / 46%);
+  --scrollbarBg: oklch(100% 0 0deg);
+  --scrollbarFg: oklch(70% 0 0deg);
 }
 
 :root.color-scheme-dark {
-  --bg: #0c0c0c;
-  --bgStrong: #1d1d1d;
-  --fg: #d2d2d2;
-  --fgStrong: #fdfdfd;
-  --fgWeak: #a2a2a2;
-  --accent: hsl(5, 60%, 58%);
-  --split: #aeaeae22;
-  --scrollbarBg: #2c2c2c;
-  --scrollbarFg: #6d6d6d;
+  --bg: oklch(15% 0 0deg);
+  --bgStrong: oklch(23% 0 0deg);
+  --fg: oklch(86% 0 0deg);
+  --fgStrong: oklch(96% 0 0deg);
+  --fgWeak: oklch(71% 0 0);
+  --accent: oklch(50% 0.0984 6deg);
+  --split: oklch(75% 0 0deg / 13%);
+  --scrollbarBg: oklch(22% 0 0deg);
+  --scrollbarFg: oklch(53% 0 0deg);
 }
 
 :root {
