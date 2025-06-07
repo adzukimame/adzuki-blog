@@ -1,25 +1,25 @@
 :root {
-  --bg: #f6f6f6;
-  --bgStrong: #fefefe;
-  --fg: #282828;
-  --fgStrong: #040404;
-  --fgWeak: #4a4a4a;
-  --accent: #b02e22;
-  --split: #dfdfdf77;
-  --scrollbarBg: #fdfdfd;
-  --scrollbarFg: #9f9f9f;
+  --bg: oklch(97.31% 0 0deg);
+  --bgStrong: oklch(99.7% 0 0deg);
+  --fg: oklch(27.68% 0 0deg);
+  --fgStrong: oklch(10.67% 0 0deg);
+  --fgWeak: oklch(40.91% 0 0deg);
+  --accent: oklch(50.33% 0.1686 29.53deg);
+  --split: oklch(90.37% 0 0deg / 46%);
+  --scrollbarBg: oklch(99.4% 0 0deg);
+  --scrollbarFg: oklch(70.25% 0 0deg);
 }
 
 :root.color-scheme-dark {
-  --bg: #0c0c0c;
-  --bgStrong: #1d1d1d;
-  --fg: #d2d2d2;
-  --fgStrong: #fdfdfd;
-  --fgWeak: #a2a2a2;
-  --accent: hsl(5, 60%, 58%);
-  --split: #aeaeae22;
-  --scrollbarBg: #2c2c2c;
-  --scrollbarFg: #6d6d6d;
+  --bg: oklch(15.43% 0 0deg);
+  --bgStrong: oklch(23.08% 0 0deg);
+  --fg: oklch(86.38% 0 0deg);
+  --fgStrong: oklch(99.4% 0 0deg);
+  --fgWeak: oklch(71.22% 0 0);
+  --accent: oklch(62.77% 0.151 27.45deg);
+  --split: oklch(75.08% 0 0deg / 13.33%);
+  --scrollbarBg: oklch(29.31% 0 0deg);
+  --scrollbarFg: oklch(53.48% 0 0deg);
 }
 
 :root {
