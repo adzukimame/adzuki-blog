@@ -24,16 +24,7 @@ const route = useRoute();
 const ARTICLE_PER_PAGE = 10;
 
 const { data: articleCount } = await useAsyncData(
-  () => queryContent('posts')
-    .where({
-      category: {
-        $or: [
-          { $exists: false },
-          { $not: { $in: runtimeConfig.public.hiddenCategoriesInRoot } },
-        ],
-      },
-    })
-    .count()
+  () => queryContent('posts').count()
 );
 
 const pageNumber = computed(() => {
@@ -75,14 +66,6 @@ watch(pageNumber, (newPageNumber) => {
 
 const { data: articles } = await useAsyncData(
   () => queryContent('posts')
-    .where({
-      category: {
-        $or: [
-          { $exists: false },
-          { $not: { $in: runtimeConfig.public.hiddenCategoriesInRoot } },
-        ],
-      },
-    })
     .sort({ _id: -1, created: -1 })
     .skip((pageNumberForDisplay.value - 1) * ARTICLE_PER_PAGE)
     .limit(ARTICLE_PER_PAGE)

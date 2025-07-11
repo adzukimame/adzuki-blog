@@ -24,7 +24,6 @@ export default defineNuxtConfig({
         authorName: 'authorName',
         authorSocialLinks: [],
         origin: 'https://example.com',
-        hiddenCategoriesInRoot: [],
       },
       ...meta,
     },
