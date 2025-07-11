@@ -12,7 +12,7 @@
       <div
         class="description"
         data-testid="description">
-        {{ item.hideDescription ? '…' : item.description }}
+        {{ item.description }}
       </div>
     </NuxtLink>
     <div class="category-and-date-container">
@@ -84,7 +84,7 @@
 import type { ParsedContent } from '@nuxt/content';
 
 const props = defineProps<{
-  item: Pick<ParsedContent, '_id' | '_path' | 'title' | 'description' | 'category' | 'created' | 'hideDescription'> | ParsedContent;
+  item: Pick<ParsedContent, '_id' | '_path' | 'title' | 'description' | 'category' | 'created'> | ParsedContent;
 }>();
 
 const normalizedCategory = computed<string[] | undefined>(() => normalizeCategory(props.item.category));
