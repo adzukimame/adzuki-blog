@@ -111,7 +111,7 @@ const { data: articles } = await useAsyncData(
       .sort({ _id: -1, created: -1 })
       .skip((pageNumberForDisplay.value - 1) * ARTICLE_PER_PAGE)
       .limit(ARTICLE_PER_PAGE)
-      .only(['_id', '_path', 'title', 'description', 'category', 'created', 'hideDescription'])
+      .only(['_id', '_path', 'title', 'description', 'category', 'created'])
       .find();
   },
   {

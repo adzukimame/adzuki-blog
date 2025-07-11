@@ -9,7 +9,6 @@ const item = {
   description: 'aDescription',
   category: 'aCategory',
   created: '2000-01-01',
-  hideDescription: false,
 };
 
 describe('ArticleListItem', async () => {

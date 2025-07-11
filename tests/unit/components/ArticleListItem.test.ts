@@ -9,7 +9,6 @@ const item = {
   description: 'aDescription',
   category: 'aCategory',
   created: '2000-01-01',
-  hideDescription: false,
 };
 
 describe('ArticleListItem', async () => {
@@ -25,15 +24,6 @@ describe('ArticleListItem', async () => {
 
   test('詳細の表示が正しい', () => {
     expect(component.get('[data-testid="description"]').text()).toBe('aDescription');
-  });
-
-  test('hideDescriptionなら詳細が表示されない', async () => {
-    expect((await mountSuspended(ArticleListItem, { props: {
-      item: {
-        ...item,
-        hideDescription: true,
-      },
-    } })).get('[data-testid="description"]').text()).toBe('…');
   });
 
   test('カテゴリの表示が正しい', () => {
