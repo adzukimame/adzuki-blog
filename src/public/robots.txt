@@ -1,14 +1,11 @@
 User-agent: Googlebot
-Disallow: /
-Allow: /posts/
+Disallow: 
 
 User-agent: bingbot
-Disallow: /
-Allow: /posts/
+Disallow: 
 
 User-agent: DuckDuckBot
-Disallow: /
-Allow: /posts/
+Disallow: 
 
 User-agent: *
 Disallow: /
