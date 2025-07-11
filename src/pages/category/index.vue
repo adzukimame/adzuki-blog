@@ -43,17 +43,13 @@ const categoryList = computed(() => {
     }
   });
 
-  return Array.from(map).sort((a, b) => {
-    if (a[0] === 'undefined') {
-      return 1;
-    }
-    else if (b[0] === 'undefined') {
-      return -1;
-    }
-    else {
-      return b[1] - a[1] || (a[0] > b[0] ? 1 : -1);
-    }
-  });
+  return Array.from(map).sort((a, b) =>
+    a[0] === 'undefined'
+      ? 1
+      : b[0] === 'undefined'
+        ? -1
+        : b[1] - a[1] || (a[0] > b[0] ? 1 : -1)
+  );
 });
 
 useHead({
