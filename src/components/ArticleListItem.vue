@@ -12,7 +12,7 @@
       <div
         class="description"
         data-testid="description">
-        {{ item.description }}
+        {{ item.description?.trim() ?? '…' }}
       </div>
     </NuxtLink>
     <div class="category-and-date-container">
