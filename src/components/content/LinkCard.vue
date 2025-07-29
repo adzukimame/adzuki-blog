@@ -21,6 +21,7 @@
             v-if="status === 'success' && imgLoadStatus !== 'error'"
             :src="data?.icon ?? undefined"
             class="favicon"
+            data-testid="favicon"
             :alt="imgLoadStatus === 'success' ? `${urlObj.hostname} のfavicon画像` : undefined"
             @loadstart="imgLoadStatus = 'loading'"
             @error="imgLoadStatus = 'error'">
@@ -37,7 +38,8 @@
       <img
         v-if="data?.thumbnail"
         :src="data.thumbnail"
-        class="thumbnail">
+        class="thumbnail"
+        data-testid="thumbnail">
     </NuxtLink>
     <template #fallback>
       <NuxtLink
@@ -53,9 +55,7 @@
           </div>
           <div class="favicon-and-hostname-container">
             <div class="favicon" />
-            <div
-              class="hostname"
-              data-testid="hostname">
+            <div class="hostname">
               {{ urlObj.hostname }}
             </div>
           </div>
