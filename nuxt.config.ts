@@ -81,13 +81,6 @@ export default defineNuxtConfig({
       name: 'page',
       mode: 'out-in',
     },
-    head: {
-      link: [
-        { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
-        { rel: 'preconnect', href: 'https://fonts.gstatic.com' },
-        { href: 'https://fonts.googleapis.com/css2?family=Noto+Serif+JP&display=swap', rel: 'stylesheet' },
-      ],
-    },
   },
   nitro: {
     prerender: {

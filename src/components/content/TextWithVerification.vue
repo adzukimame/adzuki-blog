@@ -50,13 +50,15 @@ let measureCanvas: HTMLCanvasElement | undefined = undefined;
 let measureCtx: CanvasRenderingContext2D | null = null;
 
 const renderOneCanvas = (canvas: HTMLCanvasElement, char: string) => {
+  const canvasFont = '16px / 32px "Yu Mincho", "Hiragino Mincho ProN W3", serif';
+
   const bodyComputedStyle = getComputedStyle(document.body);
   const fontSize = parseFloat(bodyComputedStyle.fontSize);
   const lineHeight = parseFloat(bodyComputedStyle.lineHeight);
 
   measureCanvas ??= document.createElement('canvas');
   measureCtx ??= measureCanvas.getContext('2d');
-  if (measureCtx) measureCtx.font = bodyComputedStyle.font;
+  if (measureCtx) measureCtx.font = canvasFont;
 
   const realWidth = Math.ceil(measureCtx?.measureText(char).width ?? fontSize);
 
@@ -71,7 +73,7 @@ const renderOneCanvas = (canvas: HTMLCanvasElement, char: string) => {
     error.value = 'rendering';
     return;
   }
-  ctx.font = bodyComputedStyle.font;
+  ctx.font = canvasFont;
   ctx.fillStyle = bodyComputedStyle.color;
   ctx.textBaseline = 'middle';
   ctx.textAlign = 'center';
