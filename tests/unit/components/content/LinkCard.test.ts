@@ -1,7 +1,10 @@
 import { describe, expect, test } from 'vitest';
 import { mountSuspended, registerEndpoint, mockNuxtImport } from '@nuxt/test-utils/runtime';
 import type { SummalyResult } from '@misskey-dev/summaly/built/summary';
-import LinkCard from '~/components/content/LinkCard.vue';
+import { fixComponentCssModules } from '@@/tests/util';
+import _LinkCard from '~/components/content/LinkCard.vue';
+
+const LinkCard = fixComponentCssModules(_LinkCard);
 
 mockNuxtImport('useRuntimeConfig', () => {
   return () => {

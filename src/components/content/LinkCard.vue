@@ -3,33 +3,32 @@
     <NuxtLink
       :to="runtimeConfig.public.origin === urlObj.origin ? `${urlObj.pathname}${urlObj.search}` : url.toString()"
       :target="runtimeConfig.public.origin === urlObj.origin ? undefined : '_blank'"
-      class="container"
-      :class="{ withThumbnail: data?.thumbnail != null }">
-      <div class="lettersContainer">
+      :class="[$style.container, { [$style.withThumbnail]: data?.thumbnail != null }]">
+      <div :class="$style.lettersContainer">
         <div
-          class="title"
+          :class="$style.title"
           data-testid="title">
           {{ (data && data.title) ? data.title : url }}
         </div>
         <div
-          class="description"
+          :class="$style.description"
           data-testid="description">
           {{ (data && data.description) ? data.description : ['idle', 'pending'].includes(status) ? 'Loading url preview...' : '説明はありません' }}
         </div>
-        <div class="favicon-and-hostname-container">
+        <div :class="$style.faviconAndHostnameContainer">
           <img
             v-if="status === 'success' && imgLoadStatus !== 'error'"
             :src="data?.icon ?? undefined"
-            class="favicon"
+            :class="$style.favicon"
             data-testid="favicon"
             :alt="imgLoadStatus === 'success' ? `${urlObj.hostname} のfavicon画像` : undefined"
             @loadstart="imgLoadStatus = 'loading'"
             @error="imgLoadStatus = 'error'">
           <div
             v-else
-            class="favicon" />
+            :class="$style.favicon" />
           <div
-            class="hostname"
+            :class="$style.hostname"
             data-testid="hostname">
             {{ urlObj.hostname }}
           </div>
@@ -38,29 +37,29 @@
       <img
         v-if="data?.thumbnail"
         :src="data.thumbnail"
-        class="thumbnail"
+        :class="$style.thumbnail"
         data-testid="thumbnail">
     </NuxtLink>
     <template #fallback>
       <NuxtLink
         :to="runtimeConfig.public.origin === urlObj.origin ? `${urlObj.pathname}${urlObj.search}` : url.toString()"
         :target="runtimeConfig.public.origin === urlObj.origin ? undefined : '_blank'"
-        class="container">
-        <div class="lettersContainer">
-          <div class="title">
+        :class="$style.container">
+        <div :class="$style.lettersContainer">
+          <div :class="$style.title">
             {{ url }}
           </div>
-          <div class="description">
+          <div :class="$style.description">
             Loading url preview...
           </div>
-          <div class="favicon-and-hostname-container">
-            <div class="favicon" />
-            <div class="hostname">
+          <div :class="$style.faviconAndHostnameContainer">
+            <div :class="$style.favicon" />
+            <div :class="$style.hostname">
               {{ urlObj.hostname }}
             </div>
           </div>
         </div>
-        <div class="thumbnail" />
+        <div :class="$style.thumbnail" />
       </NuxtLink>
     </template>
   </ClientOnly>
@@ -91,7 +90,7 @@ const { data, status } = await useLazyFetch<SummalyResult>(
 );
 </script>
 
-<style scoped>
+<style module>
 .container {
   display: block grid;
   grid-template-columns: auto 0;
@@ -142,7 +141,7 @@ const { data, status } = await useLazyFetch<SummalyResult>(
   overflow: clip;
 }
 
-.favicon-and-hostname-container {
+.faviconAndHostnameContainer {
   display: block flex;
   font-size: 0.8rem;
   align-items: center;

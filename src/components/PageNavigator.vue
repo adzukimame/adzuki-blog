@@ -1,13 +1,12 @@
 <template>
-  <div class="container">
+  <div :class="$style.container">
     <NuxtLink
       :to="{
         path: route.path,
         query: { ...(route.query), ...(backwardEnabled ? { [pageQueryParam]: 1 } : {}) },
         hash: route.hash,
       }"
-      class="button"
-      :class="{ disabled: !backwardEnabled }"
+      :class="[$style.button, { [$style.disabled]: !backwardEnabled }]"
       :tabindex="backwardEnabled ? undefined : -1"
       :aria-hidden="backwardEnabled ? undefined : true"
       aria-label="最初のページに戻る">
@@ -33,8 +32,7 @@
         query: { ...(route.query), ...(backwardEnabled ? { [pageQueryParam]: currentPageNumber - 1 } : {}) },
         hash: route.hash,
       }"
-      class="button"
-      :class="{ disabled: !backwardEnabled }"
+      :class="[$style.button, { [$style.disabled]: !backwardEnabled }]"
       :tabindex="backwardEnabled ? undefined : -1"
       :aria-hidden="backwardEnabled ? undefined : true"
       aria-label="1ページ前に戻る">
@@ -54,7 +52,7 @@
       </svg>
     </NuxtLink>
     <div
-      class="button page-number-outer"
+      :class="[$style.button, $style.pageNumberOuter]"
       data-testid="page-number"
       :aria-label="`${currentPageNumber}ページ目`">
       <span ref="pageNumberEl">
@@ -67,8 +65,7 @@
         query: { ...(route.query), ...(forwardEnabled ? { [pageQueryParam]: currentPageNumber + 1 } : {}) },
         hash: route.hash,
       }"
-      class="button"
-      :class="{ disabled: !forwardEnabled }"
+      :class="[$style.button, { [$style.disabled]: !forwardEnabled }]"
       :tabindex="forwardEnabled ? undefined : -1"
       :aria-hidden="forwardEnabled ? undefined : true"
       aria-label="1ページ次に進む">
@@ -93,8 +90,7 @@
         query: { ...(route.query), ...(forwardEnabled ? { [pageQueryParam]: Math.ceil(itemsLength / itemsPerPage) } : {}) },
         hash: route.hash,
       }"
-      class="button"
-      :class="{ disabled: !forwardEnabled }"
+      :class="[$style.button, { [$style.disabled]: !forwardEnabled }]"
       :tabindex="forwardEnabled ? undefined : -1"
       :aria-hidden="forwardEnabled ? undefined : true"
       aria-label="最後のページに進む">
@@ -157,7 +153,7 @@ watch(() => props.currentPageNumber, (newPageNumber) => {
 });
 </script>
 
-<style scoped>
+<style module>
 .container {
   --button-size: 2.2rem;
   --icon-size: 1rem;
@@ -184,18 +180,18 @@ watch(() => props.currentPageNumber, (newPageNumber) => {
 }
 
 @media (hover: hover) {
-  .button:not(.page-number-outer, .disabled):hover {
+  .button:not(.pageNumberOuter, .disabled):hover {
     border-block-end-color: var(--fgWeak);
   }
 }
 
 @media (hover: none) {
-  .button:not(.page-number-outer, .disabled):active {
+  .button:not(.pageNumberOuter, .disabled):active {
     border-block-end-color: var(--fgWeak);
   }
 }
 
-.button.page-number-outer {
+.button.pageNumberOuter {
   font-size: 0.8rem;
   padding: calc((var(--button-size) - 1px * 2 - 0.8rem) / 2);
   cursor: default;
@@ -211,7 +207,7 @@ watch(() => props.currentPageNumber, (newPageNumber) => {
   opacity: 0.5;
 }
 
-:root.writing-mode-vertical-rl .button>svg {
+:root:global(.writing-mode-vertical-rl) .button>svg {
   transform: rotate(0.25turn);
 }
 </style>

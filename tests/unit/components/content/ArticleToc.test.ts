@@ -1,7 +1,9 @@
 import { beforeAll, describe, expect, test } from 'vitest';
 import { mountSuspended } from '@nuxt/test-utils/runtime';
-import { sleep, mockHTMLElementAnimate } from '@@/tests/util';
-import ArticleToc from '@/components/content/ArticleToc.vue';
+import { sleep, mockHTMLElementAnimate, fixComponentCssModules } from '@@/tests/util';
+import _ArticleToc from '@/components/content/ArticleToc.vue';
+
+const ArticleToc = fixComponentCssModules(_ArticleToc);
 
 describe('ArticleToc', () => {
   describe('目次が空のとき', () => {

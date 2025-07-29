@@ -2,7 +2,8 @@
 
 <template>
   <div
-    class="image-viewer container"
+    class="image-viewer"
+    :class="$style.container"
     @click="openModal">
     <component
       :is="ImageComponent"
@@ -10,14 +11,14 @@
       :alt="alt"
       :width="width"
       :height="height"
-      class="image"
+      :class="$style.image"
       data-testid="image" />
   </div>
   <Teleport to="body">
     <div
       v-if="modalOpened"
       ref="modalContainerEl"
-      class="modal-container"
+      :class="$style.modalContainer"
       data-testid="modal-container"
       @click="closeModal">
       <component
@@ -26,7 +27,7 @@
         :alt="alt"
         :width="width"
         :height="height"
-        class="modal-image" />
+        :class="$style.modalImage" />
     </div>
   </Teleport>
 </template>
@@ -116,7 +117,7 @@ const closeModal = () => {
 };
 </script>
 
-<style scoped>
+<style module>
 .container {
   display: block flex;
   margin-inline: auto;
@@ -139,22 +140,22 @@ const closeModal = () => {
   }
 }
 
-:root.writing-mode-vertical-rl .container {
+:root:global(.writing-mode-vertical-rl) .container {
   aspect-ratio: 9 / 16;
 }
 
-:root.writing-mode-vertical-rl .image {
+:root:global(.writing-mode-vertical-rl) .image {
   aspect-ratio: 9 / 16;
 }
 
-.modal-container {
+.modalContainer {
   display: block flex;
   position: fixed;
   inset: 0;
   background-color: color-mix(in oklch, var(--bg) 80%, transparent);
 }
 
-.modal-image {
+.modalImage {
   margin: auto;
   cursor: zoom-out;
 }

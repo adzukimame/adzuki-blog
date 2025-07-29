@@ -1,7 +1,9 @@
 import { beforeAll, describe, expect, test } from 'vitest';
 import { mountSuspended, mockNuxtImport } from '@nuxt/test-utils/runtime';
-import { sleep, mockHTMLElementAnimate } from '@@/tests/util';
-import AppHeader from '@/components/AppHeader.vue';
+import { sleep, mockHTMLElementAnimate, fixComponentCssModules } from '@@/tests/util';
+import _AppHeader from '@/components/AppHeader.vue';
+
+const AppHeader = fixComponentCssModules(_AppHeader);
 
 mockNuxtImport('useRuntimeConfig', () => {
   return () => {
