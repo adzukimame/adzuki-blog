@@ -30,7 +30,7 @@ classObserver.observe(document.documentElement, { attributes: true, attributeFil
 </script>
 
 <style>
-@import url('https: //fonts.googleapis.com/css2?family=Noto+Serif+JP&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP&display=swap');
 </style>
 
 <style scoped>
