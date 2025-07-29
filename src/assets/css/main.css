@@ -106,6 +106,7 @@ h1, h2, h3, h4, h5, h6 {
 html {
   color: var(--fg);
   background-color: var(--bg);
-  font-family: "Noto Serif JP", "Yu Mincho", "Hiragino Mincho ProN W3", serif;
+  font-family: "Yu Mincho", "Hiragino Mincho ProN W3", serif;
+  font-feature-settings: "pkna" 1;
   transition: color var(--colorSchemeTransitionDuration), background-color var(--colorSchemeTransitionDuration);
 }

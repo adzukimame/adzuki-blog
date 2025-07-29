@@ -30,14 +30,15 @@ classObserver.observe(document.documentElement, { attributes: true, attributeFil
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP&display=swap'); */
 </style>
 
 <style scoped>
 .outer {
   color: var(--fg);
   background-color: var(--bg);
-  font-family: "Noto Serif JP", "Yu Mincho", "Hiragino Mincho ProN W3", serif;
+  font-family: /* "Noto Serif JP",  */"Yu Mincho", "Hiragino Mincho ProN W3", serif;
+  font-feature-settings: "pkna" 1;
 }
 
 .outer {
