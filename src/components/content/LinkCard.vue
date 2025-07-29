@@ -1,34 +1,33 @@
 <template>
   <ClientOnly>
-    <div
-      v-if="status === 'idle' || status === 'pending'"
-      class="fallbackContainer">
-      <div class="title">
-        Loading url preview...
-      </div>
-    </div>
     <NuxtLink
-      v-else
       :to="runtimeConfig.public.origin === urlObj.origin ? `${urlObj.pathname}${urlObj.search}` : url.toString()"
       :target="runtimeConfig.public.origin === urlObj.origin ? undefined : '_blank'"
       class="container"
       :class="{ withThumbnail: data?.thumbnail != null }">
       <div class="lettersContainer">
         <div
-          class="title loaded"
+          class="title"
           data-testid="title">
           {{ (data && data.title) ? data.title : url }}
         </div>
         <div
           class="description"
           data-testid="description">
-          {{ (data && data.description) ? data.description : '説明はありません' }}
+          {{ (data && data.description) ? data.description : ['idle', 'pending'].includes(status) ? 'Loading url preview...' : '説明はありません' }}
         </div>
         <div class="favicon-and-hostname-container">
           <img
+            v-if="status === 'success' && imgLoadStatus !== 'error'"
             :src="data?.icon ?? undefined"
             class="favicon"
-            :alt="`${urlObj.hostname} のfavicon画像`">
+            data-testid="favicon"
+            :alt="imgLoadStatus === 'success' ? `${urlObj.hostname} のfavicon画像` : undefined"
+            @loadstart="imgLoadStatus = 'loading'"
+            @error="imgLoadStatus = 'error'">
+          <div
+            v-else
+            class="favicon" />
           <div
             class="hostname"
             data-testid="hostname">
@@ -39,14 +38,30 @@
       <img
         v-if="data?.thumbnail"
         :src="data.thumbnail"
-        class="thumbnail">
+        class="thumbnail"
+        data-testid="thumbnail">
     </NuxtLink>
     <template #fallback>
-      <div class="fallbackContainer">
-        <div class="title">
-          Loading url preview...
+      <NuxtLink
+        :to="runtimeConfig.public.origin === urlObj.origin ? `${urlObj.pathname}${urlObj.search}` : url.toString()"
+        :target="runtimeConfig.public.origin === urlObj.origin ? undefined : '_blank'"
+        class="container">
+        <div class="lettersContainer">
+          <div class="title">
+            {{ url }}
+          </div>
+          <div class="description">
+            Loading url preview...
+          </div>
+          <div class="favicon-and-hostname-container">
+            <div class="favicon" />
+            <div class="hostname">
+              {{ urlObj.hostname }}
+            </div>
+          </div>
         </div>
-      </div>
+        <div class="thumbnail" />
+      </NuxtLink>
     </template>
   </ClientOnly>
 </template>
@@ -57,6 +72,8 @@ import type { SummalyResult } from '@misskey-dev/summaly/built/summary';
 const props = defineProps<{
   url: string;
 }>();
+
+const imgLoadStatus = ref<'beforestart' | 'loading' | 'success' | 'error'>('beforestart');
 
 const runtimeConfig = useRuntimeConfig();
 
@@ -95,17 +112,6 @@ const { data, status } = await useLazyFetch<SummalyResult>(
   padding-inline-start: 1rem;
 }
 
-.fallbackContainer {
-  display: block grid;
-  grid-template-rows: 2rem 1.6rem 1.6rem;
-  padding-inline-start: 1rem;
-  background-color: var(--bgStrong);
-  border: solid 1px var(--split);
-  border-radius: 6px;
-  line-height: 2;
-  transition: background-color var(--colorSchemeTransitionDuration);
-}
-
 .title {
   display: block;
   font-size: 1rem;
@@ -115,19 +121,15 @@ const { data, status } = await useLazyFetch<SummalyResult>(
   transition: color var(--hoverTransitionDuration) var(--hoverTransitionFunction);
 }
 
-.title:not(.loaded) {
-  cursor: default;
-}
-
 @media (hover: hover) {
-  .lettersContainer:hover>.title.loaded {
+  .lettersContainer:hover>.title {
     color: var(--fgStrong);
     text-decoration: underline;
   }
 }
 
 @media (hover: none) {
-  .lettersContainer:active>.title.loaded {
+  .lettersContainer:active>.title {
     color: var(--fgStrong);
     text-decoration: underline;
   }
