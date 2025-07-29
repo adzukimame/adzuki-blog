@@ -15,3 +15,17 @@ export const mockHTMLElementAnimate: typeof HTMLElement.prototype.animate = (_ke
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- テスト対象のコンポーネント側からは、addEventlistenerが呼べればいい
   return animation as any;
 };
+
+export const fixComponentCssModules = <T>(component: T): T => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const c = component as any;
+  const baseRender = c.render;
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  c.render = function (...args: any) {
+    args[0] = Object.assign(args[0], { $style: c.__cssModules.$style });
+    return baseRender(...args);
+  };
+
+  return c;
+};

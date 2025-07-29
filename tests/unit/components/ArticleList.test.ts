@@ -1,6 +1,9 @@
 import { describe, expect, test } from 'vitest';
 import { mountSuspended } from '@nuxt/test-utils/runtime';
-import ArticleList from '~/components/ArticleList.vue';
+import { fixComponentCssModules } from '@@/tests/util';
+import _ArticleList from '~/components/ArticleList.vue';
+
+const ArticleList = fixComponentCssModules(_ArticleList);
 
 const item = {
   _id: 'anId',

@@ -1,6 +1,9 @@
 import { describe, expect, test } from 'vitest';
 import { mountSuspended } from '@nuxt/test-utils/runtime';
-import PageNavigator from '~/components/PageNavigator.vue';
+import { fixComponentCssModules } from '@@/tests/util';
+import _PageNavigator from '~/components/PageNavigator.vue';
+
+const PageNavigator = fixComponentCssModules(_PageNavigator);
 
 describe('PageNavigator', () => {
   describe('最初のページにいるとき', async () => {

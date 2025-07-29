@@ -121,20 +121,25 @@ export default defineNuxtConfig({
       autoSubfolderIndex: false,
     },
   },
-  $production: {
-    nitro: {
-      preset: 'cloudflare-pages',
-    },
-  },
   vite: {
     css: {
       modules: {
         generateScopedName(name, filename, _css) {
           const id = `${new URL(filename, import.meta.url).pathname.replace(new URL('./', import.meta.url).pathname, '')}-${name}`.replace(/[\\/.?&=]/g, '-');
 
-          return import.meta.dev ? id : encodeNumber(cyrb53(id)).substring(0, 5);
+          if (process.env.NODE_ENV === 'production') {
+            return encodeNumber(cyrb53(id)).substring(0, 5);
+          }
+          else {
+            return id;
+          }
         },
       },
+    },
+  },
+  $production: {
+    nitro: {
+      preset: 'cloudflare-pages',
     },
   },
 });

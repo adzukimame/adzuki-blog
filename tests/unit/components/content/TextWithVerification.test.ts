@@ -1,6 +1,9 @@
 import { describe, expect, test } from 'vitest';
 import { mountSuspended } from '@nuxt/test-utils/runtime';
-import TextWithVerification from '~/components/content/TextWithVerification.vue';
+import { fixComponentCssModules } from '@@/tests/util';
+import _TextWithVerification from '~/components/content/TextWithVerification.vue';
+
+const TextWithVerification = fixComponentCssModules(_TextWithVerification);
 
 describe('TextWithVerification', () => {
   test('初めはプレースホルダのテキストが表示される', async () => {

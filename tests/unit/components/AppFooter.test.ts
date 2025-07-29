@@ -1,6 +1,9 @@
 import { describe, expect, test } from 'vitest';
 import { mountSuspended, mockNuxtImport } from '@nuxt/test-utils/runtime';
-import AppFooter from '~/components/AppFooter.vue';
+import { fixComponentCssModules } from '@@/tests/util';
+import _AppFooter from '~/components/AppFooter.vue';
+
+const AppFooter = fixComponentCssModules(_AppFooter);
 
 mockNuxtImport('useRuntimeConfig', () => {
   return () => {

@@ -1,6 +1,9 @@
 import { describe, expect, test } from 'vitest';
 import { mountSuspended } from '@nuxt/test-utils/runtime';
-import LayoutDefault from '~/layouts/default.vue';
+import { fixComponentCssModules } from '@@/tests/util';
+import _LayoutDefault from '~/layouts/default.vue';
+
+const LayoutDefault = fixComponentCssModules(_LayoutDefault);
 
 describe('Layout Default', async () => {
   const component = await mountSuspended(LayoutDefault);
