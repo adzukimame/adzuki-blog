@@ -74,9 +74,6 @@ export default defineNuxtConfig({
       remarkPlugins: {
         'remark-breaks': {},
       },
-      tags: {
-        img: 'ImageViewer',
-      },
     },
   },
   app: {
