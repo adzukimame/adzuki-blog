@@ -1,14 +1,6 @@
 <template>
   <ClientOnly>
-    <div
-      v-if="status === 'idle' || status === 'pending'"
-      class="fallbackContainer">
-      <div class="title">
-        Loading url preview...
-      </div>
-    </div>
     <NuxtLink
-      v-else
       :to="runtimeConfig.public.origin === urlObj.origin ? `${urlObj.pathname}${urlObj.search}` : url.toString()"
       :target="runtimeConfig.public.origin === urlObj.origin ? undefined : '_blank'"
       class="container"
@@ -22,13 +14,19 @@
         <div
           class="description"
           data-testid="description">
-          {{ (data && data.description) ? data.description : '説明はありません' }}
+          {{ (data && data.description) ? data.description : ['idle', 'pending'].includes(status) ? 'Loading url preview...' : '説明はありません' }}
         </div>
         <div class="favicon-and-hostname-container">
           <img
+            v-if="status === 'success' && imgLoadStatus !== 'error'"
             :src="data?.icon ?? undefined"
             class="favicon"
-            :alt="`${urlObj.hostname} のfavicon画像`">
+            :alt="imgLoadStatus === 'success' ? `${urlObj.hostname} のfavicon画像` : undefined"
+            @loadstart="imgLoadStatus = 'loading'"
+            @error="imgLoadStatus = 'error'">
+          <div
+            v-else
+            class="favicon" />
           <div
             class="hostname"
             data-testid="hostname">
@@ -42,11 +40,28 @@
         class="thumbnail">
     </NuxtLink>
     <template #fallback>
-      <div class="fallbackContainer">
-        <div class="title">
-          Loading url preview...
+      <NuxtLink
+        :to="runtimeConfig.public.origin === urlObj.origin ? `${urlObj.pathname}${urlObj.search}` : url.toString()"
+        :target="runtimeConfig.public.origin === urlObj.origin ? undefined : '_blank'"
+        class="container">
+        <div class="lettersContainer">
+          <div class="title">
+            {{ url }}
+          </div>
+          <div class="description">
+            Loading url preview...
+          </div>
+          <div class="favicon-and-hostname-container">
+            <div class="favicon" />
+            <div
+              class="hostname"
+              data-testid="hostname">
+              {{ urlObj.hostname }}
+            </div>
+          </div>
         </div>
-      </div>
+        <div class="thumbnail" />
+      </NuxtLink>
     </template>
   </ClientOnly>
 </template>
@@ -57,6 +72,8 @@ import type { SummalyResult } from '@misskey-dev/summaly/built/summary';
 const props = defineProps<{
   url: string;
 }>();
+
+const imgLoadStatus = ref<'beforestart' | 'loading' | 'success' | 'error'>('beforestart');
 
 const runtimeConfig = useRuntimeConfig();
 
@@ -93,17 +110,6 @@ const { data, status } = await useLazyFetch<SummalyResult>(
   display: block grid;
   grid-template-rows: 2rem 1.6rem 1.6rem;
   padding-inline-start: 1rem;
-}
-
-.fallbackContainer {
-  display: block grid;
-  grid-template-rows: 2rem 1.6rem 1.6rem;
-  padding-inline-start: 1rem;
-  background-color: var(--bgStrong);
-  border: solid 1px var(--split);
-  border-radius: 6px;
-  line-height: 2;
-  transition: background-color var(--colorSchemeTransitionDuration);
 }
 
 .title {
