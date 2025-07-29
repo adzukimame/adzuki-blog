@@ -46,5 +46,7 @@ export default defineNitroPlugin((nitroApp) => {
     );
 
     removeResponseHeader(context.event, 'X-Robots-Tag');
+
+    setResponseHeader(context.event, 'Cache-Control', 'public, max-age=5, s-maxage=30');
   });
 });
