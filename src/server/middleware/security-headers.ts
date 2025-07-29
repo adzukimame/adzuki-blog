@@ -28,8 +28,11 @@ export default defineEventHandler((event) => {
       // eslint-disable-next-line @stylistic/quotes -- 外側を二重引用符にした方が見やすい
       setResponseHeader(event, 'Content-Security-Policy', "default-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none';");
 
+      setResponseHeader(event, 'Cache-Control', 'private, no-store');
+
       throw createError({
         statusCode: 400,
+        statusMessage: 'Bad Request',
       });
     }
   }

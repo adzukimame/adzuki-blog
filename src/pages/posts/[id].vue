@@ -12,7 +12,7 @@ const route = useRoute();
 const id = computed(() => {
   const id = Array.isArray(route.params.id) ? route.params.id[0] : route.params.id;
   if (id === undefined) {
-    throw createError({ statusCode: 404, statusMessage: 'Page not found' });
+    throw createError({ statusCode: 404, statusMessage: 'Not Found' });
   }
   return id;
 });
@@ -77,6 +77,6 @@ if (data.value) {
   });
 }
 else {
-  throw createError({ statusCode: 404, statusMessage: 'Page not found' });
+  throw createError({ statusCode: 404, statusMessage: 'Not Found' });
 }
 </script>

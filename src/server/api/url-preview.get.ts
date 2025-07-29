@@ -1,38 +1,34 @@
 import type { SummalyResult } from '@misskey-dev/summaly/built/summary';
+import { z } from 'zod/v4-mini';
+
+const querySchema = z.object({
+  url: z.url(),
+});
 
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig(event);
 
-  if (event.method !== 'GET') {
-    return createError({
-      statusCode: 405,
-      statusMessage: 'Method Not Allowed',
-    });
-  }
-
   if (!URL.canParse(config.summalyProxyUrl)) {
-    setResponseHeader(event, 'Cache-Control', 'public, max-age=3600');
+    setResponseHeader(event, 'Cache-Control', 'public, max-age=60, s-maxage=3600, immutable');
 
-    return createError({
+    throw createError({
       statusCode: 500,
       statusMessage: 'Internal Server Error',
     });
   }
 
-  const query = getQuery(event).url;
-  const targetUrl: unknown = Array.isArray(query) ? query[0] : query;
+  const query = await getValidatedQuery(event, query => querySchema.safeParse(query));
 
-  if (typeof targetUrl !== 'string' || !URL.canParse(targetUrl)) {
-    setResponseHeader(event, 'Cache-Control', 'public, max-age=6048000, immutable');
-
-    return createError({
+  if (!query.success) {
+    throw createError({
       statusCode: 400,
+      statusMessage: 'Bad Request',
       message: 'url is required',
     });
   }
 
   const url = new URL(config.summalyProxyUrl);
-  url.searchParams.set('url', targetUrl);
+  url.searchParams.set('url', query.data.url);
 
   try {
     const summary = await $fetch<SummalyResult>(url.toString());
@@ -59,13 +55,16 @@ export default defineEventHandler(async (event) => {
       }
     }
 
+    setResponseHeader(event, 'Cache-Control', 'public, max-age=86400, s-maxage=604800, immutable');
+
     return summary;
   }
   catch {
-    setResponseHeader(event, 'Cache-Control', 'public, max-age=216000, immutable');
+    setResponseHeader(event, 'Cache-Control', 'public, max-age=300, s-maxage=259200, immutable');
 
-    return createError({
+    throw createError({
       statusCode: 404,
+      statusMessage: 'Not Found',
       message: 'Failed to get preview',
     });
   }
