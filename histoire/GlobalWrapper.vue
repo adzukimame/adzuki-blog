@@ -30,14 +30,14 @@ classObserver.observe(document.documentElement, { attributes: true, attributeFil
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@350;600&family=Zen+Maru+Gothic:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP&display=swap');
 </style>
 
 <style scoped>
 .outer {
   color: var(--fg);
   background-color: var(--bg);
-  font-family: "Fredoka", "Zen Maru Gothic", "Arial", "Helvetica", "Yu Gothic", sans-serif;
+  font-family: "Noto Serif JP", "Yu Mincho", "Hiragino Mincho ProN W3", serif;
 }
 
 .outer {
