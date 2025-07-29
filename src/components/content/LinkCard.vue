@@ -7,7 +7,7 @@
       :class="{ withThumbnail: data?.thumbnail != null }">
       <div class="lettersContainer">
         <div
-          class="title loaded"
+          class="title"
           data-testid="title">
           {{ (data && data.title) ? data.title : url }}
         </div>
@@ -121,19 +121,15 @@ const { data, status } = await useLazyFetch<SummalyResult>(
   transition: color var(--hoverTransitionDuration) var(--hoverTransitionFunction);
 }
 
-.title:not(.loaded) {
-  cursor: default;
-}
-
 @media (hover: hover) {
-  .lettersContainer:hover>.title.loaded {
+  .lettersContainer:hover>.title {
     color: var(--fgStrong);
     text-decoration: underline;
   }
 }
 
 @media (hover: none) {
-  .lettersContainer:active>.title.loaded {
+  .lettersContainer:active>.title {
     color: var(--fgStrong);
     text-decoration: underline;
   }
