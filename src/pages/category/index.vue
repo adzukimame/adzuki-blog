@@ -1,14 +1,14 @@
 <template>
   <div>
-    <div class="heading">
+    <div :class="$style.heading">
       カテゴリ一覧
     </div>
     <main>
-      <ul class="category-list">
+      <ul :class="$style.categoryList">
         <li
           v-for="item in categoryList"
           :key="item[0]"
-          class="category-list-item">
+          :class="$style.categoryListItem">
           <NuxtLink :to="`/category/${item[0]}`">
             {{ `${item[0] === 'undefined' ? '未設定' : item[0]} (${item[1]})` }}
           </NuxtLink>
@@ -66,7 +66,7 @@ useSeoMeta({
 });
 </script>
 
-<style scoped>
+<style module>
 .heading {
   font-size: 1.2rem;
   padding-block-end: 0.4rem;
@@ -74,7 +74,7 @@ useSeoMeta({
   margin-block-end: 2rem;
 }
 
-.category-list {
+.categoryList {
   display: block flex;
   flex-direction: column;
   list-style-type: none;
@@ -83,24 +83,24 @@ useSeoMeta({
   padding-inline-start: 1rem;
 }
 
-.category-list-item::before {
+.categoryListItem::before {
   content: '>';
   padding-inline-end: 0.5rem;
   color: var(--fgWeak);
 }
 
-.category-list-item>a {
+.categoryListItem>a {
   transition: color var(--hoverTransitionDuration) var(--hoverTransitionFunction);
 }
 
 @media (hover: hover) {
-  .category-list-item>a:hover {
+  .categoryListItem>a:hover {
     color: var(--accent);
   }
 }
 
 @media (hover: none) {
-  .category-list-item>a:active {
+  .categoryListItem>a:active {
     color: var(--accent);
   }
 }

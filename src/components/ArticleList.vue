@@ -2,7 +2,7 @@
   <div>
     <div
       v-if="articles && articles.length > 0"
-      class="article-list">
+      :class="$style.articleList">
       <ArticleListItem
         v-for="item in articles"
         :key="item._id"
@@ -22,8 +22,8 @@ defineProps<{
 }>();
 </script>
 
-<style scoped>
-.article-list {
+<style module>
+.articleList {
   display: flex;
   flex-direction: column;
   gap: 1.2rem;

@@ -2,13 +2,14 @@
   <details
     v-if="toc && toc.links.length > 0"
     :open="tocOpened ? true : undefined"
-    class="article-toc container"
+    class="article-toc"
+    :class="$style.container"
     @toggle="(event) => {
       if (event.newState === 'open') { tocOpened = true }
       else if (event.newState === 'closed') { tocOpened = false }
     }">
     <summary
-      class="summary"
+      :class="$style.summary"
       @click.prevent="onSummaryClick">
       <div>
         目次
@@ -24,18 +25,18 @@
         stroke-width="2"
         stroke-linecap="round"
         stroke-linejoin="round"
-        class="accordion-icon">
+        :class="$style.accordionIcon">
         <path d="M6 9l6 6l6 -6" />
       </svg>
     </summary>
     <nav>
       <ul
         ref="listEl"
-        class="list">
+        :class="$style.list">
         <template
           v-for="item in toc.links"
           :key="item.id">
-          <li class="list-item-h2">
+          <li :class="$style.listItemH2">
             <NuxtLink :to="`#${item.id}`">
               {{ item.text }}
             </NuxtLink>
@@ -44,7 +45,7 @@
             <li
               v-for="child in item.children"
               :key="child.id"
-              class="list-item-h3">
+              :class="$style.listItemH3">
               <NuxtLink :to="`#${child.id}`">
                 {{ child.text }}
               </NuxtLink>
@@ -123,7 +124,7 @@ const onSummaryClick = (_event: MouseEvent) => {
 };
 </script>
 
-<style scoped>
+<style module>
 .container {
   display: block;
   background-color: var(--bgStrong);
@@ -159,19 +160,19 @@ const onSummaryClick = (_event: MouseEvent) => {
   }
 }
 
-.accordion-icon {
+.accordionIcon {
   transition: transform v-bind(summaryTransitionDurationText) v-bind(summaryTransitionFunction);
 }
 
-:root.writing-mode-vertical-rl .accordion-icon {
+:root:global(.writing-mode-vertical-rl) .accordionIcon {
   transform: rotate(0.25turn);
 }
 
-.container[open] .accordion-icon {
+.container[open] .accordionIcon {
   transform: rotate(0.5turn);
 }
 
-:root.writing-mode-vertical-rl .container[open] .accordion-icon {
+:root:global(.writing-mode-vertical-rl) .container[open] .accordionIcon {
   transform: rotate(0.75turn);
 }
 
@@ -191,15 +192,15 @@ const onSummaryClick = (_event: MouseEvent) => {
   border-block-start: dashed 1px var(--split);
 }
 
-.list>.list-item-h2>a {
+.list>.listItemH2>a {
   color: var(--fg);
 }
 
-.list-item-h3 {
+.listItemH3 {
   padding-inline-start: 1.5rem;
 }
 
-.list>.list-item-h3>a {
+.list>.listItemH3>a {
   color: var(--fgWeak);
 }
 

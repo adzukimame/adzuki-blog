@@ -1,13 +1,13 @@
 <template>
   <Body :style="`overflow: ${menuOpened ? 'clip' : ''};`" />
-  <header class="header">
-    <div class="header-inner">
+  <header :class="$style.header">
+    <div :class="$style.headerInner">
       <div
-        class="site-name-container"
+        :class="$style.siteNameContainer"
         data-testid="site-name">
         <NuxtLink
           to="/"
-          class="site-name"
+          :class="$style.title"
           @click="closeMenu">
           {{ runtimeConfig.public.siteName }}
         </NuxtLink>
@@ -15,13 +15,12 @@
       <nav
         v-if="!isNarrow || menuOpened"
         ref="navEl"
-        class="navigation"
-        :class="{ menuOpened: menuOpened }">
-        <ul class="navigation-list">
+        :class="[$style.navigation, { [$style.menuOpened]: menuOpened }]">
+        <ul :class="$style.navigationList">
           <li
             v-for="item in menuItems"
             :key="item.to"
-            class="navigation-list-item">
+            :class="$style.navigationListItem">
             <NuxtLink
               :to="item.to"
               @click="closeMenu()">
@@ -30,9 +29,9 @@
           </li>
         </ul>
       </nav>
-      <div class="buttons-container">
+      <div :class="$style.buttonsContainer">
         <button
-          class="button-color-switch"
+          :class="$style.buttonColorSwitch"
           :aria-label="`${colorScheme === 'dark' ? 'ライト' : 'ダーク'}モードに切り替える`"
           data-testid="color-switch"
           @click="updateColorScheme(colorScheme === 'light' ? 'dark' : 'light')">
@@ -68,7 +67,7 @@
           </svg>
         </button>
         <button
-          class="button-menu"
+          :class="$style.buttonMenu"
           :aria-label="`メニューを${menuOpened ? '閉じる' : '開く'}`"
           data-testid="menu-button"
           @click="() => {
@@ -211,7 +210,7 @@ const menuItems = [
 ];
 </script>
 
-<style scoped>
+<style module>
 .header {
   position: sticky;
   inset-block-start: 0;
@@ -224,7 +223,7 @@ const menuItems = [
   --darkModeSwitchAndMenuButtonSize: 2.2rem;
 }
 
-.header-inner {
+.headerInner {
   display: block flex;
   align-items: center;
   justify-content: space-between;
@@ -235,25 +234,25 @@ const menuItems = [
 }
 
 @media (max-width: 768px) {
-  .header-inner {
+  .headerInner {
     inline-size: 100%;
     padding-inline: 24px;
     margin-inline: 0;
   }
 }
 
-:root.writing-mode-vertical-rl .header-inner {
+:root:global(.writing-mode-vertical-rl) .headerInner {
   inline-size: 100%;
   padding-inline: 32px;
   margin-inline: 0;
 }
 
-.site-name-container {
+.siteNameContainer {
   flex: 1 1;
   display: block flex;
 }
 
-.site-name {
+.title {
   white-space: nowrap;
 }
 
@@ -284,7 +283,7 @@ const menuItems = [
   }
 }
 
-.navigation-list {
+.navigationList {
   display: block flex;
   column-gap: 3rem;
   align-items: center;
@@ -294,7 +293,7 @@ const menuItems = [
 }
 
 @media (max-width: 768px) {
-  .navigation-list {
+  .navigationList {
     display: block flex;
     flex-direction: column;
     row-gap: 1rem;
@@ -304,49 +303,49 @@ const menuItems = [
 }
 
 @media (max-width: 768px) {
-  .navigation-list-item {
+  .navigationListItem {
     padding-inline-start: 0.8rem;
     border-inline-start: solid 0.5rem var(--fgWeak);
     transition: border-inline-start-color var(--hoverTransitionDuration) var(--hoverTransitionFunction);
   }
 
   @media (hover: hover) {
-    .navigation-list-item:hover {
+    .navigationListItem:hover {
       border-inline-start-color: var(--accent);
     }
   }
 
   @media (hover: none) {
-    .navigation-list-item:active {
+    .navigationListItem:active {
       border-inline-start-color: var(--accent);
     }
   }
 }
 
-.navigation-list-item>a {
+.navigationListItem>a {
   transition: color var(--hoverTransitionDuration) var(--hoverTransitionFunction);
 }
 
 @media (hover: hover) {
-  .navigation-list-item>a:hover {
+  .navigationListItem>a:hover {
     color: var(--accent);
   }
 }
 
 @media (hover: none) {
-  .navigation-list-item>a:active {
+  .navigationListItem>a:active {
     color: var(--accent);
   }
 }
 
-.buttons-container {
+.buttonsContainer {
   flex: 1 1;
   display: block flex;
   justify-content: flex-end;
   column-gap: 0.5rem;
 }
 
-.buttons-container>button {
+.buttonsContainer>button {
   cursor: pointer;
   inline-size: var(--darkModeSwitchAndMenuButtonSize);
   block-size: var(--darkModeSwitchAndMenuButtonSize);
@@ -358,32 +357,32 @@ const menuItems = [
 }
 
 @media (hover: hover) {
-  .buttons-container>button:hover {
+  .buttonsContainer>button:hover {
     background-color: var(--bgStrong);
   }
 }
 
 @media (hover: none) {
-  .buttons-container>button:active {
+  .buttonsContainer>button:active {
     background-color: var(--bgStrong);
   }
 }
 
-.button-color-switch>svg {
+.buttonColorSwitch>svg {
   margin: calc((var(--darkModeSwitchAndMenuButtonSize) - 1.4rem) / 2);
 }
 
-.button-menu {
+.buttonMenu {
   display: none;
 }
 
 @media (max-width: 768px) {
-  .button-menu {
+  .buttonMenu {
     display: block;
   }
 }
 
-.button-menu>svg {
+.buttonMenu>svg {
   margin: calc((var(--darkModeSwitchAndMenuButtonSize) - 1.2rem) / 2);
 }
 </style>

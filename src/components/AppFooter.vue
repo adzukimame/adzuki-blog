@@ -1,6 +1,6 @@
 <template>
-  <footer class="footer">
-    <div class="copyright">
+  <footer :class="$style.footer">
+    <div :class="$style.copyright">
       Copyright © {{ new Date().getFullYear() }} {{ runtimeConfig.public.authorName }}. All Rights Reserved.
     </div>
   </footer>
@@ -10,7 +10,7 @@
 const runtimeConfig = useRuntimeConfig();
 </script>
 
-<style scoped>
+<style module>
 .footer {
   display: block flex;
   flex-direction: column;

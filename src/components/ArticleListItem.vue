@@ -1,23 +1,23 @@
 <template>
-  <article class="container">
+  <article :class="$style.container">
     <NuxtLink
       :to="item._path"
-      class="title-and-description-container"
+      :class="$style.titleAndDescriptionContainer"
       data-testid="link">
       <div
-        class="title"
+        :class="$style.title"
         data-testid="title">
         {{ item.title }}
       </div>
       <div
-        class="description"
+        :class="$style.description"
         data-testid="description">
         {{ item.description?.trim() ?? '…' }}
       </div>
     </NuxtLink>
-    <div class="category-and-date-container">
+    <div :class="$style.categoryAndDateContainer">
       <div
-        class="category-container"
+        :class="$style.categoryContainer"
         data-testid="category">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -36,7 +36,7 @@
         <NuxtLink
           v-if="normalizedCategory === undefined"
           :to="'/category/undefined'"
-          class="category">
+          :class="$style.category">
           未設定
         </NuxtLink>
         <template v-else>
@@ -44,13 +44,13 @@
             v-for="category in normalizedCategory"
             :key="category"
             :to="`/category/${category}`"
-            class="category">
+            :class="$style.category">
             {{ category }}
           </NuxtLink>
         </template>
       </div>
       <div
-        class="date-container"
+        :class="$style.dateContainer"
         data-testid="created">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -90,7 +90,7 @@ const props = defineProps<{
 const normalizedCategory = computed<string[] | undefined>(() => normalizeCategory(props.item.category));
 </script>
 
-<style scoped>
+<style module>
 .container {
   display: block flex;
   flex-direction: column;
@@ -116,7 +116,7 @@ const normalizedCategory = computed<string[] | undefined>(() => normalizeCategor
   }
 }
 
-.title-and-description-container {
+.titleAndDescriptionContainer {
   display: block grid;
   grid-template-rows: calc(var(--title-line-height) * 2) calc(var(--description-line-height) * 2);
   row-gap: 0.4rem;
@@ -131,13 +131,13 @@ const normalizedCategory = computed<string[] | undefined>(() => normalizeCategor
 }
 
 @media (hover: hover) {
-  .title-and-description-container:hover .title {
+  .titleAndDescriptionContainer:hover .title {
     color: var(--fgStrong);
   }
 }
 
 @media (hover: none) {
-  .title-and-description-container:active .title {
+  .titleAndDescriptionContainer:active .title {
     color: var(--fgStrong);
   }
 }
@@ -149,20 +149,20 @@ const normalizedCategory = computed<string[] | undefined>(() => normalizeCategor
   color: var(--fgWeak);
 }
 
-.category-and-date-container {
+.categoryAndDateContainer {
   display: block flex;
   justify-content: space-between;
   font-size: 0.8rem;
   color: var(--fgWeak);
 }
 
-.category-container {
+.categoryContainer {
   flex-wrap: wrap;
   display: block flex;
   align-items: center;
 }
 
-.category-container>:first-child {
+.categoryContainer>:first-child {
   margin-inline-end: 0.2rem;
 }
 
@@ -185,7 +185,7 @@ const normalizedCategory = computed<string[] | undefined>(() => normalizeCategor
   }
 }
 
-.date-container {
+.dateContainer {
   flex-shrink: 0;
   align-self: end;
   display: block flex;
@@ -193,7 +193,7 @@ const normalizedCategory = computed<string[] | undefined>(() => normalizeCategor
   cursor: default;
 }
 
-.date-container>:first-child {
+.dateContainer>:first-child {
   margin-inline-end: 0.2rem;
 }
 </style>
