@@ -54,12 +54,8 @@ useServerHead({
   const queryWritingMode = new URLSearchParams(location.search).get('tategaki');
   try {
     const savedWritingMode = window.localStorage.getItem('writingMode');
-    if (queryWritingMode === 'false') {
-      window.localStorage.removeItem('writingMode');
-    }
-    else if (queryWritingMode !== null || savedWritingMode === 'vertical-rl') {
+    if (queryWritingMode !== 'false' && (queryWritingMode !== null || savedWritingMode === 'vertical-rl')) {
       document.documentElement.classList.add('writing-mode-vertical-rl');
-      window.localStorage.setItem('writingMode', 'vertical-rl');
     }
   }
   catch {
@@ -76,16 +72,7 @@ useServerHead({
 const writingMode = useWritingMode();
 
 onMounted(() => {
-  try {
-    const savedWritingMode = window.localStorage.getItem('writingMode');
-    writingMode.value = savedWritingMode === 'vertical-rl' ? 'vertical-rl' : null;
-  }
-  catch {
-    const queryWritingMode = new URLSearchParams(location.search).get('tategaki');
-    if (queryWritingMode !== null && queryWritingMode !== 'false') {
-      writingMode.value = 'vertical-rl';
-    }
-  }
+  initReactiveWritingMode();
 });
 // end - 縦組み
 
