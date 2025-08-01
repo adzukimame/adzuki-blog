@@ -82,7 +82,6 @@ export default defineNuxtConfig({
     },
   },
   css: [
-    '@unocss/reset/normalize.css',
     '~/assets/css/main.css',
   ],
   content: {

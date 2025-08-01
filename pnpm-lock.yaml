@@ -57,9 +57,6 @@ importers:
       '@testing-library/vue':
         specifier: ^8.1.0
         version: 8.1.0(@vue/compiler-sfc@3.5.14)(vue@3.5.14(typescript@5.8.3))
-      '@unocss/reset':
-        specifier: ^66.3.3
-        version: 66.3.3
       '@vitest/coverage-v8':
         specifier: ^3.1.4
         version: 3.1.4(vitest@3.1.4(@types/debug@4.1.12)(@types/node@22.15.21)(happy-dom@17.4.7)(jiti@2.4.2)(jsdom@25.0.1)(terser@5.39.2)(yaml@2.8.0))
@@ -1971,9 +1968,6 @@ packages:
     resolution: {integrity: sha512-lV7E1sXX6/te8+IiUwlMysBAyJT/WM5Je47cRnpU5hsvDRziSIGfim9qMWbsTouH+paavRJz1i8gk5hRzjvkcw==}
     peerDependencies:
       vue: '>=3.5.13'
-
-  '@unocss/reset@66.3.3':
-    resolution: {integrity: sha512-VIeR/mIcCL89/1uA1KM1QCYca4aeIGqEHMTJL1nCD4v+7wk6XhNXhsp5gMIHo+V804SUSmATWaeHTiKpiFu7AQ==}
 
   '@unrs/resolver-binding-darwin-arm64@1.7.2':
     resolution: {integrity: sha512-vxtBno4xvowwNmO/ASL0Y45TpHqmNkAaDtz4Jqb+clmcVSSl8XCG/PNFFkGsXXXS6AMjP+ja/TtNCFFa1QwLRg==}
@@ -8980,8 +8974,6 @@ snapshots:
       hookable: 5.5.3
       unhead: 2.0.10
       vue: 3.5.14(typescript@5.8.3)
-
-  '@unocss/reset@66.3.3': {}
 
   '@unrs/resolver-binding-darwin-arm64@1.7.2':
     optional: true
