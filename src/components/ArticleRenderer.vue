@@ -22,7 +22,7 @@ defineProps<{
   display: block;
 }
 
-.articleRenderer>:is(h1, h2, h3, h4, h5, h6) {
+.articleRenderer>:where(h1, h2, h3, h4, h5, h6) {
   margin-block-start: 1.8rem;
   margin-block-end: 1rem;
 }

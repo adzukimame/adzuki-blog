@@ -73,6 +73,7 @@ a {
 
 button {
   color: unset;
+  font-family: unset;
   background-color: transparent;
   border-style: unset;
   padding-block: 0;

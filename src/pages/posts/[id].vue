@@ -1,6 +1,11 @@
 <template>
   <main>
-    <ArticleRenderer :content="data ?? undefined" />
+    <ArticleRenderer
+      v-if="data != null"
+      :content="data" />
+    <NoContent
+      v-else
+      :show-back-button="true" />
   </main>
 </template>
 
