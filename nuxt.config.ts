@@ -22,7 +22,6 @@ const ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz';
 const extractLowerBits = (number: number, digits: number) => {
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   if (number === 0) return ALPHABET[0]!.repeat(digits);
-
   let result = '';
   for (let i = 0; i < digits && number > 0; i++) {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -33,10 +32,6 @@ const extractLowerBits = (number: number, digits: number) => {
 };
 
 export default defineNuxtConfig({
-  compatibilityDate: '2025-05-24',
-  srcDir: 'src/',
-  devtools: { enabled: true },
-  telemetry: false,
   modules: [
     '@nuxt/content',
     '@nuxt/image',
@@ -62,19 +57,10 @@ export default defineNuxtConfig({
     imgAndMediaSrc: [''],
     protectedTexts: '{}',
   },
-  eslint: {
-    config: {
-      stylistic: {
-        semi: true,
-      },
-    },
-  },
-  typescript: {
-    tsConfig: {
-      compilerOptions: {
-        checkJs: true,
-        noUncheckedIndexedAccess: true,
-      },
+  app: {
+    pageTransition: {
+      name: 'page',
+      mode: 'out-in',
     },
   },
   css: [
@@ -106,26 +92,6 @@ export default defineNuxtConfig({
       },
     },
   },
-  app: {
-    pageTransition: {
-      name: 'page',
-      mode: 'out-in',
-    },
-  },
-  nitro: {
-    prerender: {
-      autoSubfolderIndex: false,
-    },
-    hooks: {
-      'prerender:generate': (route) => {
-        // https://nuxt.com/docs/3.x/getting-started/prerendering#prerendergenerate-nitro-hook
-        if (/^\/api\/_content\/cache\.\d+\.json$/.exec(route.route)) {
-          route.skip = true;
-        }
-      },
-    },
-    sourceMap: false,
-  },
   vite: {
     css: {
       modules: {
@@ -142,6 +108,20 @@ export default defineNuxtConfig({
       },
     },
   },
+  nitro: {
+    sourceMap: false,
+    prerender: {
+      autoSubfolderIndex: false,
+    },
+    hooks: {
+      'prerender:generate': (route) => {
+        // https://nuxt.com/docs/3.x/getting-started/prerendering#prerendergenerate-nitro-hook
+        if (/^\/api\/_content\/cache\.\d+\.json$/.exec(route.route)) {
+          route.skip = true;
+        }
+      },
+    },
+  },
   hooks: {
     'build:manifest': (manifest) => {
       // https://nuxt.com/docs/3.x/getting-started/styling#lcp-advanced-optimizations
@@ -155,6 +135,24 @@ export default defineNuxtConfig({
       }
     },
   },
+  typescript: {
+    tsConfig: {
+      compilerOptions: {
+        checkJs: true,
+        noUncheckedIndexedAccess: true,
+      },
+    },
+  },
+  eslint: {
+    config: {
+      stylistic: {
+        semi: true,
+      },
+    },
+  },
+  compatibilityDate: '2025-05-24',
+  srcDir: 'src/',
+  telemetry: false,
   $production: {
     nitro: {
       preset: 'cloudflare-pages',
