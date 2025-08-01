@@ -9,22 +9,18 @@ export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig(event);
 
   if (!URL.canParse(config.summalyProxyUrl)) {
-    setResponseHeader(event, 'Cache-Control', 'public, max-age=60, s-maxage=3600, immutable');
-
-    throw createError({
-      statusCode: 500,
-      statusMessage: 'Internal Server Error',
-    });
+    setResponseStatus(event, 500);
+    setResponseHeader(event, 'Cache-Control', 'public, max-age=60, s-maxage=600, immutable');
+    return;
   }
 
   const query = await getValidatedQuery(event, query => querySchema.safeParse(query));
 
   if (!query.success) {
-    throw createError({
-      statusCode: 400,
-      statusMessage: 'Bad Request',
-      message: 'url is required',
-    });
+    setResponseStatus(event, 400);
+    setResponseHeader(event, 'Cache-Control', 'public, max-age=31536000, immutable');
+    setResponseHeader(event, 'Content-Type', 'text/plain');
+    return 'url is required';
   }
 
   const url = new URL(config.summalyProxyUrl);
@@ -60,12 +56,9 @@ export default defineEventHandler(async (event) => {
     return summary;
   }
   catch {
-    setResponseHeader(event, 'Cache-Control', 'public, max-age=300, s-maxage=259200, immutable');
-
-    throw createError({
-      statusCode: 404,
-      statusMessage: 'Not Found',
-      message: 'Failed to get preview',
-    });
+    setResponseStatus(event, 404);
+    setResponseHeader(event, 'Cache-Control', 'public, max-age=86400, s-maxage=604800, immutable');
+    setResponseHeader(event, 'Content-Type', 'text/plain');
+    return 'Failed to get preview';
   }
 });

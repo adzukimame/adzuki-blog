@@ -44,6 +44,9 @@ if (data.value) {
   });
 }
 else {
-  throw createError({ statusCode: 404, statusMessage: 'Not Found' });
+  const event = useRequestEvent();
+  if (event) {
+    setResponseStatus(event, 404);
+  }
 }
 </script>
