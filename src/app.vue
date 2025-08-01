@@ -36,30 +36,12 @@ useServerHead({
 const colorScheme = useColorScheme();
 
 onMounted(() => {
-  try {
-    const savedColorScheme = window.localStorage.getItem('colorScheme');
-    if (savedColorScheme === 'light' || savedColorScheme === 'dark') {
-      colorScheme.value = savedColorScheme;
-    }
-    else {
-      window.localStorage.removeItem('colorScheme');
-      colorScheme.value = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    }
-  }
-  catch {
-    colorScheme.value = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-  }
+  initReactiveColorScheme();
 
-  window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', (event) => {
-    try {
-      if (window.localStorage.getItem('colorScheme') === null) {
-        colorScheme.value = event.matches ? 'light' : 'dark';
-      }
-    }
-    catch {
-      colorScheme.value = event.matches ? 'light' : 'dark';
-    }
-  });
+  window.matchMedia('(prefers-color-scheme: light)').addEventListener(
+    'change',
+    preferredColorSchemeChangeListener
+  );
 });
 // end - color scheme
 

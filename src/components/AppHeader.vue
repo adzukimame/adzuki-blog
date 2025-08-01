@@ -34,7 +34,7 @@
           :class="$style.buttonColorSwitch"
           :aria-label="`${colorScheme === 'dark' ? 'ライト' : 'ダーク'}モードに切り替える`"
           data-testid="color-switch"
-          @click="updateColorScheme(colorScheme === 'light' ? 'dark' : 'light')">
+          @click="manuallyUpdateColorScheme(colorScheme === 'light' ? 'dark' : 'light')">
           <svg
             v-if="colorScheme === 'light'"
             xmlns="http://www.w3.org/2000/svg"
@@ -123,16 +123,6 @@ const appConfig = useAppConfig();
 const runtimeConfig = useRuntimeConfig();
 
 const colorScheme = useColorScheme();
-
-const updateColorScheme = (newColorScheme: 'dark' | 'light') => {
-  colorScheme.value = newColorScheme;
-  try {
-    window.localStorage.setItem('colorScheme', newColorScheme);
-  }
-  catch {
-    // nop
-  }
-};
 
 const isNarrow = ref(false);
 const menuOpened = ref(false);
