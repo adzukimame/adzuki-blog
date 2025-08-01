@@ -56,11 +56,6 @@ if (requestUrl.origin === runtimeConfig.public.origin || import.meta.dev) {
   ].join(', ');
   useServerSeoMeta({ robots });
 }
-else {
-  useServerSeoMeta({
-    robots: 'noindex, nofollow, noarchive, nosnippet, noimageindex, noai, noimageai',
-  });
-}
 
 if (data.value) {
   useHead({
@@ -69,11 +64,11 @@ if (data.value) {
 
   useServerSeoMeta({
     ogTitle: `${data.value.title ?? id.value} - ${runtimeConfig.public.siteName}`,
-    ogDescription: `${data.value.title ?? id.value} - ${runtimeConfig.public.siteName}`,
+    ogDescription: typeof data.value.description === 'string' ? data.value.description.replace(/^\s+/, '') : undefined,
   });
 
   useSeoMeta({
-    description: `${data.value.title ?? id.value} - ${runtimeConfig.public.siteName}`,
+    description: () => (typeof data.value?.description === 'string' ? data.value.description.replace(/^\s+/, '') : undefined),
   });
 }
 else {

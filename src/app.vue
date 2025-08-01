@@ -94,15 +94,8 @@ useHead({
   titleTemplate: titleChunk => titleChunk ? `${titleChunk} - ${runtimeConfig.public.siteName}` : runtimeConfig.public.siteName,
 });
 
-const requestUrl = useRequestURL();
-
-if (!requestUrl.pathname.startsWith('/posts/')) {
-  useServerSeoMeta({
-    robots: 'noindex, nofollow, noarchive, nosnippet, noimageindex, noai, noimageai',
-  });
-}
-
 useServerSeoMeta({
+  robots: 'noindex, nofollow, noarchive, nosnippet, noimageindex, noai, noimageai',
   referrer: 'same-origin',
   twitterCard: 'summary',
   ogTitle: runtimeConfig.public.siteName,
