@@ -26,7 +26,7 @@ export default defineEventHandler((event) => {
     }
     else {
       // eslint-disable-next-line @stylistic/quotes -- 外側を二重引用符にした方が見やすい
-      setResponseHeader(event, 'Content-Security-Policy', "default-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none';");
+      setResponseHeader(event, 'Content-Security-Policy', "default-src 'none'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'; frame-ancestors 'none';");
 
       setResponseHeader(event, 'Cache-Control', 'private, no-store');
 

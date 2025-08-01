@@ -8,22 +8,27 @@ const requestBodySchema = z.object({
 });
 
 export default defineEventHandler(async (event) => {
+  setResponseHeader(event, 'Cache-Control', 'private, no-store');
+
   const config = useRuntimeConfig(event);
 
   const protectedTexts = protectedTextsSchema.safeParse(config.protectedTexts);
 
   if (!protectedTexts.success) {
-    throw createError({ statusCode: 500, statusMessage: 'Internal Server Error' });
+    setResponseStatus(event, 500);
+    return;
   }
 
   if (getHeader(event, 'Content-Type') !== 'application/json') {
-    throw createError({ statusCode: 400, statusMessage: 'Bad Request' });
+    setResponseStatus(event, 400);
+    return;
   }
 
   const body = await readValidatedBody(event, body => requestBodySchema.safeParse(body));
 
   if (!body.success) {
-    throw createError({ statusCode: 400, statusMessage: 'Bad Request' });
+    setResponseStatus(event, 400);
+    return;
   }
 
   const turnstileResult = await verifyTurnstileToken(body.data.token, event);
@@ -31,16 +36,16 @@ export default defineEventHandler(async (event) => {
   const verified = turnstileResult.success;
 
   if (!verified) {
-    throw createError({ statusCode: 400, statusMessage: 'Bad Request' });
+    setResponseStatus(event, 400);
+    return;
   }
 
   const text = protectedTexts.data[body.data.name];
 
   if (text === undefined) {
-    throw createError({ statusCode: 400, statusMessage: 'Bad Request' });
+    setResponseStatus(event, 400);
+    return;
   }
-
-  setResponseHeader(event, 'Cache-Control', 'private, no-store');
 
   setResponseHeader(event, 'Content-Type', 'application/octet-stream');
 

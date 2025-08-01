@@ -1,6 +1,11 @@
 <template>
   <main>
-    <ArticleRenderer :content="data ?? undefined" />
+    <ArticleRenderer
+      v-if="data != null"
+      :content="data" />
+    <NoContent
+      v-else
+      :show-back-button="true" />
   </main>
 </template>
 
@@ -72,6 +77,9 @@ if (data.value) {
   });
 }
 else {
-  throw createError({ statusCode: 404, statusMessage: 'Not Found' });
+  const event = useRequestEvent();
+  if (event) {
+    setResponseStatus(event, 404);
+  }
 }
 </script>
