@@ -18,29 +18,20 @@ const cyrb53 = (str: string, seed = 0) => {
   return 4294967296 * (2097151 & h2) + (h1 >>> 0);
 };
 
-// https://github.com/jyn514/base56/blob/master/base56.py
 const ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz';
-function encodeNumber(number: number): string {
-  if (number === 0) {
-    return '0';
-  }
-
+const extractLowerBits = (number: number, digits: number) => {
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  if (number === 0) return ALPHABET[0]!.repeat(digits);
   let result = '';
-
-  while (number > 0) {
-    const index = number % ALPHABET.length;
+  for (let i = 0; i < digits && number > 0; i++) {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    result = ALPHABET[index]! + result;
+    result += ALPHABET[number % ALPHABET.length]!;
     number = Math.floor(number / ALPHABET.length);
   }
-
-  return result;
-}
+  return result.padStart(digits, ALPHABET[0]);
+};
 
 export default defineNuxtConfig({
-  compatibilityDate: '2025-05-24',
-  srcDir: 'src/',
-  devtools: { enabled: true },
   modules: [
     '@nuxt/content',
     '@nuxt/image',
@@ -66,19 +57,10 @@ export default defineNuxtConfig({
     imgAndMediaSrc: [''],
     protectedTexts: '{}',
   },
-  eslint: {
-    config: {
-      stylistic: {
-        semi: true,
-      },
-    },
-  },
-  typescript: {
-    tsConfig: {
-      compilerOptions: {
-        checkJs: true,
-        noUncheckedIndexedAccess: true,
-      },
+  app: {
+    pageTransition: {
+      name: 'page',
+      mode: 'out-in',
     },
   },
   css: [
@@ -110,17 +92,6 @@ export default defineNuxtConfig({
       },
     },
   },
-  app: {
-    pageTransition: {
-      name: 'page',
-      mode: 'out-in',
-    },
-  },
-  nitro: {
-    prerender: {
-      autoSubfolderIndex: false,
-    },
-  },
   vite: {
     css: {
       modules: {
@@ -128,7 +99,7 @@ export default defineNuxtConfig({
           const id = `${new URL(filename, import.meta.url).pathname.replace(new URL('./', import.meta.url).pathname, '')}-${name}`.replace(/[\\/.?&=]/g, '-');
 
           if (process.env.NODE_ENV === 'production') {
-            return encodeNumber(cyrb53(id)).substring(0, 5);
+            return extractLowerBits(cyrb53(id), 5);
           }
           else {
             return id;
@@ -137,6 +108,51 @@ export default defineNuxtConfig({
       },
     },
   },
+  nitro: {
+    sourceMap: false,
+    prerender: {
+      autoSubfolderIndex: false,
+    },
+    hooks: {
+      'prerender:generate': (route) => {
+        // https://nuxt.com/docs/3.x/getting-started/prerendering#prerendergenerate-nitro-hook
+        if (/^\/api\/_content\/cache\.\d+\.json$/.exec(route.route)) {
+          route.skip = true;
+        }
+      },
+    },
+  },
+  hooks: {
+    'build:manifest': (manifest) => {
+      // https://nuxt.com/docs/3.x/getting-started/styling#lcp-advanced-optimizations
+      const css = Object.values(manifest).find(options => options.isEntry)?.css;
+      if (css) {
+        for (let i = css.length - 1; i >= 0; i--) {
+          if (css[i]?.startsWith('entry.')) {
+            css.splice(i, 1);
+          }
+        }
+      }
+    },
+  },
+  typescript: {
+    tsConfig: {
+      compilerOptions: {
+        checkJs: true,
+        noUncheckedIndexedAccess: true,
+      },
+    },
+  },
+  eslint: {
+    config: {
+      stylistic: {
+        semi: true,
+      },
+    },
+  },
+  compatibilityDate: '2025-05-24',
+  srcDir: 'src/',
+  telemetry: false,
   $production: {
     nitro: {
       preset: 'cloudflare-pages',
