@@ -84,6 +84,14 @@ useHead({
   title: '',
 });
 
+const requestUrl = useRequestURL();
+
+if (requestUrl.origin === runtimeConfig.public.origin || import.meta.dev) {
+  useServerSeoMeta({
+    robots: 'noarchive, noimageindex, noai, noimageai',
+  });
+}
+
 useServerSeoMeta({
   ogTitle: runtimeConfig.public.siteName,
   ogDescription: runtimeConfig.public.siteDescription,

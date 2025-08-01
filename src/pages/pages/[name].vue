@@ -40,7 +40,7 @@ if (data.value) {
   });
 
   useSeoMeta({
-    description: `${data.value.title ?? name.value} - ${runtimeConfig.public.siteName}`,
+    description: () => `${data.value?.title ?? name.value} - ${runtimeConfig.public.siteName}`,
   });
 }
 else {

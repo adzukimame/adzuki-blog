@@ -129,7 +129,7 @@ useServerSeoMeta({
 });
 
 useSeoMeta({
-  description: `カテゴリ「${category.value === 'undefined' ? '未設定' : category.value}」の投稿 - ${runtimeConfig.public.siteName}`,
+  description: () => `カテゴリ「${category.value === 'undefined' ? '未設定' : category.value}」の投稿 - ${runtimeConfig.public.siteName}`,
 });
 </script>
 
