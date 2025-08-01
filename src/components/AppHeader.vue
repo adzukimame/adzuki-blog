@@ -126,7 +126,12 @@ const colorScheme = useColorScheme();
 
 const updateColorScheme = (newColorScheme: 'dark' | 'light') => {
   colorScheme.value = newColorScheme;
-  window.localStorage.setItem('colorScheme', newColorScheme);
+  try {
+    window.localStorage.setItem('colorScheme', newColorScheme);
+  }
+  catch {
+    // nop
+  }
 };
 
 const isNarrow = ref(false);

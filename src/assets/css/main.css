@@ -1,4 +1,5 @@
 :root {
+  color-scheme: light;
   --bg: oklch(97% 0 0deg);
   --bgStrong: oklch(99% 0 0deg);
   --fg: oklch(28% 0 0deg);
@@ -11,6 +12,7 @@
 }
 
 :root.color-scheme-dark {
+  color-scheme: dark;
   --bg: oklch(15% 0 0deg);
   --bgStrong: oklch(23% 0 0deg);
   --fg: oklch(86% 0 0deg);

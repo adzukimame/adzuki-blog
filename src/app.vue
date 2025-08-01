@@ -1,7 +1,5 @@
 <template>
-  <Html
-    :class="[{ 'color-scheme-dark': colorScheme === 'dark' }, { 'writing-mode-vertical-rl': writingMode === 'vertical-rl' }]"
-    translate="no" />
+  <Html :class="[{ 'color-scheme-dark': colorScheme === 'dark' }, { 'writing-mode-vertical-rl': writingMode === 'vertical-rl' }]" />
   <NuxtLayout>
     <NuxtPage />
   </NuxtLayout>
@@ -11,30 +9,54 @@
 // color scheme
 
 // add class before hydration to avoid blink
-onPrehydrate(() => {
-  const savedColorScheme = window.localStorage.getItem('colorScheme');
-
-  if (savedColorScheme === 'dark'
-    || (savedColorScheme === null && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-    document.documentElement.classList.add('color-scheme-dark');
+useServerHead({
+  script: [
+    {
+      textContent: `
+(() => {
+  try {
+    const savedColorScheme = window.localStorage.getItem('colorScheme');
+    if (savedColorScheme === 'dark') {
+      document.documentElement.classList.add('color-scheme-dark');
+    } else if (savedColorScheme === null && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      document.documentElement.classList.add('color-scheme-dark');
+    }
   }
+  catch {
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      document.documentElement.classList.add('color-scheme-dark');
+    }
+  }
+})();
+`,
+    },
+  ],
 });
 
 const colorScheme = useColorScheme();
 
 onMounted(() => {
-  const savedColorScheme = window.localStorage.getItem('colorScheme');
-
-  if (savedColorScheme === 'light' || savedColorScheme === 'dark') {
-    colorScheme.value = savedColorScheme;
+  try {
+    const savedColorScheme = window.localStorage.getItem('colorScheme');
+    if (savedColorScheme === 'light' || savedColorScheme === 'dark') {
+      colorScheme.value = savedColorScheme;
+    }
+    else {
+      window.localStorage.removeItem('colorScheme');
+      colorScheme.value = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
   }
-  else {
-    colorScheme.value = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-    window.localStorage.removeItem('colorScheme');
+  catch {
+    colorScheme.value = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
   }
 
   window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', (event) => {
-    if (window.localStorage.getItem('colorScheme') === null) {
+    try {
+      if (window.localStorage.getItem('colorScheme') === null) {
+        colorScheme.value = event.matches ? 'light' : 'dark';
+      }
+    }
+    catch {
       colorScheme.value = event.matches ? 'light' : 'dark';
     }
   });
@@ -42,24 +64,46 @@ onMounted(() => {
 // end - color scheme
 
 // 縦組み
-onPrehydrate(() => {
-  const savedWritingMode = window.localStorage.getItem('writingMode');
+useServerHead({
+  script: [
+    {
+      textContent: `
+(() => {
   const queryWritingMode = new URLSearchParams(location.search).get('tategaki');
-
-  if (queryWritingMode === 'false') {
-    window.localStorage.removeItem('writingMode');
+  try {
+    const savedWritingMode = window.localStorage.getItem('writingMode');
+    if (queryWritingMode === 'false') {
+      window.localStorage.removeItem('writingMode');
+    }
+    else if (queryWritingMode !== null || savedWritingMode === 'vertical-rl') {
+      document.documentElement.classList.add('writing-mode-vertical-rl');
+      window.localStorage.setItem('writingMode', 'vertical-rl');
+    }
   }
-  else if (queryWritingMode !== null || savedWritingMode === 'vertical-rl') {
-    document.documentElement.classList.add('writing-mode-vertical-rl');
-    window.localStorage.setItem('writingMode', 'vertical-rl');
+  catch {
+    if (queryWritingMode !== null && queryWritingMode !== 'false') {
+      document.documentElement.classList.add('writing-mode-vertical-rl');
+    }
   }
+})();
+`,
+    },
+  ],
 });
 
 const writingMode = useWritingMode();
 
 onMounted(() => {
-  const savedWritingMode = window.localStorage.getItem('writingMode');
-  writingMode.value = savedWritingMode === 'vertical-rl' ? 'vertical-rl' : null;
+  try {
+    const savedWritingMode = window.localStorage.getItem('writingMode');
+    writingMode.value = savedWritingMode === 'vertical-rl' ? 'vertical-rl' : null;
+  }
+  catch {
+    const queryWritingMode = new URLSearchParams(location.search).get('tategaki');
+    if (queryWritingMode !== null && queryWritingMode !== 'false') {
+      writingMode.value = 'vertical-rl';
+    }
+  }
 });
 // end - 縦組み
 
