@@ -1,5 +1,6 @@
 <template>
   <Story
+    id="ArticleListItem"
     :meta="{
       interact: [
         [{ hover: 'article' }],

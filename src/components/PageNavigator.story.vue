@@ -1,5 +1,5 @@
 <template>
-  <Story>
+  <Story id="PageNavigator">
     <Variant
       title="default"
       :meta="{

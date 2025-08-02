@@ -1,5 +1,5 @@
 <template>
-  <Html :class="[{ 'dark-mode': colorScheme === 'dark' }, { 'vertical-rl': verticalRl }]" />
+  <Html :class="[{ 'dark-mode': darkMode }, { 'vertical-rl': verticalLayout }]" />
   <div class="outer">
     <div class="inner">
       <slot />
@@ -16,14 +16,14 @@ defineProps<{
 }>();
 
 // dark mode
-const colorScheme = ref<'light' | 'dark'>((new URLSearchParams(location.search).get('preview-dark-mode') !== null || document.documentElement.classList.contains('htw-dark')) ? 'dark' : 'light');
+const darkMode = ref<boolean>(new URLSearchParams(location.search).get('preview-dark-mode') !== null || document.documentElement.classList.contains('htw-dark'));
 const classObserver = new MutationObserver((_) => {
-  colorScheme.value = (new URLSearchParams(location.search).get('preview-dark-mode') !== null || document.documentElement.classList.contains('htw-dark')) ? 'dark' : 'light';
+  darkMode.value = new URLSearchParams(location.search).get('preview-dark-mode') !== null || document.documentElement.classList.contains('htw-dark');
 });
 classObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
 
 // writing mode
-const verticalRl = ref<boolean>(new URLSearchParams(location.search).get('preview-writing-mode') === 'vertical-rl');
+const verticalLayout = ref<boolean>(new URLSearchParams(location.search).get('preview-vertical-layout') !== null);
 </script>
 
 <style>
