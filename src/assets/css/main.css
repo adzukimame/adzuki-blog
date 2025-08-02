@@ -11,7 +11,7 @@
   --scrollbar-fg: oklch(70% 0 0deg);
 }
 
-:root.color-scheme-dark {
+:root.dark-mode {
   color-scheme: dark;
   --bg: oklch(15% 0 0deg);
   --bg-strong: oklch(23% 0 0deg);
@@ -97,7 +97,7 @@ h1, h2, h3, h4, h5, h6 {
   margin-inline-end: 0;
 }
 
-:root.writing-mode-vertical-rl {
+:root.vertical-rl {
   writing-mode: vertical-rl;
 }
 

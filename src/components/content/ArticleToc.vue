@@ -164,7 +164,7 @@ const onSummaryClick = (_event: MouseEvent) => {
   transition: transform v-bind(summaryTransitionDurationText) v-bind(summaryTransitionFunction);
 }
 
-:root:global(.writing-mode-vertical-rl) .accordionIcon {
+:root:global(.vertical-rl) .accordionIcon {
   transform: rotate(0.25turn);
 }
 
@@ -172,7 +172,7 @@ const onSummaryClick = (_event: MouseEvent) => {
   transform: rotate(0.5turn);
 }
 
-:root:global(.writing-mode-vertical-rl) .container[open] .accordionIcon {
+:root:global(.vertical-rl) .container[open] .accordionIcon {
   transform: rotate(0.75turn);
 }
 

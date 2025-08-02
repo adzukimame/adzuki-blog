@@ -207,7 +207,7 @@ watch(() => props.currentPageNumber, (newPageNumber) => {
   opacity: 0.5;
 }
 
-:root:global(.writing-mode-vertical-rl) .button>svg {
+:root:global(.vertical-rl) .button>svg {
   transform: rotate(0.25turn);
 }
 </style>

@@ -236,7 +236,7 @@ const menuItems = [
   }
 }
 
-:root:global(.writing-mode-vertical-rl) .headerInner {
+:root:global(.vertical-rl) .headerInner {
   inline-size: 100%;
   padding-inline: 32px;
   margin-inline: 0;

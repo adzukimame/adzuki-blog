@@ -1,5 +1,5 @@
 <template>
-  <Html :class="{ 'color-scheme-dark': colorScheme === 'dark' }" />
+  <Html :class="{ 'dark-mode': colorScheme === 'dark' }" />
   <div class="outer">
     <div class="inner">
       <slot />

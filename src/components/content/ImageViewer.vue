@@ -141,11 +141,11 @@ const closeModal = () => {
   }
 }
 
-:root:global(.writing-mode-vertical-rl) .container {
+:root:global(.vertical-rl) .container {
   aspect-ratio: 9 / 16;
 }
 
-:root:global(.writing-mode-vertical-rl) .image {
+:root:global(.vertical-rl) .image {
   aspect-ratio: 9 / 16;
 }
 

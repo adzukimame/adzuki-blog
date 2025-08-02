@@ -41,7 +41,7 @@ const menuOpened = ref(false);
   }
 }
 
-:root:global(.writing-mode-vertical-rl) .slotContainer {
+:root:global(.vertical-rl) .slotContainer {
   inline-size: 100%;
   padding-inline: 32px;
   margin-inline: 0;
