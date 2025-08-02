@@ -1,5 +1,6 @@
 // @ts-check
-import { readFileSync, globSync } from 'node:fs';
+import { readFileSync } from 'node:fs';
+import { globSync } from 'glob';
 import sjson from 'secure-json-parse';
 import { serializedStorySchema } from '../histoire/schema.js';
 

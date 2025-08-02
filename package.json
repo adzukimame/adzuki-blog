@@ -43,6 +43,7 @@
     "@testing-library/vue": "^8.1.0",
     "@vitest/coverage-v8": "^3.1.4",
     "@vue/test-utils": "^2.4.6",
+    "glob": "^11.0.3",
     "happy-dom": "^17.4.7",
     "histoire": "1.0.0-alpha.2",
     "lost-pixel": "^3.22.0",
