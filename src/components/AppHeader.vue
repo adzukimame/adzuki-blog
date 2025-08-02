@@ -14,7 +14,7 @@
       </NuxtLink>
     </div>
     <nav
-      v-if="!$props.useCollapsibleNavigation || menuOpened"
+      v-if="!props.useCollapsibleNavigation || menuOpened"
       ref="navEl"
       :class="[$style.navigation, { [$style.menuOpened]: menuOpened }]">
       <ul :class="$style.navigationList">
@@ -113,7 +113,7 @@
 </template>
 
 <script setup lang="ts">
-withDefaults(defineProps<{
+const props = withDefaults(defineProps<{
   useCollapsibleNavigation?: boolean;
 }>(), {
   useCollapsibleNavigation: false,
