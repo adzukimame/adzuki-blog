@@ -28,7 +28,7 @@ defineProps<{
 }
 
 .articleRenderer>h1 {
-  color: var(--fgStrong);
+  color: var(--fg-strong);
   font-size: 1.6rem;
   padding-block-end: 1.2rem;
   border-block-end: solid 0.3rem var(--split);

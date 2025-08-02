@@ -14,7 +14,7 @@ const runtimeConfig = useRuntimeConfig();
 .footer {
   display: block flex;
   flex-direction: column;
-  block-size: var(--footerHeight);
+  block-size: var(--footer-bsize);
   border-block-start: solid var(--split) 1px;
   justify-content: center;
 }
@@ -23,6 +23,6 @@ const runtimeConfig = useRuntimeConfig();
   display: block;
   padding-inline-start: 1.5rem;
   font-size: 0.8rem;
-  color: var(--fgWeak);
+  color: var(--fg-weak);
 }
 </style>

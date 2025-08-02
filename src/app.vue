@@ -1,5 +1,5 @@
 <template>
-  <Html :class="[{ 'color-scheme-dark': colorScheme === 'dark' }, { 'writing-mode-vertical-rl': writingMode === 'vertical-rl' }]" />
+  <Html :class="[{ 'dark-mode': colorScheme === 'dark' }, { 'vertical-rl': writingMode === 'vertical-rl' }]" />
   <NuxtLayout>
     <NuxtPage />
   </NuxtLayout>
@@ -12,23 +12,7 @@
 useServerHead({
   script: [
     {
-      textContent: `
-(() => {
-  try {
-    const savedColorScheme = window.localStorage.getItem('colorScheme');
-    if (savedColorScheme === 'dark') {
-      document.documentElement.classList.add('color-scheme-dark');
-    } else if (savedColorScheme === null && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      document.documentElement.classList.add('color-scheme-dark');
-    }
-  }
-  catch {
-    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      document.documentElement.classList.add('color-scheme-dark');
-    }
-  }
-})();
-`,
+      textContent: `(()=>{try{const a=window.localStorage.getItem("colorScheme");"dark"===a?document.documentElement.classList.add("dark-mode"):null===a&&window.matchMedia("(prefers-color-scheme: dark)").matches&&document.documentElement.classList.add("dark-mode")}catch{window.matchMedia("(prefers-color-scheme: dark)").matches&&document.documentElement.classList.add("dark-mode")}})();`,
     },
   ],
 });
@@ -49,22 +33,7 @@ onMounted(() => {
 useServerHead({
   script: [
     {
-      textContent: `
-(() => {
-  const queryWritingMode = new URLSearchParams(location.search).get('tategaki');
-  try {
-    const savedWritingMode = window.localStorage.getItem('writingMode');
-    if (queryWritingMode !== 'false' && (queryWritingMode !== null || savedWritingMode === 'vertical-rl')) {
-      document.documentElement.classList.add('writing-mode-vertical-rl');
-    }
-  }
-  catch {
-    if (queryWritingMode !== null && queryWritingMode !== 'false') {
-      document.documentElement.classList.add('writing-mode-vertical-rl');
-    }
-  }
-})();
-`,
+      textContent: `(()=>{const a=new URLSearchParams(location.search).get("tategaki");try{const b=window.localStorage.getItem("writingMode");"false"!==a&&(null!==a||"vertical-rl"===b)&&document.documentElement.classList.add("vertical-rl")}catch{null!==a&&"false"!==a&&document.documentElement.classList.add("vertical-rl")}})();`,
     },
   ],
 });
@@ -124,7 +93,7 @@ useSeoMeta({
 <style>
 .page-enter-active,
 .page-leave-active {
-  transition: opacity var(--pageTransitionDuration) var(--pageTransitionFunction), filter var(--pageTransitionDuration) var(--pageTransitionFunction);
+  transition: opacity var(--page-trans-dur) var(--page-trans-func), filter var(--page-trans-dur) var(--page-trans-func);
 }
 
 .page-enter-from,

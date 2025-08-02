@@ -210,19 +210,19 @@ const menuItems = [
   position: sticky;
   inset-block-start: 0;
   z-index: 2;
-  block-size: var(--headerHeight);
+  block-size: var(--header-bsize);
   border-block-end: solid var(--split) 2px;
   background-color: var(--bg);
-  color: var(--fgStrong);
-  transition: background-color var(--colorSchemeTransitionDuration);
-  --darkModeSwitchAndMenuButtonSize: 2.2rem;
+  color: var(--fg-strong);
+  transition: background-color var(--color-scheme-trans-dur);
+  --header-button-size: 2.2rem;
 }
 
 .headerInner {
   display: block flex;
   align-items: center;
   justify-content: space-between;
-  block-size: var(--headerHeight);
+  block-size: var(--header-bsize);
   max-inline-size: 768px;
   padding-inline: 24px;
   margin-inline: auto;
@@ -236,7 +236,7 @@ const menuItems = [
   }
 }
 
-:root:global(.writing-mode-vertical-rl) .headerInner {
+:root:global(.vertical-rl) .headerInner {
   inline-size: 100%;
   padding-inline: 32px;
   margin-inline: 0;
@@ -256,11 +256,11 @@ const menuItems = [
     display: block;
     position: fixed;
     inset: 0;
-    inset-block-start: var(--headerHeight);
-    max-block-size: calc(100vb - var(--headerHeight));
+    inset-block-start: var(--header-bsize);
+    max-block-size: calc(100vb - var(--header-bsize));
     inline-size: 100%;
     background-color: var(--bg);
-    transition: background-color var(--colorSchemeTransitionDuration);
+    transition: background-color var(--color-scheme-trans-dur);
   }
 
   .navigation:not(.menuOpened) {
@@ -300,8 +300,8 @@ const menuItems = [
 @media (max-width: 768px) {
   .navigationListItem {
     padding-inline-start: 0.8rem;
-    border-inline-start: solid 0.5rem var(--fgWeak);
-    transition: border-inline-start-color var(--hoverTransitionDuration) var(--hoverTransitionFunction);
+    border-inline-start: solid 0.5rem var(--fg-weak);
+    transition: border-inline-start-color var(--hover-trans-dur) var(--hover-trans-func);
   }
 
   @media (hover: hover) {
@@ -318,7 +318,7 @@ const menuItems = [
 }
 
 .navigationListItem>a {
-  transition: color var(--hoverTransitionDuration) var(--hoverTransitionFunction);
+  transition: color var(--hover-trans-dur) var(--hover-trans-func);
 }
 
 @media (hover: hover) {
@@ -342,29 +342,29 @@ const menuItems = [
 
 .buttonsContainer>button {
   cursor: pointer;
-  inline-size: var(--darkModeSwitchAndMenuButtonSize);
-  block-size: var(--darkModeSwitchAndMenuButtonSize);
+  inline-size: var(--header-button-size);
+  block-size: var(--header-button-size);
   text-align: center;
   border-radius: 5px;
   border: 0;
   padding: 0;
-  transition: background-color var(--hoverTransitionDuration) var(--hoverTransitionFunction);
+  transition: background-color var(--hover-trans-dur) var(--hover-trans-func);
 }
 
 @media (hover: hover) {
   .buttonsContainer>button:hover {
-    background-color: var(--bgStrong);
+    background-color: var(--bg-strong);
   }
 }
 
 @media (hover: none) {
   .buttonsContainer>button:active {
-    background-color: var(--bgStrong);
+    background-color: var(--bg-strong);
   }
 }
 
 .buttonColorSwitch>svg {
-  margin: calc((var(--darkModeSwitchAndMenuButtonSize) - 1.4rem) / 2);
+  margin: calc((var(--header-button-size) - 1.4rem) / 2);
 }
 
 .buttonMenu {
@@ -378,6 +378,6 @@ const menuItems = [
 }
 
 .buttonMenu>svg {
-  margin: calc((var(--darkModeSwitchAndMenuButtonSize) - 1.2rem) / 2);
+  margin: calc((var(--header-button-size) - 1.2rem) / 2);
 }
 </style>

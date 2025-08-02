@@ -86,11 +86,11 @@ useSeoMeta({
 .categoryListItem::before {
   content: '>';
   padding-inline-end: 0.5rem;
-  color: var(--fgWeak);
+  color: var(--fg-weak);
 }
 
 .categoryListItem>a {
-  transition: color var(--hoverTransitionDuration) var(--hoverTransitionFunction);
+  transition: color var(--hover-trans-dur) var(--hover-trans-func);
 }
 
 @media (hover: hover) {

@@ -97,22 +97,22 @@ const normalizedCategory = computed<string[] | undefined>(() => normalizeCategor
   row-gap: 0.8rem;
   padding: 0.4rem;
   border-bottom: solid 0.4rem var(--split);
-  transition: background-color var(--hoverTransitionDuration) var(--hoverTransitionFunction), border-bottom-color var(--hoverTransitionDuration) var(--hoverTransitionFunction);
+  transition: background-color var(--hover-trans-dur) var(--hover-trans-func), border-bottom-color var(--hover-trans-dur) var(--hover-trans-func);
   --title-line-height: 1.8rem;
   --description-line-height: 1.4rem;
 }
 
 @media (hover: hover) {
   .container:hover {
-    background-color: var(--bgStrong);
-    border-bottom-color: var(--fgWeak);
+    background-color: var(--bg-strong);
+    border-bottom-color: var(--fg-weak);
   }
 }
 
 @media (hover: none) {
   .container:active {
-    background-color: var(--bgStrong);
-    border-bottom-color: var(--fgWeak);
+    background-color: var(--bg-strong);
+    border-bottom-color: var(--fg-weak);
   }
 }
 
@@ -127,18 +127,18 @@ const normalizedCategory = computed<string[] | undefined>(() => normalizeCategor
   font-size: 1.2rem;
   line-height: var(--title-line-height);
   overflow: clip;
-  transition: color var(--hoverTransitionDuration) var(--hoverTransitionFunction);
+  transition: color var(--hover-trans-dur) var(--hover-trans-func);
 }
 
 @media (hover: hover) {
   .titleAndDescriptionContainer:hover .title {
-    color: var(--fgStrong);
+    color: var(--fg-strong);
   }
 }
 
 @media (hover: none) {
   .titleAndDescriptionContainer:active .title {
-    color: var(--fgStrong);
+    color: var(--fg-strong);
   }
 }
 
@@ -146,14 +146,14 @@ const normalizedCategory = computed<string[] | undefined>(() => normalizeCategor
   font-size: 0.8rem;
   line-height: var(--description-line-height);
   overflow: clip;
-  color: var(--fgWeak);
+  color: var(--fg-weak);
 }
 
 .categoryAndDateContainer {
   display: block flex;
   justify-content: space-between;
   font-size: 0.8rem;
-  color: var(--fgWeak);
+  color: var(--fg-weak);
 }
 
 .categoryContainer {
@@ -168,7 +168,7 @@ const normalizedCategory = computed<string[] | undefined>(() => normalizeCategor
 
 .category {
   margin-inline-end: 0.7rem;
-  transition: color var(--hoverTransitionDuration) var(--hoverTransitionFunction);
+  transition: color var(--hover-trans-dur) var(--hover-trans-func);
 }
 
 @media (hover: hover) {
