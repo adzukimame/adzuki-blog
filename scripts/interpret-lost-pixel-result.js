@@ -1,5 +1,6 @@
 // @ts-check
 import { readFileSync } from 'node:fs';
+import { join as joinPath, resolve } from 'node:path';
 import { globSync } from 'glob';
 import sjson from 'secure-json-parse';
 import { serializedStorySchema } from '../histoire/schema.js';
@@ -13,10 +14,10 @@ const histoire = serializedStorySchema.parse(sjson.parse(
  * @return {string[]}
  */
 const listShotNames = (path) => {
-  return globSync(`${path}/**`, { withFileTypes: true })
-    .filter(dirent => dirent.isFile())
-    .map(dirent => dirent.parentPath + '/' + (dirent.name.includes('.') ? dirent.name.slice(0, dirent.name.lastIndexOf('.')) : dirent.name))
-    .map(name => name.replace(path, '').replace(/^\/+/, ''));
+  return globSync(joinPath(path, '**'), { withFileTypes: true })
+    .filter(path => path.isFile())
+    .map(path => joinPath(path.parentPath, path.name.includes('.') ? path.name.slice(0, path.name.lastIndexOf('.')) : path.name))
+    .map(name => name.replace(resolve('./', path), '').replace(/^\//, ''));
 };
 
 export const interpret = () => {
