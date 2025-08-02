@@ -1,5 +1,4 @@
 import { readFileSync } from 'node:fs';
-import sanitizeFilename from 'sanitize-filename';
 import sjson from 'secure-json-parse';
 import { launchStaticWebServer } from 'lost-pixel/dist/crawler/utils.js';
 import type { CustomProjectConfig } from 'lost-pixel';
@@ -39,9 +38,9 @@ const customPages = histoire.stories.map((story) => {
     return [{ ...variant, interact: [] }];
   }
   else {
-    return variant.interact.map(i => (
+    return [{ ...variant, interact: [] }, ...variant.interact.map(i => (
       { ...variant, interact: i }
-    ));
+    ))];
   }
 }).flat(
 ).filter(
