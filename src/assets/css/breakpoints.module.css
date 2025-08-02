@@ -1,0 +1,7 @@
+@value horizontalSmall: (width <= 768px);
+@value horizontalMedium: (width > 768px) and (width <= 1024px);
+@value horizontalLarge: (width > 1024px);
+
+@value verticalSmall: (height <= 768px);
+@value verticalMedium: (height > 768px) and (height <= 1024px);
+@value verticalLarge: (height > 1024px);

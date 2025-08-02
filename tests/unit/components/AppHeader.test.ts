@@ -44,7 +44,9 @@ describe('AppHeader', () => {
   describe('ウィンドウ幅が狭いとき', async () => {
     window.innerWidth = 500;
 
-    const component = await mountSuspended(AppHeader);
+    const component = await mountSuspended(AppHeader, { props: {
+      useCollapsibleNavigation: true,
+    } });
 
     test('サイト名が正しい', () => {
       expect(component.get('[data-testid="site-name"]').text()).toBe('a site name');

@@ -93,9 +93,11 @@ const { data, status } = await useLazyFetch<SummalyResult>(
 </script>
 
 <style module>
+@value horizontalSmall, verticalSmall from "~/assets/css/breakpoints.module.css";
+
 .container {
-  --container-height: 5.4rem;
-  height: var(--container-height);
+  --container-bsize: 5.4rem;
+  block-size: var(--container-bsize);
   display: grid;
   grid-template-columns: auto 0;
   background-color: var(--bg-strong);
@@ -106,12 +108,18 @@ const { data, status } = await useLazyFetch<SummalyResult>(
 }
 
 .container.withThumbnail {
-  grid-template-columns: auto calc(var(--container-height) * 16 / 9);
-}
+  grid-template-columns: auto calc(var(--container-bsize) * 16 / 9);
 
-@media (max-width: 768px) {
-  .container.withThumbnail {
-    grid-template-columns: auto 0;
+  :root:not(:global(.vertical-rl)) & {
+    @media horizontalSmall {
+      grid-template-columns: auto 0;
+    }
+  }
+
+  :root:global(.vertical-rl) & {
+    @media verticalSmall {
+      grid-template-columns: auto 0;
+    }
   }
 }
 
@@ -176,16 +184,22 @@ const { data, status } = await useLazyFetch<SummalyResult>(
 }
 
 .thumbnail {
-  block-size: var(--container-height);
+  block-size: var(--container-bsize);
   aspect-ratio: 16 / 9;
   object-position: 50% 50%;
   object-fit: cover;
   margin-inline-start: auto;
-}
 
-@media (max-width: 768px) {
-  .thumbnail {
-    display: none;
+  :root:not(:global(.vertical-rl)) & {
+    @media horizontalSmall {
+      display: none;
+    }
+  }
+
+  :root:global(.vertical-rl) & {
+    @media verticalSmall {
+      display: none;
+    }
   }
 }
 </style>
