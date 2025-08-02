@@ -7,6 +7,7 @@
     @click="openModal">
     <component
       :is="ImageComponent"
+      loading="lazy"
       :src="refinedSrc"
       :alt="alt"
       :width="width"
