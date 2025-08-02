@@ -29,8 +29,8 @@ const menuOpened = ref(false);
   margin-block: 0;
   margin-inline: auto;
   /* フッターが上／右に上がってこないようにする */
-  min-block-size: calc(100svb - var(--headerHeight) - var(--footerHeight));
-  transition: opacity var(--pageTransitionDuration) var(--pageTransitionFunction), filter var(--pageTransitionDuration) var(--pageTransitionFunction);
+  min-block-size: calc(100svb - var(--header-bsize) - var(--footer-bsize));
+  transition: opacity var(--page-trans-dur) var(--page-trans-func), filter var(--page-trans-dur) var(--page-trans-func);
 }
 
 @media (max-width: 768px) {

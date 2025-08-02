@@ -124,7 +124,7 @@ useSeoMeta({
 <style>
 .page-enter-active,
 .page-leave-active {
-  transition: opacity var(--pageTransitionDuration) var(--pageTransitionFunction), filter var(--pageTransitionDuration) var(--pageTransitionFunction);
+  transition: opacity var(--page-trans-dur) var(--page-trans-func), filter var(--page-trans-dur) var(--page-trans-func);
 }
 
 .page-enter-from,

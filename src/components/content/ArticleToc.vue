@@ -127,12 +127,12 @@ const onSummaryClick = (_event: MouseEvent) => {
 <style module>
 .container {
   display: block;
-  background-color: var(--bgStrong);
+  background-color: var(--bg-strong);
   border: solid 1px var(--split);
   border-radius: 6px;
   padding-inline: 1rem;
   padding-block: 0.3rem;
-  transition: background-color var(--colorSchemeTransitionDuration);
+  transition: background-color var(--color-scheme-trans-dur);
 }
 
 .summary {
@@ -141,7 +141,7 @@ const onSummaryClick = (_event: MouseEvent) => {
   align-items: center;
   justify-content: space-between;
   cursor: pointer;
-  transition: color var(--hoverTransitionDuration) var(--hoverTransitionFunction);
+  transition: color var(--hover-trans-dur) var(--hover-trans-func);
 }
 
 .summary::-webkit-details-marker {
@@ -150,13 +150,13 @@ const onSummaryClick = (_event: MouseEvent) => {
 
 @media (hover: hover) {
   .summary:hover {
-    color: var(--fgStrong);
+    color: var(--fg-strong);
   }
 }
 
 @media (hover: none) {
   .summary:active {
-    color: var(--fgStrong);
+    color: var(--fg-strong);
   }
 }
 
@@ -201,22 +201,22 @@ const onSummaryClick = (_event: MouseEvent) => {
 }
 
 .list>.listItemH3>a {
-  color: var(--fgWeak);
+  color: var(--fg-weak);
 }
 
 .list a {
-  transition: color var(--hoverTransitionDuration) var(--hoverTransitionFunction);
+  transition: color var(--hover-trans-dur) var(--hover-trans-func);
 }
 
 @media (hover: hover) {
   .list>li>a:hover {
-    color: var(--fgStrong);
+    color: var(--fg-strong);
   }
 }
 
 @media (hover: none) {
   .list>li>a:active {
-    color: var(--fgStrong);
+    color: var(--fg-strong);
   }
 }
 </style>

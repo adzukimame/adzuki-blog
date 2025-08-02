@@ -98,11 +98,11 @@ const { data, status } = await useLazyFetch<SummalyResult>(
   height: var(--container-height);
   display: grid;
   grid-template-columns: auto 0;
-  background-color: var(--bgStrong);
+  background-color: var(--bg-strong);
   border: solid 1px var(--split);
   border-radius: 6px;
   line-height: 2;
-  transition: background-color var(--colorSchemeTransitionDuration);
+  transition: background-color var(--color-scheme-trans-dur);
 }
 
 .container.withThumbnail {
@@ -128,20 +128,19 @@ const { data, status } = await useLazyFetch<SummalyResult>(
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  transition: text-decoration var(--hoverTransitionDuration) var(--hoverTransitionFunction);
-  transition: color var(--hoverTransitionDuration) var(--hoverTransitionFunction);
+  transition: text-decoration var(--hover-trans-dur) var(--hover-trans-func), color var(--hover-trans-dur) var(--hover-trans-func);
 }
 
 @media (hover: hover) {
   .lettersContainer:hover>.title {
-    color: var(--fgStrong);
+    color: var(--fg-strong);
     text-decoration: underline;
   }
 }
 
 @media (hover: none) {
   .lettersContainer:active>.title {
-    color: var(--fgStrong);
+    color: var(--fg-strong);
     text-decoration: underline;
   }
 }
@@ -149,7 +148,7 @@ const { data, status } = await useLazyFetch<SummalyResult>(
 .description {
   display: block;
   font-size: 0.8rem;
-  color: var(--fgWeak);
+  color: var(--fg-weak);
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;

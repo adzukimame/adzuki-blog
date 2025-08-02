@@ -172,7 +172,7 @@ watch(() => props.currentPageNumber, (newPageNumber) => {
   align-content: center;
   min-inline-size: var(--button-size);
   border-block-end: solid 0.3rem var(--split);
-  transition: border-block-end-color var(--hoverTransitionDuration) var(--hoverTransitionFunction);
+  transition: border-block-end-color var(--hover-trans-dur) var(--hover-trans-func);
 }
 
 .button.disabled {
@@ -181,13 +181,13 @@ watch(() => props.currentPageNumber, (newPageNumber) => {
 
 @media (hover: hover) {
   .button:not(.pageNumberOuter, .disabled):hover {
-    border-block-end-color: var(--fgWeak);
+    border-block-end-color: var(--fg-weak);
   }
 }
 
 @media (hover: none) {
   .button:not(.pageNumberOuter, .disabled):active {
-    border-block-end-color: var(--fgWeak);
+    border-block-end-color: var(--fg-weak);
   }
 }
 
@@ -199,11 +199,11 @@ watch(() => props.currentPageNumber, (newPageNumber) => {
 
 .button>svg {
   margin: calc((var(--button-size) - 1px * 2 - var(--icon-size)) / 2);
-  transition: filter var(--pageTransitionDuration) var(--pageTransitionFunction);
+  transition: filter var(--page-trans-dur) var(--page-trans-func);
 }
 
 .button.disabled>svg {
-  color: var(--fgWeak);
+  color: var(--fg-weak);
   opacity: 0.5;
 }
 
