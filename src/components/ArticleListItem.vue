@@ -186,7 +186,6 @@ const normalizedCategory = computed<string[] | undefined>(() => normalizeCategor
 }
 
 .dateContainer {
-  flex-shrink: 0;
   align-self: end;
   display: block flex;
   align-items: center;

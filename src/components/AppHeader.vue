@@ -1,5 +1,5 @@
 <template>
-  <Body :style="`overflow: ${menuOpened ? 'clip' : ''};`" />
+  <Body :style="{ overflow: menuOpened ? 'clip' : undefined }" />
   <header :class="$style.header">
     <div :class="$style.headerInner">
       <div

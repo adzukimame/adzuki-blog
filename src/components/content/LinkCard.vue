@@ -18,6 +18,7 @@
         <div :class="$style.faviconAndHostnameContainer">
           <img
             v-if="status === 'success' && imgLoadStatus !== 'error'"
+            loading="lazy"
             :src="data?.icon ?? undefined"
             :class="$style.favicon"
             data-testid="favicon"
@@ -36,6 +37,7 @@
       </div>
       <img
         v-if="data?.thumbnail"
+        loading="lazy"
         :src="data.thumbnail"
         :class="$style.thumbnail"
         data-testid="thumbnail">
@@ -92,7 +94,9 @@ const { data, status } = await useLazyFetch<SummalyResult>(
 
 <style module>
 .container {
-  display: block grid;
+  --container-height: 5.4rem;
+  height: var(--container-height);
+  display: grid;
   grid-template-columns: auto 0;
   background-color: var(--bgStrong);
   border: solid 1px var(--split);
@@ -102,20 +106,28 @@ const { data, status } = await useLazyFetch<SummalyResult>(
 }
 
 .container.withThumbnail {
-  grid-template-columns: auto calc((2rem + 1.6rem + 1.6rem) * 16 / 9);
+  grid-template-columns: auto calc(var(--container-height) * 16 / 9);
+}
+
+@media (max-width: 768px) {
+  .container.withThumbnail {
+    grid-template-columns: auto 0;
+  }
 }
 
 .lettersContainer {
-  display: block grid;
-  grid-template-rows: 2rem 1.6rem 1.6rem;
-  padding-inline-start: 1rem;
+  display: grid;
+  grid-template-rows: 40% 30% 30%;
+  padding-inline: 0.8rem;
 }
 
 .title {
   display: block;
   font-size: 1rem;
   color: var(--fg);
-  overflow: clip;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
   transition: text-decoration var(--hoverTransitionDuration) var(--hoverTransitionFunction);
   transition: color var(--hoverTransitionDuration) var(--hoverTransitionFunction);
 }
@@ -138,7 +150,9 @@ const { data, status } = await useLazyFetch<SummalyResult>(
   display: block;
   font-size: 0.8rem;
   color: var(--fgWeak);
-  overflow: clip;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .faviconAndHostnameContainer {
@@ -156,14 +170,23 @@ const { data, status } = await useLazyFetch<SummalyResult>(
 
 .hostname {
   color: var(--fg);
-  overflow: clip;
   padding-inline-start: 0.5rem;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .thumbnail {
-  block-size: calc(2rem + 1.6rem + 1.6rem);
+  block-size: var(--container-height);
+  aspect-ratio: 16 / 9;
   object-position: 50% 50%;
   object-fit: cover;
   margin-inline-start: auto;
+}
+
+@media (max-width: 768px) {
+  .thumbnail {
+    display: none;
+  }
 }
 </style>
