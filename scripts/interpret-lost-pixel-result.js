@@ -1,7 +1,8 @@
 // @ts-check
-import { readdirSync, readFileSync } from 'node:fs';
+import { readFileSync } from 'node:fs';
+import { join as joinPath, resolve } from 'node:path';
+import { globSync } from 'glob';
 import sjson from 'secure-json-parse';
-import sanitizeFilename from 'sanitize-filename';
 import { serializedStorySchema } from '../histoire/schema.js';
 
 const histoire = serializedStorySchema.parse(sjson.parse(
@@ -12,37 +13,44 @@ const histoire = serializedStorySchema.parse(sjson.parse(
  * @param {string} path
  * @return {string[]}
  */
-const listBaseFilenames = (path) => {
-  return readdirSync(path, { withFileTypes: true })
-    .filter(dirent => dirent.isFile())
-    .map(dirent => dirent.name.includes('.') ? dirent.name.slice(0, dirent.name.lastIndexOf('.')) : dirent.name);
+const listShotNames = (path) => {
+  return globSync(joinPath(path, '**'), { withFileTypes: true })
+    .filter(path => path.isFile())
+    .map(path => joinPath(path.parentPath, path.name.includes('.') ? path.name.slice(0, path.name.lastIndexOf('.')) : path.name))
+    .map(name => name.replace(resolve('./', path), '').replace(/^\//, ''));
 };
 
 export const interpret = () => {
-  const baselineImages = listBaseFilenames('.lostpixel/baseline/');
-  const currentImages = listBaseFilenames('.lostpixel/current/');
-  const differenceImages = listBaseFilenames('.lostpixel/difference/');
+  const baselineImages = listShotNames('.lostpixel/baseline/');
+  const currentImages = listShotNames('.lostpixel/current/');
+  const differenceImages = listShotNames('.lostpixel/difference/');
 
   const dissappearedImages = baselineImages.filter(imageName => !currentImages.includes(imageName));
 
   const addedStories = currentImages.map((imageName) => {
     if (baselineImages.includes(imageName)) return undefined;
 
-    const [storyId, variantTitle, interactStr] = imageName.split('_');
+    const darkMode = imageName.split('/')[0] === 'darkMode' || imageName.split('/')[0] === 'darkMode-verticalLayout';
+    const verticalLayout = imageName.split('/')[0] === 'verticalLayout' || imageName.split('/')[0] === 'darkMode-verticalLayout';
 
-    const story = histoire.stories.find(story => sanitizeFilename(story.id) === storyId && story.variants.some(variant => sanitizeFilename(variant.title) === variantTitle));
+    /** @type {string} */
+    // @ts-expect-error
+    const filename = imageName.split('/').pop();
+    const [storyId, variantTitle, interactStr] = filename.split('_');
+
+    const story = histoire.stories.find(story => story.id === storyId && story.variants.some(variant => variant.title === variantTitle));
     if (story === undefined) return undefined;
 
-    const variant = story.variants.find(variant => sanitizeFilename(variant.title) === variantTitle);
+    const variant = story.variants.find(variant => variant.title === variantTitle);
     if (variant === undefined) return undefined;
 
     const storyInteract = story.meta?.interact;
     const variantInteract = variant.meta?.interact;
 
     const interact = storyInteract
-      ? storyInteract.find(i => sanitizeFilename(i.map(op => Object.entries(op).map(pair => pair.join('-')).join('--')).join('---')) === interactStr)
+      ? storyInteract.find(i => i.map(op => Object.entries(op).map(pair => pair.join('-')).join('--')).join('---') === interactStr)
       : variantInteract
-        ? variantInteract.find(i => sanitizeFilename(i.map(op => Object.entries(op).map(pair => pair.join('-')).join('--')).join('---')) === interactStr)
+        ? variantInteract.find(i => i.map(op => Object.entries(op).map(pair => pair.join('-')).join('--')).join('---') === interactStr)
         : undefined;
 
     return {
@@ -51,26 +59,34 @@ export const interpret = () => {
       relativePath: story.relativePath,
       variantId: variant.id,
       variantTitle: variant.title,
+      darkMode,
+      verticalLayout,
       interact: interact ? JSON.stringify(interact) : undefined,
     };
   }).filter(storyInfo => storyInfo !== undefined);
 
   const differingStories = differenceImages.map((imageName) => {
-    const [storyId, variantTitle, interactStr] = imageName.split('_');
+    const darkMode = imageName.split('/')[0] === 'darkMode' || imageName.split('/')[0] === 'darkMode-verticalLayout';
+    const verticalLayout = imageName.split('/')[0] === 'verticalLayout' || imageName.split('/')[0] === 'darkMode-verticalLayout';
 
-    const story = histoire.stories.find(story => sanitizeFilename(story.id) === storyId && story.variants.some(variant => sanitizeFilename(variant.title) === variantTitle));
+    /** @type {string} */
+    // @ts-expect-error
+    const filename = imageName.split('/').pop();
+    const [storyId, variantTitle, interactStr] = filename.split('_');
+
+    const story = histoire.stories.find(story => story.id === storyId && story.variants.some(variant => variant.title === variantTitle));
     if (story === undefined) return undefined;
 
-    const variant = story.variants.find(variant => sanitizeFilename(variant.title) === variantTitle);
+    const variant = story.variants.find(variant => variant.title === variantTitle);
     if (variant === undefined) return undefined;
 
     const storyInteract = story.meta?.interact;
     const variantInteract = variant.meta?.interact;
 
     const interact = storyInteract
-      ? storyInteract.find(i => sanitizeFilename(i.map(op => Object.entries(op).map(pair => pair.join('-')).join('--')).join('---')) === interactStr)
+      ? storyInteract.find(i => i.map(op => Object.entries(op).map(pair => pair.join('-')).join('--')).join('---') === interactStr)
       : variantInteract
-        ? variantInteract.find(i => sanitizeFilename(i.map(op => Object.entries(op).map(pair => pair.join('-')).join('--')).join('---')) === interactStr)
+        ? variantInteract.find(i => i.map(op => Object.entries(op).map(pair => pair.join('-')).join('--')).join('---') === interactStr)
         : undefined;
 
     return {
@@ -79,6 +95,8 @@ export const interpret = () => {
       relativePath: story.relativePath,
       variantId: variant.id,
       variantTitle: variant.title,
+      darkMode,
+      verticalLayout,
       interact: interact ? JSON.stringify(interact) : undefined,
     };
   }).filter(storyInfo => storyInfo !== undefined);
@@ -100,9 +118,9 @@ export const interpretAndMarkup = () => {
   }
   else {
     markup += `❌${differingStories.length} stories/variants have differences.
-|Story Title|Variant Title|Story Path|Interaction|
-|-----------|-------------|----------|--------|
-${differingStories.map(storyInfo => `|${storyInfo.title}|${storyInfo.variantTitle}|${storyInfo.relativePath}|${storyInfo.interact ?? ''}|`).join('\n')}\n\n`;
+|Story Title|Variant Title|Story Path|Dark Mode|Vertical Layout|Interaction|
+|-----------|-------------|----------|---------|---------------|-----------|
+${differingStories.map(storyInfo => `|${storyInfo.title}|${storyInfo.variantTitle}|${storyInfo.relativePath}|${storyInfo.darkMode ? 'dark' : ''}|${storyInfo.verticalLayout ? 'vertical' : ''}|${storyInfo.interact ?? ''}|`).join('\n')}\n\n`;
   }
 
   if (addedStories.length === 0) {
@@ -110,9 +128,9 @@ ${differingStories.map(storyInfo => `|${storyInfo.title}|${storyInfo.variantTitl
   }
   else {
     markup += `⚠️${addedStories.length} stories/variants were added.
-|Story Title|Variant Title|Story Path|Interaction|
-|-----------|-------------|----------|--------|
-${addedStories.map(storyInfo => `|${storyInfo.title}|${storyInfo.variantTitle}|${storyInfo.relativePath}|${storyInfo.interact ?? ''}|`).join('\n')}\n\n`;
+|Story Title|Variant Title|Story Path|Dark Mode|Vertical Layout|Interaction|
+|-----------|-------------|----------|---------|---------------|-----------|
+${addedStories.map(storyInfo => `|${storyInfo.title}|${storyInfo.variantTitle}|${storyInfo.relativePath}|${storyInfo.darkMode ? 'dark' : ''}|${storyInfo.verticalLayout ? 'vertical' : ''}|${storyInfo.interact ?? ''}|`).join('\n')}\n\n`;
   }
 
   if (dissappearedImages.length === 0) {

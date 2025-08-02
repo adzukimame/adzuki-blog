@@ -1,5 +1,5 @@
 <template>
-  <Story>
+  <Story id="ArticleToc">
     <Variant
       title="default"
       :meta="{

@@ -1,5 +1,5 @@
 <template>
-  <Story>
+  <Story id="AppFooter">
     <AppFooter />
   </Story>
 </template>
