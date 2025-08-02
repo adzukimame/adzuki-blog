@@ -28,13 +28,19 @@ export const interpret = () => {
   const addedStories = currentImages.map((imageName) => {
     if (baselineImages.includes(imageName)) return undefined;
 
-    const [storyId, variantTitle, interactStr] = imageName.split('_');
+    const [storyId, variantTitle, ...remainder] = imageName.split('_');
 
     const story = histoire.stories.find(story => sanitizeFilename(story.id) === storyId && story.variants.some(variant => sanitizeFilename(variant.title) === variantTitle));
     if (story === undefined) return undefined;
 
     const variant = story.variants.find(variant => sanitizeFilename(variant.title) === variantTitle);
     if (variant === undefined) return undefined;
+
+    const darkMode = remainder[0] === 'darkMode';
+
+    const writingMode = remainder[darkMode ? 1 : 0] === 'verticalRl' ? 'vertical-rl' : null;
+
+    const interactStr = remainder[(darkMode ? 1 : 0) + (writingMode ? 1 : 0)];
 
     const storyInteract = story.meta?.interact;
     const variantInteract = variant.meta?.interact;
@@ -51,18 +57,26 @@ export const interpret = () => {
       relativePath: story.relativePath,
       variantId: variant.id,
       variantTitle: variant.title,
+      darkMode,
+      writingMode,
       interact: interact ? JSON.stringify(interact) : undefined,
     };
   }).filter(storyInfo => storyInfo !== undefined);
 
   const differingStories = differenceImages.map((imageName) => {
-    const [storyId, variantTitle, interactStr] = imageName.split('_');
+    const [storyId, variantTitle, ...remainder] = imageName.split('_');
 
     const story = histoire.stories.find(story => sanitizeFilename(story.id) === storyId && story.variants.some(variant => sanitizeFilename(variant.title) === variantTitle));
     if (story === undefined) return undefined;
 
     const variant = story.variants.find(variant => sanitizeFilename(variant.title) === variantTitle);
     if (variant === undefined) return undefined;
+
+    const darkMode = remainder[0] === 'darkMode';
+
+    const writingMode = remainder[darkMode ? 1 : 0] === 'verticalRl' ? 'vertical-rl' : null;
+
+    const interactStr = remainder[(darkMode ? 1 : 0) + (writingMode ? 1 : 0)];
 
     const storyInteract = story.meta?.interact;
     const variantInteract = variant.meta?.interact;
@@ -79,6 +93,8 @@ export const interpret = () => {
       relativePath: story.relativePath,
       variantId: variant.id,
       variantTitle: variant.title,
+      darkMode,
+      writingMode,
       interact: interact ? JSON.stringify(interact) : undefined,
     };
   }).filter(storyInfo => storyInfo !== undefined);
@@ -100,9 +116,9 @@ export const interpretAndMarkup = () => {
   }
   else {
     markup += `❌${differingStories.length} stories/variants have differences.
-|Story Title|Variant Title|Story Path|Interaction|
-|-----------|-------------|----------|--------|
-${differingStories.map(storyInfo => `|${storyInfo.title}|${storyInfo.variantTitle}|${storyInfo.relativePath}|${storyInfo.interact ?? ''}|`).join('\n')}\n\n`;
+|Story Title|Variant Title|Story Path|Dark Mode|Writing Mode|Interaction|
+|-----------|-------------|----------|---------|------------|-----------|
+${differingStories.map(storyInfo => `|${storyInfo.title}|${storyInfo.variantTitle}|${storyInfo.relativePath}|${storyInfo.darkMode}|${storyInfo.writingMode ?? ''}|${storyInfo.interact ?? ''}|`).join('\n')}\n\n`;
   }
 
   if (addedStories.length === 0) {
@@ -110,9 +126,9 @@ ${differingStories.map(storyInfo => `|${storyInfo.title}|${storyInfo.variantTitl
   }
   else {
     markup += `⚠️${addedStories.length} stories/variants were added.
-|Story Title|Variant Title|Story Path|Interaction|
-|-----------|-------------|----------|--------|
-${addedStories.map(storyInfo => `|${storyInfo.title}|${storyInfo.variantTitle}|${storyInfo.relativePath}|${storyInfo.interact ?? ''}|`).join('\n')}\n\n`;
+|Story Title|Variant Title|Story Path|Dark Mode|Writing Mode|Interaction|
+|-----------|-------------|----------|---------|------------|-----------|
+${addedStories.map(storyInfo => `|${storyInfo.title}|${storyInfo.variantTitle}|${storyInfo.relativePath}|${storyInfo.darkMode}|${storyInfo.writingMode ?? ''}|${storyInfo.interact ?? ''}|`).join('\n')}\n\n`;
   }
 
   if (dissappearedImages.length === 0) {

@@ -1,12 +1,11 @@
 <template>
-  <Story>
-    <Variant
-      title="default"
-      :meta="{
-        interact: [
-          [{ hover: 'article' }],
-        ],
-      }">
+  <Story
+    :meta="{
+      interact: [
+        [{ hover: 'article' }],
+      ],
+    }">
+    <Variant title="default">
       <ArticleListItem v-bind="defaultData" />
     </Variant>
     <Variant title="MissingProperties">

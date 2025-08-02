@@ -1,5 +1,5 @@
 <template>
-  <Html :class="{ 'dark-mode': colorScheme === 'dark' }" />
+  <Html :class="[{ 'dark-mode': colorScheme === 'dark' }, { 'vertical-rl': verticalRl }]" />
   <div class="outer">
     <div class="inner">
       <slot />
@@ -15,18 +15,15 @@ defineProps<{
   variant?: Variant;
 }>();
 
-// media query
-// const colorScheme = ref<'light' | 'dark'>(window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
-// window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', (event) => {
-//   colorScheme.value = event.matches ? 'light' : 'dark';
-// });
-
-// class name
-const colorScheme = ref<'light' | 'dark'>(document.documentElement.classList.contains('htw-dark') ? 'dark' : 'light');
+// dark mode
+const colorScheme = ref<'light' | 'dark'>((new URLSearchParams(location.search).get('preview-dark-mode') !== null || document.documentElement.classList.contains('htw-dark')) ? 'dark' : 'light');
 const classObserver = new MutationObserver((_) => {
-  colorScheme.value = document.documentElement.classList.contains('htw-dark') ? 'dark' : 'light';
+  colorScheme.value = (new URLSearchParams(location.search).get('preview-dark-mode') !== null || document.documentElement.classList.contains('htw-dark')) ? 'dark' : 'light';
 });
 classObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+
+// writing mode
+const verticalRl = ref<boolean>(new URLSearchParams(location.search).get('preview-writing-mode') === 'vertical-rl');
 </script>
 
 <style>
