@@ -118,7 +118,7 @@ export const interpretAndMarkup = () => {
     markup += `❌${differingStories.length} stories/variants have differences.
 |Story Title|Variant Title|Story Path|Dark Mode|Vertical Layout|Interaction|
 |-----------|-------------|----------|---------|---------------|-----------|
-${differingStories.map(storyInfo => `|${storyInfo.title}|${storyInfo.variantTitle}|${storyInfo.relativePath}|${storyInfo.darkMode || ''}|${storyInfo.verticalLayout || ''}|${storyInfo.interact ?? ''}|`).join('\n')}\n\n`;
+${differingStories.map(storyInfo => `|${storyInfo.title}|${storyInfo.variantTitle}|${storyInfo.relativePath}|${storyInfo.darkMode ? 'dark' : ''}|${storyInfo.verticalLayout ? 'vertical' : ''}|${storyInfo.interact ?? ''}|`).join('\n')}\n\n`;
   }
 
   if (addedStories.length === 0) {
@@ -128,7 +128,7 @@ ${differingStories.map(storyInfo => `|${storyInfo.title}|${storyInfo.variantTitl
     markup += `⚠️${addedStories.length} stories/variants were added.
 |Story Title|Variant Title|Story Path|Dark Mode|Vertical Layout|Interaction|
 |-----------|-------------|----------|---------|---------------|-----------|
-${addedStories.map(storyInfo => `|${storyInfo.title}|${storyInfo.variantTitle}|${storyInfo.relativePath}|${storyInfo.darkMode || ''}|${storyInfo.verticalLayout || ''}|${storyInfo.interact ?? ''}|`).join('\n')}\n\n`;
+${addedStories.map(storyInfo => `|${storyInfo.title}|${storyInfo.variantTitle}|${storyInfo.relativePath}|${storyInfo.darkMode ? 'dark' : ''}|${storyInfo.verticalLayout ? 'vertical' : ''}|${storyInfo.interact ?? ''}|`).join('\n')}\n\n`;
   }
 
   if (dissappearedImages.length === 0) {
