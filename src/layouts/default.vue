@@ -7,6 +7,7 @@
         @menu-opened="menuOpened = true"
         @menu-closed="menuOpened = false" />
     </div>
+    <LoadingIndicator />
     <div
       :class="[$style.slotContainer, { [$style.menuOpened]: menuOpened }]"
       :inert="menuOpened ? true : undefined"

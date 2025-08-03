@@ -96,7 +96,7 @@ export default defineNuxtConfig({
     css: {
       modules: {
         generateScopedName(name, filename, _css) {
-          const id = `${new URL(filename, import.meta.url).pathname.replace(new URL('./', import.meta.url).pathname, '')}-${name}`.replace(/[\\/.?&=]/g, '-');
+          const id = `${new URL(filename, import.meta.url).pathname.replace(new URL('./', import.meta.url).pathname, '')}-${name}`.replace(/[^a-zA-Z0-9\-_]/g, '-');
 
           if (process.env.NODE_ENV === 'production') {
             return extractLowerBits(cyrb53(id), 5);
