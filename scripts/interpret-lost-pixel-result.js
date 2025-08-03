@@ -41,19 +41,19 @@ export const interpret = () => {
     const [storyId, variantTitle, ...interactFragment] = filenameFragment;
     const interactStr = interactFragment.join('_');
 
-    const story = histoire.stories.find(story => sanitize(story.id) === storyId && story.variants.some(variant => sanitize(variant.title) === variantTitle));
+    const story = histoire.stories.find(story => sanitize(story.id, { replacement: '-' }) === storyId && story.variants.some(variant => sanitize(variant.title, { replacement: '-' }) === variantTitle));
     if (story === undefined) return undefined;
 
-    const variant = story.variants.find(variant => sanitize(variant.title) === variantTitle);
+    const variant = story.variants.find(variant => sanitize(variant.title, { replacement: '-' }) === variantTitle);
     if (variant === undefined) return undefined;
 
     const storyInteract = story.meta?.interact;
     const variantInteract = variant.meta?.interact;
 
     const interact = storyInteract
-      ? storyInteract.find(i => sanitize(i.operation.map(op => Object.entries(op).slice(0, 1).map(pair => pair.join('-'))).join('--')) === interactStr)
+      ? storyInteract.find(i => sanitize(i.operation.map(op => Object.entries(op).slice(0, 1).map(pair => pair.join('-'))).join('--'), { replacement: '-' }) === interactStr)
       : variantInteract
-        ? variantInteract.find(i => sanitize(i.operation.map(op => Object.entries(op).slice(0, 1).map(pair => pair.join('-'))).join('--')) === interactStr)
+        ? variantInteract.find(i => sanitize(i.operation.map(op => Object.entries(op).slice(0, 1).map(pair => pair.join('-'))).join('--'), { replacement: '-' }) === interactStr)
         : undefined;
 
     return {
@@ -80,19 +80,19 @@ export const interpret = () => {
     const [storyId, variantTitle, ...interactFragment] = filenameFragment;
     const interactStr = interactFragment.join('_');
 
-    const story = histoire.stories.find(story => sanitize(story.id) === storyId && story.variants.some(variant => sanitize(variant.title) === variantTitle));
+    const story = histoire.stories.find(story => sanitize(story.id, { replacement: '-' }) === storyId && story.variants.some(variant => sanitize(variant.title, { replacement: '-' }) === variantTitle));
     if (story === undefined) return undefined;
 
-    const variant = story.variants.find(variant => sanitize(variant.title) === variantTitle);
+    const variant = story.variants.find(variant => sanitize(variant.title, { replacement: '-' }) === variantTitle);
     if (variant === undefined) return undefined;
 
     const storyInteract = story.meta?.interact;
     const variantInteract = variant.meta?.interact;
 
     const interact = storyInteract
-      ? storyInteract.find(i => sanitize(i.operation.map(op => Object.entries(op).slice(0, 1).map(pair => pair.join('-'))).join('--')) === interactStr)
+      ? storyInteract.find(i => sanitize(i.operation.map(op => Object.entries(op).slice(0, 1).map(pair => pair.join('-'))).join('--'), { replacement: '-' }) === interactStr)
       : variantInteract
-        ? variantInteract.find(i => sanitize(i.operation.map(op => Object.entries(op).slice(0, 1).map(pair => pair.join('-'))).join('--')) === interactStr)
+        ? variantInteract.find(i => sanitize(i.operation.map(op => Object.entries(op).slice(0, 1).map(pair => pair.join('-'))).join('--'), { replacement: '-' }) === interactStr)
         : undefined;
 
     return {

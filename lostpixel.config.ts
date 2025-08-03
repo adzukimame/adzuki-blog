@@ -92,7 +92,7 @@ const customPages = histoire.stories.flatMap((story) => {
 
   return {
     path: url.pathname + url.search,
-    name: sanitize(name),
+    name: sanitize(name, { replacement: '-' }),
   };
 });
 
