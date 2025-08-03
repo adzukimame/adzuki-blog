@@ -73,7 +73,7 @@ useServerHead({
 });
 
 useHead({
-  titleTemplate: titleChunk => titleChunk ? `${titleChunk} - ${runtimeConfig.public.siteName}` : runtimeConfig.public.siteName,
+  titleTemplate: titleChunk => titleChunk !== undefined && titleChunk.length > 0 ? `${titleChunk} - ${runtimeConfig.public.siteName}` : runtimeConfig.public.siteName,
 });
 
 useServerSeoMeta({

@@ -44,6 +44,7 @@ export default withNuxt(
       '@typescript-eslint/consistent-type-assertions': ['error', {
         assertionStyle: 'never',
       }],
+      '@typescript-eslint/strict-boolean-expressions': 'error',
     },
   },
   {
