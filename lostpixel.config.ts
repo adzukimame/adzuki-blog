@@ -2,6 +2,7 @@ import { readFileSync } from 'node:fs';
 import sjson from 'secure-json-parse';
 import { launchStaticWebServer } from 'lost-pixel/dist/crawler/utils.js';
 import type { CustomProjectConfig } from 'lost-pixel';
+import sanitize from 'sanitize-filename';
 import { interactSchema, metaInteractSchema, serializedStorySchema } from './histoire/schema.js';
 
 const server = await launchStaticWebServer('.histoire/dist');
@@ -10,7 +11,7 @@ const histoire = serializedStorySchema.parse(sjson.parse(
   readFileSync('./.histoire/dist/histoire.json', { encoding: 'utf8' })
 ));
 
-const customPages = histoire.stories.map((story) => {
+const customPages = histoire.stories.flatMap((story) => {
   const storyInteract = metaInteractSchema.parse(story.meta && 'interact' in story.meta ? story.meta.interact : undefined);
 
   return story.variants.map((variant) => {
@@ -28,17 +29,13 @@ const customPages = histoire.stories.map((story) => {
           ],
     };
   });
-}).flat(
-).map(variant => [true, false].map(darkMode => (
+}).flatMap(variant => [true, false].map(darkMode => (
   { ...variant, darkMode }
-))).flat(
-).map(variant => [true, false].map(verticalLayout => (
+))).flatMap(variant => [true, false].map(verticalLayout => (
   { ...variant, verticalLayout }
-))).flat(
-).map(variant => [true, false].map(smallScreen => (
+))).flatMap(variant => [true, false].map(smallScreen => (
   { ...variant, smallScreen }
-))).flat(
-).map((variant) => {
+))).flatMap((variant) => {
   if (variant.interact === undefined || variant.interact.length === 0) {
     return [{ ...variant, interact: undefined }];
   }
@@ -47,14 +44,23 @@ const customPages = histoire.stories.map((story) => {
       { ...variant, interact: i }
     ))];
   }
-}).flat(
-).filter(
+}).filter(
   variant => (variant.interact !== undefined && variant.interact.operation.length > 0) || variant.darkMode || variant.verticalLayout || variant.smallScreen
 ).filter(
-  variant => !(variant.darkMode && variant.verticalLayout)
-).filter(
-  variant => !(variant.darkMode && variant.smallScreen)
-).map((variant) => {
+  variant => !(variant.darkMode && variant.verticalLayout) && !(variant.darkMode && variant.smallScreen)
+).filter((variant) => {
+  if (variant.interact === undefined) return true;
+  if (variant.interact.condition === undefined) return true;
+
+  if (variant.interact.condition.darkMode === true && !variant.darkMode) return false;
+  if (variant.interact.condition.darkMode === false && variant.darkMode) return false;
+  if (variant.interact.condition.verticalLayout === true && !variant.verticalLayout) return false;
+  if (variant.interact.condition.verticalLayout === false && variant.verticalLayout) return false;
+  if (variant.interact.condition.smallScreen === true && !variant.smallScreen) return false;
+  if (variant.interact.condition.smallScreen === false && variant.smallScreen) return false;
+
+  return true;
+}).map((variant) => {
   const url = new URL(server.url);
   url.pathname = '/__sandbox.html';
 
@@ -86,7 +92,7 @@ const customPages = histoire.stories.map((story) => {
 
   return {
     path: url.pathname + url.search,
-    name,
+    name: sanitize(name),
   };
 });
 

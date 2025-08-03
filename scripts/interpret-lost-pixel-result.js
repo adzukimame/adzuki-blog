@@ -3,6 +3,7 @@ import { readFileSync } from 'node:fs';
 import { join as joinPath, resolve } from 'node:path';
 import { globSync } from 'glob';
 import sjson from 'secure-json-parse';
+import sanitize from 'sanitize-filename';
 import { serializedStorySchema } from '../histoire/schema.js';
 
 const histoire = serializedStorySchema.parse(sjson.parse(
@@ -40,19 +41,19 @@ export const interpret = () => {
     const [storyId, variantTitle, ...interactFragment] = filenameFragment;
     const interactStr = interactFragment.join('_');
 
-    const story = histoire.stories.find(story => story.id === storyId && story.variants.some(variant => variant.title === variantTitle));
+    const story = histoire.stories.find(story => sanitize(story.id) === storyId && story.variants.some(variant => sanitize(variant.title) === variantTitle));
     if (story === undefined) return undefined;
 
-    const variant = story.variants.find(variant => variant.title === variantTitle);
+    const variant = story.variants.find(variant => sanitize(variant.title) === variantTitle);
     if (variant === undefined) return undefined;
 
     const storyInteract = story.meta?.interact;
     const variantInteract = variant.meta?.interact;
 
     const interact = storyInteract
-      ? storyInteract.find(i => i.operation.map(op => Object.entries(op).slice(0, 1).map(pair => pair.join('-'))).join('--') === interactStr)
+      ? storyInteract.find(i => sanitize(i.operation.map(op => Object.entries(op).slice(0, 1).map(pair => pair.join('-'))).join('--')) === interactStr)
       : variantInteract
-        ? variantInteract.find(i => i.operation.map(op => Object.entries(op).slice(0, 1).map(pair => pair.join('-'))).join('--') === interactStr)
+        ? variantInteract.find(i => sanitize(i.operation.map(op => Object.entries(op).slice(0, 1).map(pair => pair.join('-'))).join('--')) === interactStr)
         : undefined;
 
     return {
@@ -79,19 +80,19 @@ export const interpret = () => {
     const [storyId, variantTitle, ...interactFragment] = filenameFragment;
     const interactStr = interactFragment.join('_');
 
-    const story = histoire.stories.find(story => story.id === storyId && story.variants.some(variant => variant.title === variantTitle));
+    const story = histoire.stories.find(story => sanitize(story.id) === storyId && story.variants.some(variant => sanitize(variant.title) === variantTitle));
     if (story === undefined) return undefined;
 
-    const variant = story.variants.find(variant => variant.title === variantTitle);
+    const variant = story.variants.find(variant => sanitize(variant.title) === variantTitle);
     if (variant === undefined) return undefined;
 
     const storyInteract = story.meta?.interact;
     const variantInteract = variant.meta?.interact;
 
     const interact = storyInteract
-      ? storyInteract.find(i => i.operation.map(op => Object.entries(op).slice(0, 1).map(pair => pair.join('-'))).join('--') === interactStr)
+      ? storyInteract.find(i => sanitize(i.operation.map(op => Object.entries(op).slice(0, 1).map(pair => pair.join('-'))).join('--')) === interactStr)
       : variantInteract
-        ? variantInteract.find(i => i.operation.map(op => Object.entries(op).slice(0, 1).map(pair => pair.join('-'))).join('--') === interactStr)
+        ? variantInteract.find(i => sanitize(i.operation.map(op => Object.entries(op).slice(0, 1).map(pair => pair.join('-'))).join('--')) === interactStr)
         : undefined;
 
     return {
