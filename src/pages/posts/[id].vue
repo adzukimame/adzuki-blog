@@ -57,7 +57,7 @@ const requestUrl = useRequestURL();
 if (requestUrl.origin === runtimeConfig.public.origin || import.meta.dev) {
   const robots = [
     'nofollow', 'noarchive', 'noimageindex', 'noai', 'noimageai',
-    ...(data.value?.allowIndex ? [] : ['noindex', 'nosnippet']),
+    ...(data.value?.allowIndex === true ? [] : ['noindex', 'nosnippet']),
   ].join(', ');
   useServerSeoMeta({ robots });
 }

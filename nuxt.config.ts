@@ -125,10 +125,10 @@ export default defineNuxtConfig({
   hooks: {
     'build:manifest': (manifest) => {
       // https://nuxt.com/docs/3.x/getting-started/styling#lcp-advanced-optimizations
-      const css = Object.values(manifest).find(options => options.isEntry)?.css;
+      const css = Object.values(manifest).find(options => options.isEntry === true)?.css;
       if (css) {
         for (let i = css.length - 1; i >= 0; i--) {
-          if (css[i]?.startsWith('entry.')) {
+          if (css[i]?.startsWith('entry.') === true) {
             css.splice(i, 1);
           }
         }
@@ -136,10 +136,21 @@ export default defineNuxtConfig({
     },
   },
   typescript: {
+    // https://github.com/tsconfig/bases?tab=readme-ov-file#strictest-tsconfigjson
     tsConfig: {
       compilerOptions: {
-        checkJs: true,
+        allowUnusedLabels: false,
+        allowUnreachableCode: false,
+        // exactOptionalPropertyTypes: true,
+        noFallthroughCasesInSwitch: true,
+        noImplicitOverride: true,
+        noImplicitReturns: true,
+        // noPropertyAccessFromIndexSignature: true,
         noUncheckedIndexedAccess: true,
+        noUnusedLocals: true,
+        noUnusedParameters: true,
+
+        checkJs: true,
       },
     },
   },
