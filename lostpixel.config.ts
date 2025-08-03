@@ -45,6 +45,8 @@ const customPages = histoire.stories.map((story) => {
 }).flat(
 ).filter(
   variant => variant.interact.length > 0 || variant.darkMode || variant.verticalLayout
+).filter(
+  variant => !(variant.darkMode && variant.verticalLayout)
 ).map((variant) => {
   const url = new URL(server.url);
   url.pathname = '/__sandbox.html';
@@ -54,8 +56,7 @@ const customPages = histoire.stories.map((story) => {
   if (variant.darkMode) url.searchParams.set('preview-dark-mode', '');
   if (variant.verticalLayout) url.searchParams.set('preview-vertical-layout', '');
 
-  if (variant.darkMode && variant.verticalLayout) name += 'darkMode-verticalLayout_';
-  else if (variant.darkMode) name += 'darkMode_';
+  if (variant.darkMode) name += 'darkMode_';
   else if (variant.verticalLayout) name += 'verticalLayout_';
 
   url.searchParams.set('storyId', variant.storyId);

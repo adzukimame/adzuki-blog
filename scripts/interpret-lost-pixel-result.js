@@ -33,7 +33,7 @@ export const interpret = () => {
     const darkMode = imageName.split('_')[0] === 'darkMode' || imageName.split('_')[0] === 'darkMode-verticalLayout';
     const verticalLayout = imageName.split('_')[0] === 'verticalLayout' || imageName.split('_')[0] === 'darkMode-verticalLayout';
 
-    const filenameStartIdx = (darkMode && verticalLayout ? 'darkMode-verticalLayout'.length : darkMode ? 'darkMode'.length : verticalLayout ? 'verticalLayout'.length : 0) + 1;
+    const filenameStartIdx = darkMode && verticalLayout ? 'darkMode-verticalLayout_'.length : darkMode ? 'darkMode_'.length : verticalLayout ? 'verticalLayout_'.length : 0;
     const filename = imageName.substring(filenameStartIdx);
     const [storyId, variantTitle, interactStr] = filename.split('_');
 
@@ -68,7 +68,7 @@ export const interpret = () => {
     const darkMode = imageName.split('_')[0] === 'darkMode' || imageName.split('_')[0] === 'darkMode-verticalLayout';
     const verticalLayout = imageName.split('_')[0] === 'verticalLayout' || imageName.split('_')[0] === 'darkMode-verticalLayout';
 
-    const filenameStartIdx = (darkMode && verticalLayout ? 'darkMode-verticalLayout'.length : darkMode ? 'darkMode'.length : verticalLayout ? 'verticalLayout'.length : 0) + 1;
+    const filenameStartIdx = darkMode && verticalLayout ? 'darkMode-verticalLayout_'.length : darkMode ? 'darkMode_'.length : verticalLayout ? 'verticalLayout_'.length : 0;
     const filename = imageName.substring(filenameStartIdx);
     const [storyId, variantTitle, interactStr] = filename.split('_');
 
