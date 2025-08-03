@@ -3,7 +3,7 @@ import { readFileSync } from 'node:fs';
 import { join as joinPath, resolve } from 'node:path';
 import { globSync } from 'glob';
 import sjson from 'secure-json-parse';
-import sanitize from 'sanitize-filename';
+import __sanitize from 'sanitize-filename';
 import { serializedStorySchema } from '../histoire/schema.js';
 
 const histoire = serializedStorySchema.parse(sjson.parse(
@@ -21,6 +21,55 @@ const listShotNames = (path) => {
     .map(name => name.replace(resolve('./', path), '').replace(/^\//, ''));
 };
 
+/**
+ * @param {string} filename
+ */
+const sanitize = (filename) => {
+  return __sanitize(filename, { replacement: '-' });
+};
+
+/**
+ * @param {string} imageName
+ */
+const getStoryInfoByImageName = (imageName) => {
+  const [prefix, ...filenameFragment] = imageName.split('_');
+
+  const prefixArray = (prefix ?? '').split('-');
+  const darkMode = prefixArray.includes('darkMode');
+  const verticalLayout = prefixArray.includes('verticalLayout');
+  const smallScreen = prefixArray.includes('smallScreen');
+
+  const [storyId, variantTitle, ...interactFragment] = filenameFragment;
+  const interactStr = interactFragment.join('_');
+
+  const story = histoire.stories.find(story => sanitize(story.id) === storyId && story.variants.some(variant => sanitize(variant.title) === variantTitle));
+  if (story === undefined) return undefined;
+
+  const variant = story.variants.find(variant => sanitize(variant.title) === variantTitle);
+  if (variant === undefined) return undefined;
+
+  const storyInteract = story.meta?.interact;
+  const variantInteract = variant.meta?.interact;
+
+  const interact = storyInteract
+    ? storyInteract.find(i => sanitize(i.operation.map(op => Object.entries(op).slice(0, 1).map(pair => pair.join('-'))).join('--')) === interactStr)
+    : variantInteract
+      ? variantInteract.find(i => sanitize(i.operation.map(op => Object.entries(op).slice(0, 1).map(pair => pair.join('-'))).join('--')) === interactStr)
+      : undefined;
+
+  return {
+    id: story.id,
+    title: story.title,
+    relativePath: story.relativePath,
+    variantId: variant.id,
+    variantTitle: variant.title,
+    darkMode,
+    verticalLayout,
+    smallScreen,
+    interact: interact ? JSON.stringify(interact) : undefined,
+  };
+};
+
 export const interpret = () => {
   const baselineImages = listShotNames('.lostpixel/baseline/');
   const currentImages = listShotNames('.lostpixel/current/');
@@ -28,85 +77,13 @@ export const interpret = () => {
 
   const dissappearedImages = baselineImages.filter(imageName => !currentImages.includes(imageName));
 
-  const addedStories = currentImages.map((imageName) => {
-    if (baselineImages.includes(imageName)) return undefined;
+  const addedStories = currentImages.map(imageName =>
+    baselineImages.includes(imageName) ? undefined : getStoryInfoByImageName(imageName)
+  ).filter(storyInfo => storyInfo !== undefined);
 
-    const [prefix, ...filenameFragment] = imageName.split('_');
-
-    const prefixArray = (prefix ?? '').split('-');
-    const darkMode = prefixArray.includes('darkMode');
-    const verticalLayout = prefixArray.includes('verticalLayout');
-    const smallScreen = prefixArray.includes('smallScreen');
-
-    const [storyId, variantTitle, ...interactFragment] = filenameFragment;
-    const interactStr = interactFragment.join('_');
-
-    const story = histoire.stories.find(story => sanitize(story.id, { replacement: '-' }) === storyId && story.variants.some(variant => sanitize(variant.title, { replacement: '-' }) === variantTitle));
-    if (story === undefined) return undefined;
-
-    const variant = story.variants.find(variant => sanitize(variant.title, { replacement: '-' }) === variantTitle);
-    if (variant === undefined) return undefined;
-
-    const storyInteract = story.meta?.interact;
-    const variantInteract = variant.meta?.interact;
-
-    const interact = storyInteract
-      ? storyInteract.find(i => sanitize(i.operation.map(op => Object.entries(op).slice(0, 1).map(pair => pair.join('-'))).join('--'), { replacement: '-' }) === interactStr)
-      : variantInteract
-        ? variantInteract.find(i => sanitize(i.operation.map(op => Object.entries(op).slice(0, 1).map(pair => pair.join('-'))).join('--'), { replacement: '-' }) === interactStr)
-        : undefined;
-
-    return {
-      id: story.id,
-      title: story.title,
-      relativePath: story.relativePath,
-      variantId: variant.id,
-      variantTitle: variant.title,
-      darkMode,
-      verticalLayout,
-      smallScreen,
-      interact: interact ? JSON.stringify(interact) : undefined,
-    };
-  }).filter(storyInfo => storyInfo !== undefined);
-
-  const differingStories = differenceImages.map((imageName) => {
-    const [prefix, ...filenameFragment] = imageName.split('_');
-
-    const prefixArray = (prefix ?? '').split('-');
-    const darkMode = prefixArray.includes('darkMode');
-    const verticalLayout = prefixArray.includes('verticalLayout');
-    const smallScreen = prefixArray.includes('smallScreen');
-
-    const [storyId, variantTitle, ...interactFragment] = filenameFragment;
-    const interactStr = interactFragment.join('_');
-
-    const story = histoire.stories.find(story => sanitize(story.id, { replacement: '-' }) === storyId && story.variants.some(variant => sanitize(variant.title, { replacement: '-' }) === variantTitle));
-    if (story === undefined) return undefined;
-
-    const variant = story.variants.find(variant => sanitize(variant.title, { replacement: '-' }) === variantTitle);
-    if (variant === undefined) return undefined;
-
-    const storyInteract = story.meta?.interact;
-    const variantInteract = variant.meta?.interact;
-
-    const interact = storyInteract
-      ? storyInteract.find(i => sanitize(i.operation.map(op => Object.entries(op).slice(0, 1).map(pair => pair.join('-'))).join('--'), { replacement: '-' }) === interactStr)
-      : variantInteract
-        ? variantInteract.find(i => sanitize(i.operation.map(op => Object.entries(op).slice(0, 1).map(pair => pair.join('-'))).join('--'), { replacement: '-' }) === interactStr)
-        : undefined;
-
-    return {
-      id: story.id,
-      title: story.title,
-      relativePath: story.relativePath,
-      variantId: variant.id,
-      variantTitle: variant.title,
-      darkMode,
-      verticalLayout,
-      smallScreen,
-      interact: interact ? JSON.stringify(interact) : undefined,
-    };
-  }).filter(storyInfo => storyInfo !== undefined);
+  const differingStories = differenceImages.map(imageName =>
+    getStoryInfoByImageName(imageName)
+  ).filter(storyInfo => storyInfo !== undefined);
 
   return {
     dissappearedImages,
