@@ -30,8 +30,11 @@ const customPages = histoire.stories.map((story) => {
 ).map(variant => [true, false].map(darkMode => (
   { ...variant, darkMode }
 ))).flat(
-).map(variant => ([true, false] as const).map(verticalLayout => (
+).map(variant => [true, false].map(verticalLayout => (
   { ...variant, verticalLayout }
+))).flat(
+).map(variant => [true, false].map(smallScreen => (
+  { ...variant, smallScreen }
 ))).flat(
 ).map((variant) => {
   if (variant.interact.length === 0) {
@@ -44,20 +47,28 @@ const customPages = histoire.stories.map((story) => {
   }
 }).flat(
 ).filter(
-  variant => variant.interact.length > 0 || variant.darkMode || variant.verticalLayout
+  variant => variant.interact.length > 0 || variant.darkMode || variant.verticalLayout || variant.smallScreen
 ).filter(
   variant => !(variant.darkMode && variant.verticalLayout)
+).filter(
+  variant => !(variant.darkMode && variant.smallScreen)
 ).map((variant) => {
   const url = new URL(server.url);
   url.pathname = '/__sandbox.html';
 
   let name = '';
 
+  if (variant.smallScreen) url.searchParams.set('viewport-size', 'small');
   if (variant.darkMode) url.searchParams.set('preview-dark-mode', '');
   if (variant.verticalLayout) url.searchParams.set('preview-vertical-layout', '');
 
-  if (variant.darkMode) name += 'darkMode_';
-  else if (variant.verticalLayout) name += 'verticalLayout_';
+  const prefix: string[] = [];
+  if (variant.smallScreen) prefix.push('smallScreen');
+  if (variant.darkMode) prefix.push('darkMode');
+  if (variant.verticalLayout) prefix.push('verticalLayout');
+
+  name += prefix.join('-');
+  if (prefix.length > 0) name += '_';
 
   url.searchParams.set('storyId', variant.storyId);
   name += variant.storyId;
@@ -87,6 +98,15 @@ export const config: CustomProjectConfig = {
   },
   beforeScreenshot: async (page) => {
     const url = new URL(page.url());
+
+    const viewportSize = url.searchParams.get('viewport-size');
+    const verticalLayout = url.searchParams.get('preview-vertical-layout') !== null;
+    if (viewportSize === 'small') {
+      await page.setViewportSize({
+        width: verticalLayout ? 375 : 390,
+        height: verticalLayout ? 667 : 844,
+      });
+    }
 
     const rawInteract = url.searchParams.get('interact');
     if (rawInteract !== null) {
