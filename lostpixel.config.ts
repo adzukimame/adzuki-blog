@@ -20,10 +20,12 @@ const customPages = histoire.stories.map((story) => {
       storyId: story.id,
       variantId: variant.id,
       variantTitle: variant.title,
-      interact: [
-        ...(storyInteract ?? []),
-        ...(variantInteract ?? []),
-      ],
+      interact: (storyInteract === undefined && variantInteract === undefined)
+        ? undefined
+        : [
+            ...(storyInteract ?? []),
+            ...(variantInteract ?? []),
+          ],
     };
   });
 }).flat(
@@ -37,17 +39,17 @@ const customPages = histoire.stories.map((story) => {
   { ...variant, smallScreen }
 ))).flat(
 ).map((variant) => {
-  if (variant.interact.length === 0) {
-    return [{ ...variant, interact: [] }];
+  if (variant.interact === undefined || variant.interact.length === 0) {
+    return [{ ...variant, interact: undefined }];
   }
   else {
-    return [{ ...variant, interact: [] }, ...variant.interact.map(i => (
+    return [{ ...variant, interact: undefined }, ...variant.interact.map(i => (
       { ...variant, interact: i }
     ))];
   }
 }).flat(
 ).filter(
-  variant => variant.interact.length > 0 || variant.darkMode || variant.verticalLayout || variant.smallScreen
+  variant => (variant.interact !== undefined && variant.interact.operation.length > 0) || variant.darkMode || variant.verticalLayout || variant.smallScreen
 ).filter(
   variant => !(variant.darkMode && variant.verticalLayout)
 ).filter(
@@ -76,10 +78,10 @@ const customPages = histoire.stories.map((story) => {
   url.searchParams.set('variantId', variant.variantId);
   name += `_${variant.variantTitle}`;
 
-  if (variant.interact.length > 0) {
-    url.searchParams.set('interact', encodeURIComponent(JSON.stringify(variant.interact)));
+  if (variant.interact !== undefined && variant.interact.operation.length > 0) {
+    url.searchParams.set('interact', encodeURIComponent(JSON.stringify(variant.interact.operation)));
     name += '_';
-    name += variant.interact.map(op => Object.entries(op).map(pair => pair.join('-')).join('--')).join('---');
+    name += variant.interact.operation.map(op => Object.entries(op).slice(0, 1).map(pair => pair.join('-'))).join('--');
   }
 
   return {

@@ -50,9 +50,9 @@ export const interpret = () => {
     const variantInteract = variant.meta?.interact;
 
     const interact = storyInteract
-      ? storyInteract.find(i => i.map(op => Object.entries(op).map(pair => pair.join('-')).join('--')).join('---') === interactStr)
+      ? storyInteract.find(i => i.operation.map(op => Object.entries(op).slice(0, 1).map(pair => pair.join('-'))).join('--') === interactStr)
       : variantInteract
-        ? variantInteract.find(i => i.map(op => Object.entries(op).map(pair => pair.join('-')).join('--')).join('---') === interactStr)
+        ? variantInteract.find(i => i.operation.map(op => Object.entries(op).slice(0, 1).map(pair => pair.join('-'))).join('--') === interactStr)
         : undefined;
 
     return {
@@ -89,9 +89,9 @@ export const interpret = () => {
     const variantInteract = variant.meta?.interact;
 
     const interact = storyInteract
-      ? storyInteract.find(i => i.map(op => Object.entries(op).map(pair => pair.join('-')).join('--')).join('---') === interactStr)
+      ? storyInteract.find(i => i.operation.map(op => Object.entries(op).slice(0, 1).map(pair => pair.join('-'))).join('--') === interactStr)
       : variantInteract
-        ? variantInteract.find(i => i.map(op => Object.entries(op).map(pair => pair.join('-')).join('--')).join('---') === interactStr)
+        ? variantInteract.find(i => i.operation.map(op => Object.entries(op).slice(0, 1).map(pair => pair.join('-'))).join('--') === interactStr)
         : undefined;
 
     return {

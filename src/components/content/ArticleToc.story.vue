@@ -4,15 +4,15 @@
       title="default"
       :meta="{
         interact: [
-          [{ click: 'summary' }],
+          { operation: [{ click: 'summary' }] },
         ],
       }">
       <ArticleToc v-bind="defaultData" />
     </Variant>
-    <Variant title="UndefinedToc">
+    <Variant title="undefinedToc">
       <ArticleToc v-bind="tocUndefinedtData" />
     </Variant>
-    <Variant title="EmptyToc">
+    <Variant title="emptyToc">
       <ArticleToc v-bind="tocEmptytData" />
     </Variant>
   </Story>
