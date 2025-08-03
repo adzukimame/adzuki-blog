@@ -30,12 +30,15 @@ export const interpret = () => {
   const addedStories = currentImages.map((imageName) => {
     if (baselineImages.includes(imageName)) return undefined;
 
-    const darkMode = imageName.split('_')[0] === 'darkMode' || imageName.split('_')[0] === 'darkMode-verticalLayout';
-    const verticalLayout = imageName.split('_')[0] === 'verticalLayout' || imageName.split('_')[0] === 'darkMode-verticalLayout';
+    const [prefix, ...filenameFragment] = imageName.split('_');
 
-    const filenameStartIdx = darkMode && verticalLayout ? 'darkMode-verticalLayout_'.length : darkMode ? 'darkMode_'.length : verticalLayout ? 'verticalLayout_'.length : 0;
-    const filename = imageName.substring(filenameStartIdx);
-    const [storyId, variantTitle, interactStr] = filename.split('_');
+    const prefixArray = (prefix ?? '').split('-');
+    const darkMode = prefixArray.includes('darkMode');
+    const verticalLayout = prefixArray.includes('verticalLayout');
+    const smallScreen = prefixArray.includes('smallScreen');
+
+    const [storyId, variantTitle, ...interactFragment] = filenameFragment;
+    const interactStr = interactFragment.join('_');
 
     const story = histoire.stories.find(story => story.id === storyId && story.variants.some(variant => variant.title === variantTitle));
     if (story === undefined) return undefined;
@@ -60,17 +63,21 @@ export const interpret = () => {
       variantTitle: variant.title,
       darkMode,
       verticalLayout,
+      smallScreen,
       interact: interact ? JSON.stringify(interact) : undefined,
     };
   }).filter(storyInfo => storyInfo !== undefined);
 
   const differingStories = differenceImages.map((imageName) => {
-    const darkMode = imageName.split('_')[0] === 'darkMode' || imageName.split('_')[0] === 'darkMode-verticalLayout';
-    const verticalLayout = imageName.split('_')[0] === 'verticalLayout' || imageName.split('_')[0] === 'darkMode-verticalLayout';
+    const [prefix, ...filenameFragment] = imageName.split('_');
 
-    const filenameStartIdx = darkMode && verticalLayout ? 'darkMode-verticalLayout_'.length : darkMode ? 'darkMode_'.length : verticalLayout ? 'verticalLayout_'.length : 0;
-    const filename = imageName.substring(filenameStartIdx);
-    const [storyId, variantTitle, interactStr] = filename.split('_');
+    const prefixArray = (prefix ?? '').split('-');
+    const darkMode = prefixArray.includes('darkMode');
+    const verticalLayout = prefixArray.includes('verticalLayout');
+    const smallScreen = prefixArray.includes('smallScreen');
+
+    const [storyId, variantTitle, ...interactFragment] = filenameFragment;
+    const interactStr = interactFragment.join('_');
 
     const story = histoire.stories.find(story => story.id === storyId && story.variants.some(variant => variant.title === variantTitle));
     if (story === undefined) return undefined;
@@ -95,6 +102,7 @@ export const interpret = () => {
       variantTitle: variant.title,
       darkMode,
       verticalLayout,
+      smallScreen,
       interact: interact ? JSON.stringify(interact) : undefined,
     };
   }).filter(storyInfo => storyInfo !== undefined);
@@ -116,9 +124,9 @@ export const interpretAndMarkup = () => {
   }
   else {
     markup += `❌${differingStories.length} stories/variants have differences.
-|Story Title|Variant Title|Story Path|Dark Mode|Vertical Layout|Interaction|
-|-----------|-------------|----------|---------|---------------|-----------|
-${differingStories.map(storyInfo => `|${storyInfo.title}|${storyInfo.variantTitle}|${storyInfo.relativePath}|${storyInfo.darkMode ? 'dark' : ''}|${storyInfo.verticalLayout ? 'vertical' : ''}|${storyInfo.interact ?? ''}|`).join('\n')}\n\n`;
+|Story Title|Variant Title|Story Path|Dark Mode|Vertical Layout|Viewport Size|Interaction|
+|-----------|-------------|----------|---------|---------------|-------------|-----------|
+${differingStories.map(storyInfo => `|${storyInfo.title}|${storyInfo.variantTitle}|${storyInfo.relativePath}|${storyInfo.darkMode ? 'dark' : ''}|${storyInfo.verticalLayout ? 'vertical' : ''}|${storyInfo.smallScreen ? 'small' : ''}|${storyInfo.interact ?? ''}|`).join('\n')}\n\n`;
   }
 
   if (addedStories.length === 0) {
@@ -126,9 +134,9 @@ ${differingStories.map(storyInfo => `|${storyInfo.title}|${storyInfo.variantTitl
   }
   else {
     markup += `⚠️${addedStories.length} stories/variants were added.
-|Story Title|Variant Title|Story Path|Dark Mode|Vertical Layout|Interaction|
-|-----------|-------------|----------|---------|---------------|-----------|
-${addedStories.map(storyInfo => `|${storyInfo.title}|${storyInfo.variantTitle}|${storyInfo.relativePath}|${storyInfo.darkMode ? 'dark' : ''}|${storyInfo.verticalLayout ? 'vertical' : ''}|${storyInfo.interact ?? ''}|`).join('\n')}\n\n`;
+|Story Title|Variant Title|Story Path|Dark Mode|Vertical Layout|Viewport Size|Interaction|
+|-----------|-------------|----------|---------|---------------|-------------|-----------|
+${addedStories.map(storyInfo => `|${storyInfo.title}|${storyInfo.variantTitle}|${storyInfo.relativePath}|${storyInfo.darkMode ? 'dark' : ''}|${storyInfo.verticalLayout ? 'vertical' : ''}|${storyInfo.smallScreen ? 'small' : ''}|${storyInfo.interact ?? ''}|`).join('\n')}\n\n`;
   }
 
   if (dissappearedImages.length === 0) {
