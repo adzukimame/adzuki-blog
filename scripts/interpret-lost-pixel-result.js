@@ -30,12 +30,11 @@ export const interpret = () => {
   const addedStories = currentImages.map((imageName) => {
     if (baselineImages.includes(imageName)) return undefined;
 
-    const darkMode = imageName.split('/')[0] === 'darkMode' || imageName.split('/')[0] === 'darkMode-verticalLayout';
-    const verticalLayout = imageName.split('/')[0] === 'verticalLayout' || imageName.split('/')[0] === 'darkMode-verticalLayout';
+    const darkMode = imageName.split('_')[0] === 'darkMode' || imageName.split('_')[0] === 'darkMode-verticalLayout';
+    const verticalLayout = imageName.split('_')[0] === 'verticalLayout' || imageName.split('_')[0] === 'darkMode-verticalLayout';
 
-    /** @type {string} */
-    // @ts-expect-error
-    const filename = imageName.split('/').pop();
+    const filenameStartIdx = (darkMode && verticalLayout ? 'darkMode-verticalLayout'.length : darkMode ? 'darkMode'.length : verticalLayout ? 'verticalLayout'.length : 0) + 1;
+    const filename = imageName.substring(filenameStartIdx);
     const [storyId, variantTitle, interactStr] = filename.split('_');
 
     const story = histoire.stories.find(story => story.id === storyId && story.variants.some(variant => variant.title === variantTitle));
@@ -66,12 +65,11 @@ export const interpret = () => {
   }).filter(storyInfo => storyInfo !== undefined);
 
   const differingStories = differenceImages.map((imageName) => {
-    const darkMode = imageName.split('/')[0] === 'darkMode' || imageName.split('/')[0] === 'darkMode-verticalLayout';
-    const verticalLayout = imageName.split('/')[0] === 'verticalLayout' || imageName.split('/')[0] === 'darkMode-verticalLayout';
+    const darkMode = imageName.split('_')[0] === 'darkMode' || imageName.split('_')[0] === 'darkMode-verticalLayout';
+    const verticalLayout = imageName.split('_')[0] === 'verticalLayout' || imageName.split('_')[0] === 'darkMode-verticalLayout';
 
-    /** @type {string} */
-    // @ts-expect-error
-    const filename = imageName.split('/').pop();
+    const filenameStartIdx = (darkMode && verticalLayout ? 'darkMode-verticalLayout'.length : darkMode ? 'darkMode'.length : verticalLayout ? 'verticalLayout'.length : 0) + 1;
+    const filename = imageName.substring(filenameStartIdx);
     const [storyId, variantTitle, interactStr] = filename.split('_');
 
     const story = histoire.stories.find(story => story.id === storyId && story.variants.some(variant => variant.title === variantTitle));

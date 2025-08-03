@@ -54,9 +54,9 @@ const customPages = histoire.stories.map((story) => {
   if (variant.darkMode) url.searchParams.set('preview-dark-mode', '');
   if (variant.verticalLayout) url.searchParams.set('preview-vertical-layout', '');
 
-  if (variant.darkMode && variant.verticalLayout) name += 'darkMode-verticalLayout/';
-  else if (variant.darkMode) name += 'darkMode/';
-  else if (variant.verticalLayout) name += 'verticalLayout/';
+  if (variant.darkMode && variant.verticalLayout) name += 'darkMode-verticalLayout_';
+  else if (variant.darkMode) name += 'darkMode_';
+  else if (variant.verticalLayout) name += 'verticalLayout_';
 
   url.searchParams.set('storyId', variant.storyId);
   name += variant.storyId;
