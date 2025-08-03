@@ -8,7 +8,14 @@ export const interactSchema = z.array(z.union([
 ])).min(1);
 
 export const metaInteractSchema = z.union([
-  z.array(interactSchema).min(1),
+  z.array(z.object({
+    condition: z.object({
+      darkMode: z.boolean().optional(),
+      verticalLayout: z.boolean().optional(),
+      smallScreen: z.boolean().optional(),
+    }).optional(),
+    operation: interactSchema,
+  })).min(1),
   z.undefined(),
 ]);
 

@@ -4,18 +4,18 @@
       title="default"
       :meta="{
         interact: [
-          [{ hover: '[aria-label=\'最初のページに戻る\']' }],
-          [{ hover: '[aria-label=\'1ページ前に戻る\']' }],
-          [{ hover: '[aria-label=\'1ページ次に進む\']' }],
-          [{ hover: '[aria-label=\'最後のページに進む\']' }],
+          { operation: [{ hover: '[aria-label=\'最初のページに戻る\']' }] },
+          { operation: [{ hover: '[aria-label=\'1ページ前に戻る\']' }] },
+          { operation: [{ hover: '[aria-label=\'1ページ次に進む\']' }] },
+          { operation: [{ hover: '[aria-label=\'最後のページに進む\']' }] },
         ],
       }">
       <PageNavigator v-bind="defaultData" />
     </Variant>
-    <Variant title="FirstPage">
+    <Variant title="firstPage">
       <PageNavigator v-bind="firstPageData" />
     </Variant>
-    <Variant title="LastPage">
+    <Variant title="lastPage">
       <PageNavigator v-bind="lastPageData" />
     </Variant>
   </Story>
