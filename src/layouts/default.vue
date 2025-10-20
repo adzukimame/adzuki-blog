@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div :class="$style.headerContainer">
+    <div :class="[$style.headerContainer, { [$style.headerHidden]: !headerVisible }]">
       <AppHeader
         :class="$style.header"
         :use-collapsible-navigation="isNarrow"
@@ -30,6 +30,16 @@ const writingMode = useWritingMode();
 const isNarrow = ref(false);
 const NARROW_THRESHOLD = 768;
 
+const scrollDirection = useScrollDirection();
+const headerVisible = ref(true);
+
+watch(scrollDirection, (direction) => {
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!prefersReducedMotion) {
+    headerVisible.value = direction !== 'down';
+  }
+});
+
 onMounted(() => {
   isNarrow.value = writingMode.value === 'vertical-rl' ? window.innerHeight <= NARROW_THRESHOLD : window.innerWidth <= NARROW_THRESHOLD;
 
@@ -39,6 +49,8 @@ onMounted(() => {
       menuOpened.value = false;
     }
   });
+
+  window.addEventListener('scroll', updateScrollDirection, { passive: true });
 });
 </script>
 
@@ -47,13 +59,31 @@ onMounted(() => {
 
 .headerContainer {
   position: sticky;
-  inset-block-start: 0;
   z-index: 2;
   block-size: var(--header-bsize);
   border-block-end: solid var(--split) 2px;
   background-color: var(--bg);
   color: var(--fg-strong);
-  transition: background-color var(--color-scheme-trans-dur);
+  transition: background-color var(--color-scheme-trans-dur), transform 250ms ease-in-out;
+
+  /* vertical-rlだとなぜかinset-block-startが効かない */
+  :root:global(.vertical-rl) & {
+    right: 0;
+  }
+
+  :root:not(:global(.vertical-rl)) & {
+    inset-block-start: 0;
+  }
+}
+
+.headerHidden {
+  :root:not(:global(.vertical-rl)) & {
+    transform: translateY(-100%);
+  }
+
+  :root:global(.vertical-rl) & {
+    transform: translateX(100%);
+  }
 }
 
 .header {
