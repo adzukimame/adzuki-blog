@@ -14,20 +14,7 @@
       <div>
         目次
       </div>
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="1.2rem"
-        height="1.2rem"
-        size="1.2rem"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        :class="$style.accordionIcon">
-        <path d="M6 9l6 6l6 -6" />
-      </svg>
+      <IconChevronDown :class="$style.accordionIcon" />
     </summary>
     <nav>
       <ul
