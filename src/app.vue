@@ -40,8 +40,29 @@ useServerHead({
 
 const writingMode = useWritingMode();
 
+const handleWheel = (event: WheelEvent): void => {
+  if (!event.shiftKey && event.deltaY !== 0) {
+    event.preventDefault();
+
+    window.scrollBy(-event.deltaY, 0);
+  }
+};
+
 onMounted(() => {
   initReactiveWritingMode();
+
+  watch(writingMode, (newMode) => {
+    if (newMode === 'vertical-rl') {
+      window.addEventListener('wheel', handleWheel, { passive: false });
+    }
+    else {
+      window.removeEventListener('wheel', handleWheel);
+    }
+  }, { immediate: true });
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener('wheel', handleWheel);
 });
 // end - 縦組み
 
