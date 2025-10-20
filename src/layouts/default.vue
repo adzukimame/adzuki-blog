@@ -47,13 +47,21 @@ onMounted(() => {
 
 .headerContainer {
   position: sticky;
-  inset-block-start: 0;
   z-index: 2;
   block-size: var(--header-bsize);
   border-block-end: solid var(--split) 2px;
   background-color: var(--bg);
   color: var(--fg-strong);
   transition: background-color var(--color-scheme-trans-dur);
+
+  /* vertical-rlだとなぜかinset-block-startが効かない */
+  :root:global(.vertical-rl) & {
+    right: 0;
+  }
+
+  :root:not(:global(.vertical-rl)) & {
+    inset-block-start: 0;
+  }
 }
 
 .header {
