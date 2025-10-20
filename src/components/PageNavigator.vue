@@ -173,41 +173,41 @@ watch(() => props.currentPageNumber, (newPageNumber) => {
   min-inline-size: var(--button-size);
   border-block-end: solid 0.3rem var(--split);
   transition: border-block-end-color var(--hover-trans-dur) var(--hover-trans-func);
-}
 
-.button.disabled {
-  pointer-events: none;
-}
+  &.disabled {
+    pointer-events: none;
 
-@media (hover: hover) {
-  .button:not(.pageNumberOuter, .disabled):hover {
-    border-block-end-color: var(--fg-weak);
+    &>svg {
+      color: var(--fg-weak);
+      opacity: 0.5;
+    }
   }
-}
 
-@media (hover: none) {
-  .button:not(.pageNumberOuter, .disabled):active {
-    border-block-end-color: var(--fg-weak);
+  @media (hover: hover) {
+    &:not(.pageNumberOuter, .disabled):hover {
+      border-block-end-color: var(--fg-weak);
+    }
   }
-}
 
-.button.pageNumberOuter {
-  font-size: 0.8rem;
-  padding: calc((var(--button-size) - 1px * 2 - 0.8rem) / 2);
-  cursor: default;
-}
+  @media (hover: none) {
+    &:not(.pageNumberOuter, .disabled):active {
+      border-block-end-color: var(--fg-weak);
+    }
+  }
 
-.button>svg {
-  margin: calc((var(--button-size) - 1px * 2 - var(--icon-size)) / 2);
-  transition: filter var(--page-trans-dur) var(--page-trans-func);
-}
+  &.pageNumberOuter {
+    font-size: 0.8rem;
+    padding: calc((var(--button-size) - 1px * 2 - 0.8rem) / 2);
+    cursor: default;
+  }
 
-.button.disabled>svg {
-  color: var(--fg-weak);
-  opacity: 0.5;
-}
+  &>svg {
+    margin: calc((var(--button-size) - 1px * 2 - var(--icon-size)) / 2);
+    transition: filter var(--page-trans-dur) var(--page-trans-func);
 
-:root:global(.vertical-rl) .button>svg {
-  transform: rotate(0.25turn);
+    :root:global(.vertical-rl) & {
+      transform: rotate(0.25turn);
+    }
+  }
 }
 </style>

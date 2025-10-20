@@ -244,59 +244,61 @@ const menuItems = [
   }
 }
 
-:root:not(:global(.vertical-rl)) .navigationListItem {
-  @media horizontalSmall {
-    padding-inline-start: 0.8rem;
-    border-inline-start: solid 0.5rem var(--fg-weak);
-    transition: border-inline-start-color var(--hover-trans-dur) var(--hover-trans-func);
+.navigationListItem {
+  :root:not(:global(.vertical-rl)) & {
+    @media horizontalSmall {
+      padding-inline-start: 0.8rem;
+      border-inline-start: solid 0.5rem var(--fg-weak);
+      transition: border-inline-start-color var(--hover-trans-dur) var(--hover-trans-func);
+
+      @media (hover: hover) {
+        &:hover {
+          border-inline-start-color: var(--accent);
+        }
+      }
+
+      @media (hover: none) {
+        &:active {
+          border-inline-start-color: var(--accent);
+        }
+      }
+    }
+  }
+
+  :root:global(.vertical-rl) & {
+    @media verticalSmall {
+      padding-inline-start: 0.8rem;
+      border-inline-start: solid 0.5rem var(--fg-weak);
+      transition: border-inline-start-color var(--hover-trans-dur) var(--hover-trans-func);
+
+      @media (hover: hover) {
+        &:hover {
+          border-inline-start-color: var(--accent);
+        }
+      }
+
+      @media (hover: none) {
+        &:active {
+          border-inline-start-color: var(--accent);
+        }
+      }
+    }
+  }
+
+  &>a {
+    transition: color var(--hover-trans-dur) var(--hover-trans-func);
 
     @media (hover: hover) {
       &:hover {
-        border-inline-start-color: var(--accent);
+        color: var(--accent);
       }
     }
 
     @media (hover: none) {
       &:active {
-        border-inline-start-color: var(--accent);
+        color: var(--accent);
       }
     }
-  }
-}
-
-:root:global(.vertical-rl) .navigationListItem {
-  @media verticalSmall {
-    padding-inline-start: 0.8rem;
-    border-inline-start: solid 0.5rem var(--fg-weak);
-    transition: border-inline-start-color var(--hover-trans-dur) var(--hover-trans-func);
-
-    @media (hover: hover) {
-      &:hover {
-        border-inline-start-color: var(--accent);
-      }
-    }
-
-    @media (hover: none) {
-      &:active {
-        border-inline-start-color: var(--accent);
-      }
-    }
-  }
-}
-
-.navigationListItem>a {
-  transition: color var(--hover-trans-dur) var(--hover-trans-func);
-}
-
-@media (hover: hover) {
-  .navigationListItem>a:hover {
-    color: var(--accent);
-  }
-}
-
-@media (hover: none) {
-  .navigationListItem>a:active {
-    color: var(--accent);
   }
 }
 
@@ -305,33 +307,35 @@ const menuItems = [
   display: block flex;
   justify-content: flex-end;
   column-gap: 0.5rem;
-}
 
-.buttonsContainer>button {
-  cursor: pointer;
-  inline-size: var(--header-button-size);
-  block-size: var(--header-button-size);
-  text-align: center;
-  border-radius: 5px;
-  border: 0;
-  padding: 0;
-  transition: background-color var(--hover-trans-dur) var(--hover-trans-func);
-}
+  &>button {
+    cursor: pointer;
+    inline-size: var(--header-button-size);
+    block-size: var(--header-button-size);
+    text-align: center;
+    border-radius: 5px;
+    border: 0;
+    padding: 0;
+    transition: background-color var(--hover-trans-dur) var(--hover-trans-func);
 
-@media (hover: hover) {
-  .buttonsContainer>button:hover {
-    background-color: var(--bg-strong);
+    @media (hover: hover) {
+      &:hover {
+        background-color: var(--bg-strong);
+      }
+    }
+
+    @media (hover: none) {
+      &:active {
+        background-color: var(--bg-strong);
+      }
+    }
   }
 }
 
-@media (hover: none) {
-  .buttonsContainer>button:active {
-    background-color: var(--bg-strong);
+.buttonColorSwitch {
+  & svg {
+    margin: calc((var(--header-button-size) - 1.4rem) / 2);
   }
-}
-
-.buttonColorSwitch svg {
-  margin: calc((var(--header-button-size) - 1.4rem) / 2);
 }
 
 .buttonMenu {
@@ -348,9 +352,9 @@ const menuItems = [
       display: block;
     }
   }
-}
 
-.buttonMenu svg {
-  margin: calc((var(--header-button-size) - 1.2rem) / 2);
+  & svg {
+    margin: calc((var(--header-button-size) - 1.2rem) / 2);
+  }
 }
 </style>

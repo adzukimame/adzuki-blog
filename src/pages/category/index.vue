@@ -83,25 +83,27 @@ useSeoMeta({
   padding-inline-start: 1rem;
 }
 
-.categoryListItem::before {
-  content: '>';
-  padding-inline-end: 0.5rem;
-  color: var(--fg-weak);
-}
-
-.categoryListItem>a {
-  transition: color var(--hover-trans-dur) var(--hover-trans-func);
-}
-
-@media (hover: hover) {
-  .categoryListItem>a:hover {
-    color: var(--accent);
+.categoryListItem {
+  &::before {
+    content: '>';
+    padding-inline-end: 0.5rem;
+    color: var(--fg-weak);
   }
-}
 
-@media (hover: none) {
-  .categoryListItem>a:active {
-    color: var(--accent);
+  &>a {
+    transition: color var(--hover-trans-dur) var(--hover-trans-func);
+
+    @media (hover: hover) {
+      &:hover {
+        color: var(--accent);
+      }
+    }
+
+    @media (hover: none) {
+      &:active {
+        color: var(--accent);
+      }
+    }
   }
 }
 </style>

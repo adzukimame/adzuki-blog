@@ -100,19 +100,19 @@ const normalizedCategory = computed<string[] | undefined>(() => normalizeCategor
   transition: background-color var(--hover-trans-dur) var(--hover-trans-func), border-bottom-color var(--hover-trans-dur) var(--hover-trans-func);
   --title-line-height: 1.8rem;
   --description-line-height: 1.4rem;
-}
 
-@media (hover: hover) {
-  .container:hover {
-    background-color: var(--bg-strong);
-    border-bottom-color: var(--fg-weak);
+  @media (hover: hover) {
+    &:hover {
+      background-color: var(--bg-strong);
+      border-bottom-color: var(--fg-weak);
+    }
   }
-}
 
-@media (hover: none) {
-  .container:active {
-    background-color: var(--bg-strong);
-    border-bottom-color: var(--fg-weak);
+  @media (hover: none) {
+    &:active {
+      background-color: var(--bg-strong);
+      border-bottom-color: var(--fg-weak);
+    }
   }
 }
 
@@ -120,6 +120,18 @@ const normalizedCategory = computed<string[] | undefined>(() => normalizeCategor
   display: block grid;
   grid-template-rows: calc(var(--title-line-height) * 2) calc(var(--description-line-height) * 2);
   row-gap: 0.4rem;
+
+  @media (hover: hover) {
+    &:hover .title {
+      color: var(--fg-strong);
+    }
+  }
+
+  @media (hover: none) {
+    &:active .title {
+      color: var(--fg-strong);
+    }
+  }
 }
 
 .title {
@@ -128,18 +140,6 @@ const normalizedCategory = computed<string[] | undefined>(() => normalizeCategor
   line-height: var(--title-line-height);
   overflow: clip;
   transition: color var(--hover-trans-dur) var(--hover-trans-func);
-}
-
-@media (hover: hover) {
-  .titleAndDescriptionContainer:hover .title {
-    color: var(--fg-strong);
-  }
-}
-
-@media (hover: none) {
-  .titleAndDescriptionContainer:active .title {
-    color: var(--fg-strong);
-  }
 }
 
 .description {
@@ -160,28 +160,28 @@ const normalizedCategory = computed<string[] | undefined>(() => normalizeCategor
   flex-wrap: wrap;
   display: block flex;
   align-items: center;
-}
 
-.categoryContainer>:first-child {
-  margin-inline-end: 0.2rem;
+  &>:first-child {
+    margin-inline-end: 0.2rem;
+  }
 }
 
 .category {
   margin-inline-end: 0.7rem;
   transition: color var(--hover-trans-dur) var(--hover-trans-func);
-}
 
-@media (hover: hover) {
-  .category:hover {
-    text-decoration: underline;
-    color: var(--fg);
+  @media (hover: hover) {
+    &:hover {
+      text-decoration: underline;
+      color: var(--fg);
+    }
   }
-}
 
-@media (hover: none) {
-  .category:active {
-    text-decoration: underline;
-    color: var(--fg);
+  @media (hover: none) {
+    &:active {
+      text-decoration: underline;
+      color: var(--fg);
+    }
   }
 }
 
@@ -190,9 +190,9 @@ const normalizedCategory = computed<string[] | undefined>(() => normalizeCategor
   display: block flex;
   align-items: center;
   cursor: default;
-}
 
-.dateContainer>:first-child {
-  margin-inline-end: 0.2rem;
+  &>:first-child {
+    margin-inline-end: 0.2rem;
+  }
 }
 </style>
