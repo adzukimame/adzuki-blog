@@ -1,5 +1,5 @@
 <template>
-  <Body :style="{ overflow: menuOpened ? 'clip' : undefined }" />
+  <Body :style="menuOpened ? { overflow: 'hidden', touchAction: 'none' } : undefined" />
   <header
     v-bind="$attrs"
     :class="$style.header">
