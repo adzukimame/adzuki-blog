@@ -148,6 +148,8 @@ const onSummaryClick = (_event: MouseEvent) => {
 }
 
 .accordionIcon {
+  block-size: 1.2rem;
+  inline-size: 1.2rem;
   transition: transform v-bind(summaryTransitionDurationText) v-bind(summaryTransitionFunction);
 
   :root:global(.vertical-rl) & {

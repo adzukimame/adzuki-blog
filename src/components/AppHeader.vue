@@ -334,7 +334,9 @@ const menuItems = [
 
 .buttonColorSwitch {
   &>svg {
-    margin: calc((var(--header-button-size) - 1rem) / 2);
+    block-size: 1.4rem;
+    inline-size: 1.4rem;
+    margin: calc((var(--header-button-size) - 1.4rem) / 2);
   }
 }
 
@@ -354,7 +356,9 @@ const menuItems = [
   }
 
   &>svg {
-    margin: calc((var(--header-button-size) - 1rem) / 2);
+    block-size: 1.2rem;
+    inline-size: 1.2rem;
+    margin: calc((var(--header-button-size) - 1.2rem) / 2);
   }
 }
 </style>
