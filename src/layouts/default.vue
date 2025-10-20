@@ -34,7 +34,10 @@ const scrollDirection = useScrollDirection();
 const headerVisible = ref(true);
 
 watch(scrollDirection, (direction) => {
-  headerVisible.value = direction !== 'down';
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!prefersReducedMotion) {
+    headerVisible.value = direction !== 'down';
+  }
 });
 
 onMounted(() => {
