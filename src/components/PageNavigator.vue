@@ -60,6 +60,11 @@
 </template>
 
 <script setup lang="ts">
+import IconChevronsLeft from '@/assets/icons/ChevronsLeft.svg';
+import IconChevronLeft from '@/assets/icons/ChevronLeft.svg';
+import IconChevronRight from '@/assets/icons/ChevronRight.svg';
+import IconChevronsRight from '@/assets/icons/ChevronsRight.svg';
+
 const props = defineProps<{
   currentPageNumber: number;
   itemsLength: number;

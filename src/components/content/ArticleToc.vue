@@ -46,6 +46,7 @@
 
 <script setup lang="ts">
 import type { Toc } from '@nuxt/content';
+import IconChevronDown from '@/assets/icons/ChevronDown.svg';
 
 const writingMode = useWritingMode();
 

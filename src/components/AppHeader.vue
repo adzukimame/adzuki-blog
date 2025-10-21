@@ -55,6 +55,11 @@
 </template>
 
 <script setup lang="ts">
+import IconMoon from '@/assets/icons/Moon.svg';
+import IconSun from '@/assets/icons/Sun.svg';
+import IconMenu from '@/assets/icons/Menu.svg';
+import IconX from '@/assets/icons/X.svg';
+
 const props = withDefaults(defineProps<{
   useCollapsibleNavigation?: boolean;
 }>(), {

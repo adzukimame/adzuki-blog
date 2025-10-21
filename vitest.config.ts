@@ -10,7 +10,6 @@ export default defineVitestConfig({
         'nuxt.config.ts',
         'app.config.ts',
         'scripts',
-        'components/icon/**.vue',
         'histoire.config.ts',
         'histoire',
         '**/*.story.vue',

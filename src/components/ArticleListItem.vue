@@ -55,6 +55,8 @@
 
 <script setup lang="ts">
 import type { ParsedContent } from '@nuxt/content';
+import IconFolder from '@/assets/icons/Folder.svg';
+import IconClock from '@/assets/icons/Clock.svg';
 
 const props = defineProps<{
   item: Pick<ParsedContent, '_id' | '_path' | 'title' | 'description' | 'category' | 'created'> | ParsedContent;
