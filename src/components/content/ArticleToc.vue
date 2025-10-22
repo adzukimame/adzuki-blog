@@ -153,7 +153,7 @@ const onSummaryClick = (_event: MouseEvent) => {
   inline-size: 1.2rem;
   transition: transform v-bind(summaryTransitionDurationText) v-bind(summaryTransitionFunction);
 
-  :root:global(.vertical-rl) & {
+  :root:where([data-writing-mode="vertical-rl"]) & {
     transform: rotate(0.25turn);
   }
 
@@ -161,7 +161,7 @@ const onSummaryClick = (_event: MouseEvent) => {
     transform: rotate(0.5turn);
   }
 
-  :root:global(.vertical-rl) .container[open] & {
+  :root:where([data-writing-mode="vertical-rl"]) .container[open] & {
     transform: rotate(0.75turn);
   }
 }

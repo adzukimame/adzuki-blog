@@ -97,7 +97,7 @@ h1, h2, h3, h4, h5, h6 {
   margin-inline-end: 0;
 }
 
-:root.vertical-rl {
+:root:where([data-writing-mode="vertical-rl"]) {
   writing-mode: vertical-rl;
 }
 

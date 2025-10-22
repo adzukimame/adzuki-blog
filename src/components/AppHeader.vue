@@ -167,19 +167,19 @@ const menuItems = [
 }
 
 .navigation {
-  :root:not(:global(.vertical-rl)) & {
+  :root:where([data-writing-mode="horizontal-tb"], :not([data-writing-mode])) & {
     @media not horizontalSmall {
       padding-inline: 3rem;
     }
   }
 
-  :root:global(.vertical-rl) & {
+  :root:where([data-writing-mode="vertical-rl"]) & {
     @media not verticalSmall {
       padding-inline: 3rem;
     }
   }
 
-  :root:not(:global(.vertical-rl)) & {
+  :root:where([data-writing-mode="horizontal-tb"], :not([data-writing-mode])) & {
     @media horizontalSmall {
       display: block;
       position: fixed;
@@ -200,7 +200,7 @@ const menuItems = [
     }
   }
 
-  :root:global(.vertical-rl) & {
+  :root:where([data-writing-mode="vertical-rl"]) & {
     @media verticalSmall {
       display: block;
       position: fixed;
@@ -230,7 +230,7 @@ const menuItems = [
   margin: 0;
   list-style-type: none;
 
-  :root:not(:global(.vertical-rl)) & {
+  :root:where([data-writing-mode="horizontal-tb"], :not([data-writing-mode])) & {
     @media horizontalSmall {
       flex-direction: column;
       row-gap: 1rem;
@@ -239,7 +239,7 @@ const menuItems = [
     }
   }
 
-  :root:global(.vertical-rl) & {
+  :root:where([data-writing-mode="vertical-rl"]) & {
     @media verticalSmall {
       flex-direction: column;
       row-gap: 1rem;
@@ -250,7 +250,7 @@ const menuItems = [
 }
 
 .navigationListItem {
-  :root:not(:global(.vertical-rl)) & {
+  :root:where([data-writing-mode="horizontal-tb"], :not([data-writing-mode])) & {
     @media horizontalSmall {
       padding-inline-start: 0.8rem;
       border-inline-start: solid 0.5rem var(--fg-weak);
@@ -270,7 +270,7 @@ const menuItems = [
     }
   }
 
-  :root:global(.vertical-rl) & {
+  :root:where([data-writing-mode="vertical-rl"]) & {
     @media verticalSmall {
       padding-inline-start: 0.8rem;
       border-inline-start: solid 0.5rem var(--fg-weak);
@@ -348,13 +348,13 @@ const menuItems = [
 .buttonMenu {
   display: none;
 
-  :root:not(:global(.vertical-rl)) & {
+  :root:where([data-writing-mode="horizontal-tb"], :not([data-writing-mode])) & {
     @media horizontalSmall {
       display: block;
     }
   }
 
-  :root:global(.vertical-rl) & {
+  :root:where([data-writing-mode="vertical-rl"]) & {
     @media verticalSmall {
       display: block;
     }

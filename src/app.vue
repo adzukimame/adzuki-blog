@@ -1,5 +1,7 @@
 <template>
-  <Html :class="[{ 'dark-mode': colorScheme === 'dark' }, { 'vertical-rl': writingMode === 'vertical-rl' }]" />
+  <Html
+    :class="[{ 'dark-mode': colorScheme === 'dark' }]"
+    :data-writing-mode="writingMode" />
   <NuxtLayout>
     <NuxtPage />
   </NuxtLayout>
@@ -33,7 +35,7 @@ onMounted(() => {
 useServerHead({
   script: [
     {
-      textContent: `(()=>{const a=new URLSearchParams(location.search).get("tategaki");try{const b=window.localStorage.getItem("writingMode");"false"!==a&&(null!==a||"vertical-rl"===b)&&document.documentElement.classList.add("vertical-rl")}catch{null!==a&&"false"!==a&&document.documentElement.classList.add("vertical-rl")}})();`,
+      textContent: `(()=>{const a=new URLSearchParams(location.search).get("tategaki");try{const b=window.localStorage.getItem("writingMode");"false"!==a&&(null!==a||"vertical-rl"===b)&&(document.documentElement.dataset.writingMode="vertical-rl")}catch{null!==a&&"false"!==a&&(document.documentElement.dataset.writingMode="vertical-rl")}})();`,
     },
   ],
 });

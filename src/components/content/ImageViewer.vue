@@ -133,7 +133,7 @@ const closeModal = () => {
   background-size: 28px 28px;
   cursor: zoom-in;
 
-  :root:not(:global(.vertical-rl)) & {
+  :root:where([data-writing-mode="horizontal-tb"], :not([data-writing-mode])) & {
     /* コンテナの最大インラインサイズ 576px = (768px - 24px * 2) * 0.8 */
     /* 624px = 576px + 24px * 2 */
     @media (width > 624px) {
@@ -145,7 +145,7 @@ const closeModal = () => {
     }
   }
 
-  :root:global(.vertical-rl) & {
+  :root:where([data-writing-mode="vertical-rl"]) & {
     aspect-ratio: 9 / 16;
 
     @media (height > 624px) {
@@ -161,7 +161,7 @@ const closeModal = () => {
 .image {
   aspect-ratio: 16 / 9;
 
-  :root:global(.vertical-rl) & {
+  :root:where([data-writing-mode="vertical-rl"]) & {
     aspect-ratio: 9 / 16;
   }
 }

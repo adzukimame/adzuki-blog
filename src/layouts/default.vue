@@ -66,20 +66,20 @@ onMounted(() => {
   transition: background-color var(--color-scheme-trans-dur), transform 250ms ease-in-out;
 
   /* vertical-rlだとなぜかinset-block-startが効かない */
-  :root:global(.vertical-rl) & {
+  :root:where([data-writing-mode="vertical-rl"]) & {
     right: 0;
   }
 
-  :root:not(:global(.vertical-rl)) & {
+  :root:where([data-writing-mode="horizontal-tb"], :not([data-writing-mode])) & {
     inset-block-start: 0;
   }
 
   &.headerHidden {
-    :root:not(:global(.vertical-rl)) & {
+    :root:where([data-writing-mode="horizontal-tb"], :not([data-writing-mode])) & {
       transform: translateY(-100%);
     }
 
-    :root:global(.vertical-rl) & {
+    :root:where([data-writing-mode="vertical-rl"]) & {
       transform: translateX(100%);
     }
   }
@@ -89,7 +89,7 @@ onMounted(() => {
   max-inline-size: calc(768px - 24px * 2);
   margin-inline: auto;
 
-  :root:not(:global(.vertical-rl)) & {
+  :root:where([data-writing-mode="horizontal-tb"], :not([data-writing-mode])) & {
     @media horizontalSmall {
       inline-size: 100%;
       padding-inline: 24px;
@@ -97,7 +97,7 @@ onMounted(() => {
     }
   }
 
-  :root:global(.vertical-rl) & {
+  :root:where([data-writing-mode="vertical-rl"]) & {
     @media verticalSmall {
       inline-size: 100%;
       padding-inline: 24px;
@@ -116,14 +116,14 @@ onMounted(() => {
   min-block-size: calc(100svb - var(--header-bsize) - var(--footer-bsize));
   transition: opacity var(--page-trans-dur) var(--page-trans-func), filter var(--page-trans-dur) var(--page-trans-func);
 
-  :root:not(:global(.vertical-rl)) & {
+  :root:where([data-writing-mode="horizontal-tb"], :not([data-writing-mode])) & {
     @media horizontalSmall {
       inline-size: 100%;
       margin-inline: 0;
     }
   }
 
-  :root:global(.vertical-rl) & {
+  :root:where([data-writing-mode="vertical-rl"]) & {
     @media verticalSmall {
       inline-size: 100%;
       margin-inline: 0;
