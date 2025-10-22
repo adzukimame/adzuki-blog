@@ -1,7 +1,7 @@
 <template>
   <Html
     :class="[{ 'dark-mode': darkMode }]"
-    :data-writing-mode="verticalLayout ? 'vertical-rl' : null" />
+    :data-writing-mode="verticalLayout ? 'vertical-rl' : 'horizontal-tb'" />
   <div class="outer">
     <div class="inner">
       <slot />
