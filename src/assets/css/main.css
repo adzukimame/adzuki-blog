@@ -11,7 +11,7 @@
   --scrollbar-fg: oklch(70% 0 0deg);
 }
 
-:root.dark-mode {
+:root[data-color-scheme="dark"] {
   color-scheme: dark;
   --bg: oklch(15% 0 0deg);
   --bg-strong: oklch(23% 0 0deg);

@@ -1,6 +1,6 @@
 <template>
   <Html
-    :class="[{ 'dark-mode': colorScheme === 'dark' }]"
+    :data-color-scheme="colorScheme === 'dark' ? 'dark' : null"
     :data-writing-mode="writingMode" />
   <NuxtLayout>
     <NuxtPage />
@@ -14,7 +14,7 @@
 useServerHead({
   script: [
     {
-      textContent: `(()=>{try{const a=window.localStorage.getItem("colorScheme");"dark"===a?document.documentElement.classList.add("dark-mode"):null===a&&window.matchMedia("(prefers-color-scheme: dark)").matches&&document.documentElement.classList.add("dark-mode")}catch{window.matchMedia("(prefers-color-scheme: dark)").matches&&document.documentElement.classList.add("dark-mode")}})();`,
+      textContent: `(()=>{try{const a=window.localStorage.getItem("colorScheme");"dark"===a?(document.documentElement.dataset.colorScheme="dark"):null===a&&window.matchMedia("(prefers-color-scheme: dark)").matches&&(document.documentElement.dataset.colorScheme="dark")}catch{window.matchMedia("(prefers-color-scheme: dark)").matches&&(document.documentElement.dataset.colorScheme="dark")}})();`,
     },
   ],
 });
