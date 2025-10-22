@@ -14,20 +14,7 @@
       <div>
         目次
       </div>
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="1.2rem"
-        height="1.2rem"
-        size="1.2rem"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        :class="$style.accordionIcon">
-        <path d="M6 9l6 6l6 -6" />
-      </svg>
+      <IconChevronDown :class="$style.accordionIcon" />
     </summary>
     <nav>
       <ul
@@ -59,6 +46,7 @@
 
 <script setup lang="ts">
 import type { Toc } from '@nuxt/content';
+import IconChevronDown from '@/assets/icons/ChevronDown.svg';
 
 const writingMode = useWritingMode();
 
@@ -142,38 +130,40 @@ const onSummaryClick = (_event: MouseEvent) => {
   justify-content: space-between;
   cursor: pointer;
   transition: color var(--hover-trans-dur) var(--hover-trans-func);
-}
 
-.summary::-webkit-details-marker {
-  display: none;
-}
-
-@media (hover: hover) {
-  .summary:hover {
-    color: var(--fg-strong);
+  &::-webkit-details-marker {
+    display: none;
   }
-}
 
-@media (hover: none) {
-  .summary:active {
-    color: var(--fg-strong);
+  @media (hover: hover) {
+    &:hover {
+      color: var(--fg-strong);
+    }
+  }
+
+  @media (hover: none) {
+    &:active {
+      color: var(--fg-strong);
+    }
   }
 }
 
 .accordionIcon {
+  block-size: 1.2rem;
+  inline-size: 1.2rem;
   transition: transform v-bind(summaryTransitionDurationText) v-bind(summaryTransitionFunction);
-}
 
-:root:global(.vertical-rl) .accordionIcon {
-  transform: rotate(0.25turn);
-}
+  :root:global(.vertical-rl) & {
+    transform: rotate(0.25turn);
+  }
 
-.container[open] .accordionIcon {
-  transform: rotate(0.5turn);
-}
+  .container[open] & {
+    transform: rotate(0.5turn);
+  }
 
-:root:global(.vertical-rl) .container[open] .accordionIcon {
-  transform: rotate(0.75turn);
+  :root:global(.vertical-rl) .container[open] & {
+    transform: rotate(0.75turn);
+  }
 }
 
 .list {
@@ -184,39 +174,39 @@ const onSummaryClick = (_event: MouseEvent) => {
   margin-block-end: 0;
   list-style-type: none;
   overflow: clip;
-}
 
-.list>li {
-  display: block;
-  padding-block: 0.2rem;
-  border-block-start: dashed 1px var(--split);
-}
+  &>li {
+    display: block;
+    padding-block: 0.2rem;
+    border-block-start: dashed 1px var(--split);
 
-.list>.listItemH2>a {
-  color: var(--fg);
+    &>a {
+      transition: color var(--hover-trans-dur) var(--hover-trans-func);
+
+      @media (hover: hover) {
+        &:hover {
+          color: var(--fg-strong);
+        }
+      }
+
+      @media (hover: none) {
+        &:active {
+          color: var(--fg-strong);
+        }
+      }
+    }
+  }
+
+  &>.listItemH2>a {
+    color: var(--fg);
+  }
+
+  &>.listItemH3>a {
+    color: var(--fg-weak);
+  }
 }
 
 .listItemH3 {
   padding-inline-start: 1.5rem;
-}
-
-.list>.listItemH3>a {
-  color: var(--fg-weak);
-}
-
-.list a {
-  transition: color var(--hover-trans-dur) var(--hover-trans-func);
-}
-
-@media (hover: hover) {
-  .list>li>a:hover {
-    color: var(--fg-strong);
-  }
-}
-
-@media (hover: none) {
-  .list>li>a:active {
-    color: var(--fg-strong);
-  }
 }
 </style>

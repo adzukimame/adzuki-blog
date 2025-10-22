@@ -127,6 +127,20 @@ const { data, status } = await useLazyFetch<SummalyResult>(
   display: grid;
   grid-template-rows: 40% 30% 30%;
   padding-inline: 0.8rem;
+
+  @media (hover: hover) {
+    &:hover>.title {
+      color: var(--fg-strong);
+      text-decoration: underline;
+    }
+  }
+
+  @media (hover: none) {
+    &:active>.title {
+      color: var(--fg-strong);
+      text-decoration: underline;
+    }
+  }
 }
 
 .title {
@@ -137,20 +151,6 @@ const { data, status } = await useLazyFetch<SummalyResult>(
   white-space: nowrap;
   text-overflow: ellipsis;
   transition: text-decoration var(--hover-trans-dur) var(--hover-trans-func), color var(--hover-trans-dur) var(--hover-trans-func);
-}
-
-@media (hover: hover) {
-  .lettersContainer:hover>.title {
-    color: var(--fg-strong);
-    text-decoration: underline;
-  }
-}
-
-@media (hover: none) {
-  .lettersContainer:active>.title {
-    color: var(--fg-strong);
-    text-decoration: underline;
-  }
 }
 
 .description {

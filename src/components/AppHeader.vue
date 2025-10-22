@@ -36,36 +36,8 @@
         :aria-label="`${colorScheme === 'dark' ? 'ライト' : 'ダーク'}モードに切り替える`"
         data-testid="color-switch"
         @click="manuallyUpdateColorScheme(colorScheme === 'light' ? 'dark' : 'light')">
-        <svg
-          v-if="colorScheme === 'light'"
-          xmlns="http://www.w3.org/2000/svg"
-          width="1.4rem"
-          height="1.4rem"
-          size="1.4rem"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          aria-hidden="true">
-          <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
-        </svg>
-        <svg
-          v-else
-          xmlns="http://www.w3.org/2000/svg"
-          width="1.4rem"
-          height="1.4rem"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          aria-hidden="true">
-          <path d="M12 12m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
-          <path d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7" />
-        </svg>
+        <IconMoon v-if="colorScheme === 'light'" />
+        <IconSun v-else />
       </button>
       <button
         :class="$style.buttonMenu"
@@ -75,44 +47,19 @@
           if (menuOpened) { closeMenu(); }
           else { openMenu() }
         }">
-        <svg
-          v-if="!menuOpened"
-          xmlns="http://www.w3.org/2000/svg"
-          width="1.2rem"
-          height="1.2rem"
-          size="1.2rem"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          aria-hidden="true">
-          <path d="M4 6l16 0" />
-          <path d="M4 12l16 0" />
-          <path d="M4 18l16 0" />
-        </svg>
-        <svg
-          v-else
-          xmlns="http://www.w3.org/2000/svg"
-          width="1.2rem"
-          height="1.2rem"
-          size="1.2rem"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round">
-          <path d="M18 6l-12 12" />
-          <path d="M6 6l12 12" />
-        </svg>
+        <IconMenu v-if="!menuOpened" />
+        <IconX v-else />
       </button>
     </div>
   </header>
 </template>
 
 <script setup lang="ts">
+import IconMoon from '@/assets/icons/Moon.svg';
+import IconSun from '@/assets/icons/Sun.svg';
+import IconMenu from '@/assets/icons/Menu.svg';
+import IconX from '@/assets/icons/X.svg';
+
 const props = withDefaults(defineProps<{
   useCollapsibleNavigation?: boolean;
 }>(), {
@@ -302,59 +249,61 @@ const menuItems = [
   }
 }
 
-:root:not(:global(.vertical-rl)) .navigationListItem {
-  @media horizontalSmall {
-    padding-inline-start: 0.8rem;
-    border-inline-start: solid 0.5rem var(--fg-weak);
-    transition: border-inline-start-color var(--hover-trans-dur) var(--hover-trans-func);
+.navigationListItem {
+  :root:not(:global(.vertical-rl)) & {
+    @media horizontalSmall {
+      padding-inline-start: 0.8rem;
+      border-inline-start: solid 0.5rem var(--fg-weak);
+      transition: border-inline-start-color var(--hover-trans-dur) var(--hover-trans-func);
+
+      @media (hover: hover) {
+        &:hover {
+          border-inline-start-color: var(--accent);
+        }
+      }
+
+      @media (hover: none) {
+        &:active {
+          border-inline-start-color: var(--accent);
+        }
+      }
+    }
+  }
+
+  :root:global(.vertical-rl) & {
+    @media verticalSmall {
+      padding-inline-start: 0.8rem;
+      border-inline-start: solid 0.5rem var(--fg-weak);
+      transition: border-inline-start-color var(--hover-trans-dur) var(--hover-trans-func);
+
+      @media (hover: hover) {
+        &:hover {
+          border-inline-start-color: var(--accent);
+        }
+      }
+
+      @media (hover: none) {
+        &:active {
+          border-inline-start-color: var(--accent);
+        }
+      }
+    }
+  }
+
+  &>a {
+    transition: color var(--hover-trans-dur) var(--hover-trans-func);
 
     @media (hover: hover) {
       &:hover {
-        border-inline-start-color: var(--accent);
+        color: var(--accent);
       }
     }
 
     @media (hover: none) {
       &:active {
-        border-inline-start-color: var(--accent);
+        color: var(--accent);
       }
     }
-  }
-}
-
-:root:global(.vertical-rl) .navigationListItem {
-  @media verticalSmall {
-    padding-inline-start: 0.8rem;
-    border-inline-start: solid 0.5rem var(--fg-weak);
-    transition: border-inline-start-color var(--hover-trans-dur) var(--hover-trans-func);
-
-    @media (hover: hover) {
-      &:hover {
-        border-inline-start-color: var(--accent);
-      }
-    }
-
-    @media (hover: none) {
-      &:active {
-        border-inline-start-color: var(--accent);
-      }
-    }
-  }
-}
-
-.navigationListItem>a {
-  transition: color var(--hover-trans-dur) var(--hover-trans-func);
-}
-
-@media (hover: hover) {
-  .navigationListItem>a:hover {
-    color: var(--accent);
-  }
-}
-
-@media (hover: none) {
-  .navigationListItem>a:active {
-    color: var(--accent);
   }
 }
 
@@ -363,33 +312,37 @@ const menuItems = [
   display: block flex;
   justify-content: flex-end;
   column-gap: 0.5rem;
-}
 
-.buttonsContainer>button {
-  cursor: pointer;
-  inline-size: var(--header-button-size);
-  block-size: var(--header-button-size);
-  text-align: center;
-  border-radius: 5px;
-  border: 0;
-  padding: 0;
-  transition: background-color var(--hover-trans-dur) var(--hover-trans-func);
-}
+  &>button {
+    cursor: pointer;
+    inline-size: var(--header-button-size);
+    block-size: var(--header-button-size);
+    text-align: center;
+    border-radius: 5px;
+    border: 0;
+    padding: 0;
+    transition: background-color var(--hover-trans-dur) var(--hover-trans-func);
 
-@media (hover: hover) {
-  .buttonsContainer>button:hover {
-    background-color: var(--bg-strong);
+    @media (hover: hover) {
+      &:hover {
+        background-color: var(--bg-strong);
+      }
+    }
+
+    @media (hover: none) {
+      &:active {
+        background-color: var(--bg-strong);
+      }
+    }
   }
 }
 
-@media (hover: none) {
-  .buttonsContainer>button:active {
-    background-color: var(--bg-strong);
+.buttonColorSwitch {
+  &>svg {
+    block-size: 1.4rem;
+    inline-size: 1.4rem;
+    margin: calc((var(--header-button-size) - 1.4rem) / 2);
   }
-}
-
-.buttonColorSwitch>svg {
-  margin: calc((var(--header-button-size) - 1.4rem) / 2);
 }
 
 .buttonMenu {
@@ -406,9 +359,11 @@ const menuItems = [
       display: block;
     }
   }
-}
 
-.buttonMenu>svg {
-  margin: calc((var(--header-button-size) - 1.2rem) / 2);
+  &>svg {
+    block-size: 1.2rem;
+    inline-size: 1.2rem;
+    margin: calc((var(--header-button-size) - 1.2rem) / 2);
+  }
 }
 </style>

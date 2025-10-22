@@ -2,6 +2,7 @@
 
 import { resolve } from 'node:path';
 import meta from './content/meta.json' with { type: 'json' };
+import svgLoader from 'vite-svg-loader';
 
 // https://github.com/bryc/code/blob/master/jshash/experimental/cyrb53.js
 const cyrb53 = (str: string, seed = 0) => {
@@ -93,6 +94,11 @@ export default defineNuxtConfig({
     },
   },
   vite: {
+    plugins: [
+      svgLoader({
+        svgo: false,
+      }),
+    ],
     css: {
       modules: {
         generateScopedName(name, filename, _css) {

@@ -34,10 +34,9 @@ const scrollDirection = useScrollDirection();
 const headerVisible = ref(true);
 
 watch(scrollDirection, (direction) => {
-  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (!prefersReducedMotion) {
-    headerVisible.value = direction !== 'down';
-  }
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  headerVisible.value = direction !== 'down';
 });
 
 onMounted(() => {
@@ -74,15 +73,15 @@ onMounted(() => {
   :root:not(:global(.vertical-rl)) & {
     inset-block-start: 0;
   }
-}
 
-.headerHidden {
-  :root:not(:global(.vertical-rl)) & {
-    transform: translateY(-100%);
-  }
+  &.headerHidden {
+    :root:not(:global(.vertical-rl)) & {
+      transform: translateY(-100%);
+    }
 
-  :root:global(.vertical-rl) & {
-    transform: translateX(100%);
+    :root:global(.vertical-rl) & {
+      transform: translateX(100%);
+    }
   }
 }
 

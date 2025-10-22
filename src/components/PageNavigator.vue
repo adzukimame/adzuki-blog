@@ -10,21 +10,7 @@
       :tabindex="backwardEnabled ? undefined : -1"
       :aria-hidden="backwardEnabled ? undefined : true"
       aria-label="最初のページに戻る">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="1rem"
-        height="1rem"
-        size="1rem"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        aria-hidden="true">
-        <path d="M11 7l-5 5l5 5" />
-        <path d="M17 7l-5 5l5 5" />
-      </svg>
+      <IconChevronsLeft />
     </NuxtLink>
     <NuxtLink
       :to="{
@@ -36,20 +22,7 @@
       :tabindex="backwardEnabled ? undefined : -1"
       :aria-hidden="backwardEnabled ? undefined : true"
       aria-label="1ページ前に戻る">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="1rem"
-        height="1rem"
-        size="1rem"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        aria-hidden="true">
-        <path d="M15 6l-6 6l6 6" />
-      </svg>
+      <IconChevronLeft />
     </NuxtLink>
     <div
       :class="[$style.button, $style.pageNumberOuter]"
@@ -69,20 +42,7 @@
       :tabindex="forwardEnabled ? undefined : -1"
       :aria-hidden="forwardEnabled ? undefined : true"
       aria-label="1ページ次に進む">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="1rem"
-        height="1rem"
-        size="1rem"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        aria-hidden="true">
-        <path d="M9 6l6 6l-6 6" />
-      </svg>
+      <IconChevronRight />
     </NuxtLink>
     <NuxtLink
       :to="{
@@ -94,26 +54,17 @@
       :tabindex="forwardEnabled ? undefined : -1"
       :aria-hidden="forwardEnabled ? undefined : true"
       aria-label="最後のページに進む">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="1rem"
-        height="1rem"
-        size="1rem"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        aria-hidden="true">
-        <path d="M7 7l5 5l-5 5" />
-        <path d="M13 7l5 5l-5 5" />
-      </svg>
+      <IconChevronsRight />
     </NuxtLink>
   </div>
 </template>
 
 <script setup lang="ts">
+import IconChevronsLeft from '@/assets/icons/ChevronsLeft.svg';
+import IconChevronLeft from '@/assets/icons/ChevronLeft.svg';
+import IconChevronRight from '@/assets/icons/ChevronRight.svg';
+import IconChevronsRight from '@/assets/icons/ChevronsRight.svg';
+
 const props = defineProps<{
   currentPageNumber: number;
   itemsLength: number;
@@ -173,41 +124,41 @@ watch(() => props.currentPageNumber, (newPageNumber) => {
   min-inline-size: var(--button-size);
   border-block-end: solid 0.3rem var(--split);
   transition: border-block-end-color var(--hover-trans-dur) var(--hover-trans-func);
-}
 
-.button.disabled {
-  pointer-events: none;
-}
+  &.disabled {
+    pointer-events: none;
 
-@media (hover: hover) {
-  .button:not(.pageNumberOuter, .disabled):hover {
-    border-block-end-color: var(--fg-weak);
+    &>svg {
+      color: var(--fg-weak);
+      opacity: 0.5;
+    }
   }
-}
 
-@media (hover: none) {
-  .button:not(.pageNumberOuter, .disabled):active {
-    border-block-end-color: var(--fg-weak);
+  @media (hover: hover) {
+    &:not(.pageNumberOuter, .disabled):hover {
+      border-block-end-color: var(--fg-weak);
+    }
   }
-}
 
-.button.pageNumberOuter {
-  font-size: 0.8rem;
-  padding: calc((var(--button-size) - 1px * 2 - 0.8rem) / 2);
-  cursor: default;
-}
+  @media (hover: none) {
+    &:not(.pageNumberOuter, .disabled):active {
+      border-block-end-color: var(--fg-weak);
+    }
+  }
 
-.button>svg {
-  margin: calc((var(--button-size) - 1px * 2 - var(--icon-size)) / 2);
-  transition: filter var(--page-trans-dur) var(--page-trans-func);
-}
+  &.pageNumberOuter {
+    font-size: 0.8rem;
+    padding: calc((var(--button-size) - 1px * 2 - 0.8rem) / 2);
+    cursor: default;
+  }
 
-.button.disabled>svg {
-  color: var(--fg-weak);
-  opacity: 0.5;
-}
+  &>svg {
+    margin: calc((var(--button-size) - 1px * 2 - var(--icon-size)) / 2);
+    transition: filter var(--page-trans-dur) var(--page-trans-func);
 
-:root:global(.vertical-rl) .button>svg {
-  transform: rotate(0.25turn);
+    :root:global(.vertical-rl) & {
+      transform: rotate(0.25turn);
+    }
+  }
 }
 </style>
