@@ -95,7 +95,9 @@ export default defineNuxtConfig({
   },
   vite: {
     plugins: [
-      svgLoader(),
+      svgLoader({
+        svgo: false,
+      }),
     ],
     css: {
       modules: {
