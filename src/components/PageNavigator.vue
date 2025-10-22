@@ -156,7 +156,7 @@ watch(() => props.currentPageNumber, (newPageNumber) => {
     margin: calc((var(--button-size) - 1px * 2 - var(--icon-size)) / 2);
     transition: filter var(--page-trans-dur) var(--page-trans-func);
 
-    :root:global(.vertical-rl) & {
+    :root:where([data-writing-mode="vertical-rl"]) & {
       transform: rotate(0.25turn);
     }
   }

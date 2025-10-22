@@ -62,8 +62,8 @@ const renderOneCanvas = (canvas: HTMLCanvasElement, char: string) => {
 
   const realWidth = Math.ceil(measureCtx?.measureText(char).width ?? fontSize);
 
-  canvas.width = writingMode.value === null ? realWidth : lineHeight;
-  canvas.height = writingMode.value === null ? lineHeight : fontSize;
+  canvas.width = writingMode.value === 'horizontal-tb' ? realWidth : lineHeight;
+  canvas.height = writingMode.value === 'horizontal-tb' ? lineHeight : fontSize;
   canvas.style.pointerEvents = 'none';
   canvas.addEventListener('contextmenu', ev => ev.preventDefault());
   canvas.style.writingMode = 'horizontal-tb';
@@ -77,7 +77,7 @@ const renderOneCanvas = (canvas: HTMLCanvasElement, char: string) => {
   ctx.fillStyle = bodyComputedStyle.color;
   ctx.textBaseline = 'middle';
   ctx.textAlign = 'center';
-  ctx.fillText(char, (writingMode.value === null ? realWidth : lineHeight) / 2, (writingMode.value === null ? lineHeight : fontSize) / 2);
+  ctx.fillText(char, (writingMode.value === 'horizontal-tb' ? realWidth : lineHeight) / 2, (writingMode.value === 'horizontal-tb' ? lineHeight : fontSize) / 2);
 };
 
 const turnstileCallback = (token: string) => {

@@ -110,13 +110,13 @@ const { data, status } = await useLazyFetch<SummalyResult>(
 .container.withThumbnail {
   grid-template-columns: auto calc(var(--container-bsize) * 16 / 9);
 
-  :root:not(:global(.vertical-rl)) & {
+  :root:where([data-writing-mode="horizontal-tb"], :not([data-writing-mode])) & {
     @media horizontalSmall {
       grid-template-columns: auto 0;
     }
   }
 
-  :root:global(.vertical-rl) & {
+  :root:where([data-writing-mode="vertical-rl"]) & {
     @media verticalSmall {
       grid-template-columns: auto 0;
     }
@@ -190,13 +190,13 @@ const { data, status } = await useLazyFetch<SummalyResult>(
   object-fit: cover;
   margin-inline-start: auto;
 
-  :root:not(:global(.vertical-rl)) & {
+  :root:where([data-writing-mode="horizontal-tb"], :not([data-writing-mode])) & {
     @media horizontalSmall {
       display: none;
     }
   }
 
-  :root:global(.vertical-rl) & {
+  :root:where([data-writing-mode="vertical-rl"]) & {
     @media verticalSmall {
       display: none;
     }
