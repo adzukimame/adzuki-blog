@@ -2,19 +2,31 @@ export const initReactiveWritingMode = () => {
   const writingMode = useWritingMode();
   const requestUrl = useRequestURL();
 
-  const queryWritingMode = new URLSearchParams(requestUrl.search).get('tategaki');
+  const queryVertical = new URLSearchParams(requestUrl.search).get('tategaki');
   try {
     const savedWritingMode = window.localStorage.getItem('writingMode');
-    if (queryWritingMode === 'false') {
-      window.localStorage.removeItem('writingMode');
+    if (queryVertical === 'false') {
+      writingMode.value = 'horizontal-tb';
+      window.localStorage.setItem('writingMode', 'horizontal-tb');
     }
-    else if (queryWritingMode !== null || savedWritingMode === 'vertical-rl') {
+    else if (queryVertical !== null) {
+      writingMode.value = 'vertical-rl';
+      window.localStorage.setItem('writingMode', 'vertical-rl');
+    }
+    else if (savedWritingMode === null || savedWritingMode === 'horizontal-tb') {
+      writingMode.value = 'horizontal-tb';
+      window.localStorage.setItem('writingMode', 'horizontal-tb');
+    }
+    else if (savedWritingMode === 'vertical-rl') {
       writingMode.value = 'vertical-rl';
       window.localStorage.setItem('writingMode', 'vertical-rl');
     }
   }
   catch {
-    if (queryWritingMode !== null && queryWritingMode !== 'false') {
+    if (queryVertical === 'false') {
+      writingMode.value = 'horizontal-tb';
+    }
+    else {
       writingMode.value = 'vertical-rl';
     }
   }
