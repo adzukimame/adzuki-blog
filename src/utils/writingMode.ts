@@ -13,7 +13,7 @@ export const initReactiveWritingMode = () => {
       writingMode.value = 'vertical-rl';
       window.localStorage.setItem('writingMode', 'vertical-rl');
     }
-    else if (savedWritingMode === null || savedWritingMode === 'horizontal-tb') {
+    else if (savedWritingMode === 'horizontal-tb' || savedWritingMode === null) {
       writingMode.value = 'horizontal-tb';
       window.localStorage.setItem('writingMode', 'horizontal-tb');
     }
