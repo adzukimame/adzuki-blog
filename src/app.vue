@@ -35,7 +35,7 @@ onMounted(() => {
 useServerHead({
   script: [
     {
-      textContent: `(()=>{const a=new URLSearchParams(location.search).get("tategaki");try{const b=window.localStorage.getItem("writingMode");"false"!==a&&(null!==a||"vertical-rl"===b)&&(document.documentElement.dataset.writingMode="vertical-rl")}catch{null!==a&&"false"!==a&&(document.documentElement.dataset.writingMode="vertical-rl")}})();`,
+      textContent: `(()=>{const a=new URLSearchParams(location.search).get("tategaki");try{const b=window.localStorage.getItem("writingMode");document.documentElement.dataset.writingMode=(a==="false"||b==="horizontal-tb"||b===null)?"horizontal-tb":"vertical-rl"}catch{document.documentElement.dataset.writingMode=a==="false"?"horizontal-tb":"vertical-rl"}})();`,
     },
   ],
 });
