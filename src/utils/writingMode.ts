@@ -7,6 +7,7 @@ export const initReactiveWritingMode = () => {
     const savedWritingMode = window.localStorage.getItem('writingMode');
     if (queryVertical === 'false') {
       writingMode.value = 'horizontal-tb';
+      window.localStorage.removeItem('writingMode');
     }
     else if (queryVertical !== null) {
       writingMode.value = 'vertical-rl';
