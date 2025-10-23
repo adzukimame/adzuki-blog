@@ -1,5 +1,6 @@
 <template>
   <Html
+    :class="[{ dark: darkMode }, { light: !darkMode }]"
     :data-color-scheme="darkMode ? 'dark' : null"
     :data-writing-mode="verticalLayout ? 'vertical-rl' : 'horizontal-tb'" />
   <div class="outer">

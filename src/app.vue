@@ -1,5 +1,6 @@
 <template>
   <Html
+    :class="[{ dark: colorScheme === 'dark' }, { light: colorScheme === 'light' }]"
     :data-color-scheme="colorScheme === 'dark' ? 'dark' : null"
     :data-writing-mode="writingMode" />
   <NuxtLayout>
