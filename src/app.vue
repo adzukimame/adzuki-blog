@@ -44,6 +44,22 @@ useServerHead({
 const writingMode = useWritingMode();
 
 const handleWheel = (event: WheelEvent): void => {
+  if (event.target instanceof Element && getComputedStyle(event.target).writingMode === 'horizontal-tb') {
+    const preElem = event.target.tagName === 'PRE'
+      ? event.target
+      : event.target.tagName === 'CODE' && event.target.parentElement?.tagName === 'PRE'
+        ? event.target.parentElement
+        : event.target.tagName === 'SPAN' && event.target.classList.contains('line') && event.target.parentElement?.tagName === 'CODE' && event.target.parentElement.parentElement?.tagName === 'PRE'
+          ? event.target.parentElement.parentElement
+          : event.target.tagName === 'SPAN' && event.target.parentElement?.tagName === 'SPAN' && event.target.parentElement.classList.contains('line') && event.target.parentElement.parentElement?.tagName === 'CODE' && event.target.parentElement.parentElement.parentElement?.tagName === 'PRE'
+            ? event.target.parentElement.parentElement.parentElement
+            : null;
+
+    if (preElem && preElem.scrollHeight > preElem.clientHeight) {
+      return;
+    }
+  }
+
   if (!event.shiftKey && event.deltaY !== 0) {
     event.preventDefault();
 

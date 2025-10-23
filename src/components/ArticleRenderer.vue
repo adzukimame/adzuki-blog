@@ -71,8 +71,7 @@ defineProps<{
   writing-mode: horizontal-tb;
 
   :root:where([data-writing-mode="vertical-rl"]) & {
-    /* see layouts/default.vue for values */
-    max-height: 768px;
+    max-height: 768px; /* see layouts/default.vue for value */
     max-width: min(calc(768px * 3 / 4), calc(100svw - var(--header-bsize)));
 
     text-wrap: wrap;
