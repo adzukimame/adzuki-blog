@@ -66,4 +66,23 @@ defineProps<{
 .articleRenderer :global(.image-viewer) {
   margin-block: 3rem;
 }
+
+.articleRenderer pre {
+  writing-mode: horizontal-tb;
+
+  :root:where([data-writing-mode="vertical-rl"]) & {
+    /* see layouts/default.vue for values */
+    max-height: 768px;
+    max-width: min(calc(768px * 3 / 4), calc(100svw - var(--header-bsize)));
+
+    text-wrap: wrap;
+
+    @media verticalSmall {
+      height: 100%;
+      /* inline-size:  */
+    }
+
+    overflow-y: scroll;
+  }
+}
 </style>
