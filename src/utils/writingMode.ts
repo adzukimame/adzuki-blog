@@ -7,7 +7,6 @@ export const initReactiveWritingMode = () => {
     const savedWritingMode = window.localStorage.getItem('writingMode');
     if (queryVertical === 'false') {
       writingMode.value = 'horizontal-tb';
-      window.localStorage.setItem('writingMode', 'horizontal-tb');
     }
     else if (queryVertical !== null) {
       writingMode.value = 'vertical-rl';
@@ -15,11 +14,9 @@ export const initReactiveWritingMode = () => {
     }
     else if (savedWritingMode === 'horizontal-tb' || savedWritingMode === null) {
       writingMode.value = 'horizontal-tb';
-      window.localStorage.setItem('writingMode', 'horizontal-tb');
     }
     else if (savedWritingMode === 'vertical-rl') {
       writingMode.value = 'vertical-rl';
-      window.localStorage.setItem('writingMode', 'vertical-rl');
     }
   }
   catch {
