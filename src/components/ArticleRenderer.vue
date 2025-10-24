@@ -69,13 +69,11 @@ defineProps<{
 
 .articleRenderer pre {
   writing-mode: horizontal-tb;
+  text-wrap: wrap;
 
   :root:where([data-writing-mode="vertical-rl"]) & {
     height: 100%;
     max-width: min(calc(720px * 3 / 4), calc(100svw - var(--header-bsize)));
-
-    text-wrap: wrap;
-
     overflow-y: scroll;
   }
 
