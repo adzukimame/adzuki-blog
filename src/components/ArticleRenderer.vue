@@ -69,7 +69,8 @@ defineProps<{
 
 .articleRenderer pre {
   writing-mode: horizontal-tb;
-  text-wrap: wrap;
+  white-space: pre-wrap;
+  word-break: break-word;
 
   :root:where([data-writing-mode="vertical-rl"]) & {
     position: relative;
