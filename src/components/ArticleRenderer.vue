@@ -71,17 +71,18 @@ defineProps<{
   writing-mode: horizontal-tb;
 
   :root:where([data-writing-mode="vertical-rl"]) & {
-    max-height: 768px; /* see layouts/default.vue for value */
-    max-width: min(calc(768px * 3 / 4), calc(100svw - var(--header-bsize)));
+    height: 100%;
+    max-width: min(calc(720px * 3 / 4), calc(100svw - var(--header-bsize)));
 
     text-wrap: wrap;
 
-    @media verticalSmall {
-      height: 100%;
-      /* inline-size:  */
-    }
-
     overflow-y: scroll;
   }
+
+  padding-block: 0.5rem;
+  padding-inline: 1rem;
+  border: solid 1px color-mix(in oklch, var(--fg-weak), var(--split) 70%);
+  border-radius: 0.2rem;
+  background-color: color-mix(in oklch, var(--bg-strong), var(--bg));
 }
 </style>

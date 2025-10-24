@@ -55,15 +55,22 @@ const handleWheel = (event: WheelEvent): void => {
             ? event.target.parentElement.parentElement.parentElement
             : null;
 
-    if (preElem && preElem.scrollHeight > preElem.clientHeight) {
+    if (preElem && event.shiftKey) {
+      event.preventDefault();
+      return;
+    }
+    else if (preElem && preElem.scrollHeight > preElem.clientHeight) {
       return;
     }
   }
 
   if (!event.shiftKey && event.deltaY !== 0) {
     event.preventDefault();
-
     window.scrollBy(-event.deltaY, 0);
+  }
+  else if (event.shiftKey && event.deltaY !== 0) {
+    event.preventDefault();
+    window.scrollBy(0, event.deltaY);
   }
 };
 
