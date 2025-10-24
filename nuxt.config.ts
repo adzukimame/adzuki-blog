@@ -92,6 +92,13 @@ export default defineNuxtConfig({
         'remark-breaks': {},
       },
     },
+    highlight: {
+      theme: {
+        default: 'github-light',
+        light: 'github-light',
+        dark: 'github-dark',
+      },
+    },
   },
   vite: {
     plugins: [

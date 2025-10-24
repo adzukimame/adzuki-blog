@@ -66,4 +66,24 @@ defineProps<{
 .articleRenderer :global(.image-viewer) {
   margin-block: 3rem;
 }
+
+.articleRenderer pre {
+  writing-mode: horizontal-tb;
+  white-space: pre-wrap;
+  word-break: break-word;
+
+  :root:where([data-writing-mode="vertical-rl"]) & {
+    position: relative;
+    height: 100%;
+    max-width: min(calc(720px * 3 / 4), calc(100svw - var(--header-bsize)));
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  padding-block: 0.5rem;
+  padding-inline: 1rem;
+  border: solid 1px color-mix(in oklch, var(--fg-weak), var(--split) 70%);
+  border-radius: 0.2rem;
+  background-color: color-mix(in oklch, var(--bg-strong), var(--bg));
+}
 </style>
