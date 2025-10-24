@@ -43,17 +43,25 @@ useServerHead({
 
 const writingMode = useWritingMode();
 
+const getPreElem = (target: Element): Element | null => {
+  if (target.tagName === 'PRE') {
+    return target;
+  }
+  if (target.tagName === 'CODE' && target.parentElement?.tagName === 'PRE') {
+    return target.parentElement;
+  }
+  if (target.tagName === 'SPAN' && target.classList.contains('line') && target.parentElement?.tagName === 'CODE' && target.parentElement.parentElement?.tagName === 'PRE') {
+    return target.parentElement.parentElement;
+  }
+  if (target.tagName === 'SPAN' && target.parentElement?.tagName === 'SPAN' && target.parentElement.classList.contains('line') && target.parentElement.parentElement?.tagName === 'CODE' && target.parentElement.parentElement.parentElement?.tagName === 'PRE') {
+    return target.parentElement.parentElement.parentElement;
+  }
+  return null;
+};
+
 const handleWheel = (event: WheelEvent): void => {
   if (event.target instanceof Element && getComputedStyle(event.target).writingMode === 'horizontal-tb') {
-    const preElem = event.target.tagName === 'PRE'
-      ? event.target
-      : event.target.tagName === 'CODE' && event.target.parentElement?.tagName === 'PRE'
-        ? event.target.parentElement
-        : event.target.tagName === 'SPAN' && event.target.classList.contains('line') && event.target.parentElement?.tagName === 'CODE' && event.target.parentElement.parentElement?.tagName === 'PRE'
-          ? event.target.parentElement.parentElement
-          : event.target.tagName === 'SPAN' && event.target.parentElement?.tagName === 'SPAN' && event.target.parentElement.classList.contains('line') && event.target.parentElement.parentElement?.tagName === 'CODE' && event.target.parentElement.parentElement.parentElement?.tagName === 'PRE'
-            ? event.target.parentElement.parentElement.parentElement
-            : null;
+    const preElem = getPreElem(event.target);
 
     if (preElem && event.shiftKey) {
       event.preventDefault();
@@ -74,21 +82,61 @@ const handleWheel = (event: WheelEvent): void => {
   }
 };
 
+let touchStartY = 0;
+let touchStartX = 0;
+let touchStartScrollTop = 0;
+
+const handleTouchStart = (event: TouchEvent): void => {
+  if (event.target instanceof Element && getComputedStyle(event.target).writingMode === 'horizontal-tb') {
+    const preElem = getPreElem(event.target);
+    if (preElem && preElem.scrollHeight > preElem.clientHeight) {
+      touchStartY = event.touches[0]?.clientY ?? 0;
+      touchStartX = event.touches[0]?.clientX ?? 0;
+      touchStartScrollTop = preElem.scrollTop;
+    }
+  }
+};
+
+const handleTouchMove = (event: TouchEvent): void => {
+  if (event.target instanceof Element && getComputedStyle(event.target).writingMode === 'horizontal-tb') {
+    const preElem = getPreElem(event.target);
+    if (preElem && preElem.scrollHeight > preElem.clientHeight) {
+      const touch = event.touches[0];
+      if (touch) {
+        const deltaY = touchStartY - touch.clientY;
+        const deltaX = Math.abs(touchStartX - touch.clientX);
+
+        if (Math.abs(deltaY) > deltaX) {
+          event.preventDefault();
+          preElem.scrollTop = touchStartScrollTop + deltaY;
+          return;
+        }
+      }
+    }
+  }
+};
+
 onMounted(() => {
   initReactiveWritingMode();
 
   watch(writingMode, (newMode) => {
     if (newMode === 'vertical-rl') {
       window.addEventListener('wheel', handleWheel, { passive: false });
+      window.addEventListener('touchstart', handleTouchStart, { passive: false });
+      window.addEventListener('touchmove', handleTouchMove, { passive: false });
     }
     else {
       window.removeEventListener('wheel', handleWheel);
+      window.removeEventListener('touchstart', handleTouchStart);
+      window.removeEventListener('touchmove', handleTouchMove);
     }
   }, { immediate: true });
 });
 
 onBeforeUnmount(() => {
   window.removeEventListener('wheel', handleWheel);
+  window.removeEventListener('touchstart', handleTouchStart);
+  window.removeEventListener('touchmove', handleTouchMove);
 });
 // end - 縦組み
 
