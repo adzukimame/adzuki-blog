@@ -93,7 +93,7 @@ const { data, status } = await useLazyFetch<SummalyResult>(
 </script>
 
 <style module>
-@value horizontalSmall, verticalSmall from "~/assets/css/breakpoints.module.css";
+@value narrowWidth, shortHeight from "~/assets/css/breakpoints.module.css";
 
 .container {
   --container-bsize: 5.4rem;
@@ -111,13 +111,13 @@ const { data, status } = await useLazyFetch<SummalyResult>(
   grid-template-columns: auto calc(var(--container-bsize) * 16 / 9);
 
   :root:where([data-writing-mode="horizontal-tb"], :not([data-writing-mode])) & {
-    @media horizontalSmall {
+    @media narrowWidth {
       grid-template-columns: auto 0;
     }
   }
 
   :root:where([data-writing-mode="vertical-rl"]) & {
-    @media verticalSmall {
+    @media shortHeight {
       grid-template-columns: auto 0;
     }
   }
@@ -191,13 +191,13 @@ const { data, status } = await useLazyFetch<SummalyResult>(
   margin-inline-start: auto;
 
   :root:where([data-writing-mode="horizontal-tb"], :not([data-writing-mode])) & {
-    @media horizontalSmall {
+    @media narrowWidth {
       display: none;
     }
   }
 
   :root:where([data-writing-mode="vertical-rl"]) & {
-    @media verticalSmall {
+    @media shortHeight {
       display: none;
     }
   }

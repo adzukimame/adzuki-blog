@@ -119,41 +119,31 @@ const closeModal = () => {
 </script>
 
 <style module>
-@value horizontalSmall, verticalSmall from "~/assets/css/breakpoints.module.css";
+@value narrowWidth, shortHeight from "~/assets/css/breakpoints.module.css";
 
 .container {
   display: block flex;
   margin-inline: auto;
-  inline-size: 100%;
-  max-inline-size: 100%;
-  aspect-ratio: 16 / 9;
   justify-content: center;
   border: solid 3px var(--split);
   background-image: radial-gradient(var(--split) 2px, transparent 2px);
   background-size: 28px 28px;
   cursor: zoom-in;
 
-  :root:where([data-writing-mode="horizontal-tb"], :not([data-writing-mode])) & {
-    /* コンテナの最大インラインサイズ 576px = (768px - 24px * 2) * 0.8 */
-    /* 624px = 576px + 24px * 2 */
-    @media (width > 624px) {
-      inline-size: 576px;
-    }
+  inline-size: 90%;
+  aspect-ratio: 16 / 9;
 
-    @media not horizontalSmall {
-      inline-size: 80%;
+  :root:where([data-writing-mode="horizontal-tb"], :not([data-writing-mode])) & {
+    @media narrowWidth {
+      inline-size: 100%;
     }
   }
 
   :root:where([data-writing-mode="vertical-rl"]) & {
     aspect-ratio: 9 / 16;
 
-    @media (height > 624px) {
-      inline-size: 576px;
-    }
-
-    @media not verticalSmall {
-      inline-size: 80%;
+    @media shortHeight {
+      inline-size: 100%;
     }
   }
 }
