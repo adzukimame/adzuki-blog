@@ -28,7 +28,7 @@ const menuOpened = ref(false);
 const writingMode = useWritingMode();
 
 const isNarrow = ref(false);
-const NARROW_THRESHOLD = 768;
+const NARROW_THRESHOLD = 816;
 
 const scrollDirection = useScrollDirection();
 const headerVisible = ref(true);
@@ -54,7 +54,7 @@ onMounted(() => {
 </script>
 
 <style module>
-@value horizontalSmall, verticalSmall from "~/assets/css/breakpoints.module.css";
+@value narrowWidth, shortHeight from "~/assets/css/breakpoints.module.css";
 
 .headerContainer {
   position: sticky;
@@ -86,30 +86,30 @@ onMounted(() => {
 }
 
 .header {
-  max-inline-size: calc(768px - 24px * 2);
+  max-inline-size: 768px;
   margin-inline: auto;
 
   :root:where([data-writing-mode="horizontal-tb"], :not([data-writing-mode])) & {
-    @media horizontalSmall {
-      inline-size: 100%;
-      padding-inline: 24px;
-      margin-inline: 0;
+    @media narrowWidth {
+      inline-size: calc(100% - 24px * 2);
+      margin-inline: 24px;
     }
   }
 
   :root:where([data-writing-mode="vertical-rl"]) & {
-    @media verticalSmall {
-      inline-size: 100%;
-      padding-inline: 24px;
-      margin-inline: 0;
+    @media shortHeight {
+      inline-size: calc(100% - 24px * 2);
+      margin-inline: 24px;
     }
   }
 }
 
 .slotContainer {
+  container-type: inline-size;
+  container-name: layouts-default-slot-container;
+
   max-inline-size: 768px;
   padding-block: 32px;
-  padding-inline: 24px;
   margin-block: 0;
   margin-inline: auto;
   /* フッターが上／右に上がってこないようにする */
@@ -117,16 +117,16 @@ onMounted(() => {
   transition: opacity var(--page-trans-dur) var(--page-trans-func), filter var(--page-trans-dur) var(--page-trans-func);
 
   :root:where([data-writing-mode="horizontal-tb"], :not([data-writing-mode])) & {
-    @media horizontalSmall {
-      inline-size: 100%;
-      margin-inline: 0;
+    @media narrowWidth {
+      inline-size: calc(100% - 24px * 2);
+      margin-inline: 24px;
     }
   }
 
   :root:where([data-writing-mode="vertical-rl"]) & {
-    @media verticalSmall {
-      inline-size: 100%;
-      margin-inline: 0;
+    @media shortHeight {
+      inline-size: calc(100% - 24px * 2);
+      margin-inline: 24px;
     }
   }
 }

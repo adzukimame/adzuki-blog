@@ -1,7 +1,10 @@
-@value horizontalSmall: (width <= 768px);
-@value horizontalMedium: (768px < width <= 1024px);
-@value horizontalLarge: (1024px < width);
+/* 816px = 768px + 24px * 2 */
+/* 1072px = 1024px + 24px * 2 */
 
-@value verticalSmall: (height <= 768px);
-@value verticalMedium: (768px < height <= 1024px);
-@value verticalLarge: (1024px < height);
+@value narrowWidth: (width <= 816px);
+@value mediumWidth: (816px < width <= 1072px);
+@value wideWidth: (1072px < width);
+
+@value shortHeight: (height <= 816px);
+@value mediumHeight: (816px < height <= 1072px);
+@value tallHeight: (1072px < height);

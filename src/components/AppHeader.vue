@@ -147,7 +147,7 @@ const menuItems = [
 </script>
 
 <style module>
-@value horizontalSmall, verticalSmall from "~/assets/css/breakpoints.module.css";
+@value narrowWidth, shortHeight from "~/assets/css/breakpoints.module.css";
 
 .header {
   --header-button-size: 2.2rem;
@@ -168,19 +168,19 @@ const menuItems = [
 
 .navigation {
   :root:where([data-writing-mode="horizontal-tb"], :not([data-writing-mode])) & {
-    @media not horizontalSmall {
+    @media not narrowWidth {
       padding-inline: 3rem;
     }
   }
 
   :root:where([data-writing-mode="vertical-rl"]) & {
-    @media not verticalSmall {
+    @media not shortHeight {
       padding-inline: 3rem;
     }
   }
 
   :root:where([data-writing-mode="horizontal-tb"], :not([data-writing-mode])) & {
-    @media horizontalSmall {
+    @media narrowWidth {
       display: block;
       position: fixed;
       inset: 0;
@@ -201,7 +201,7 @@ const menuItems = [
   }
 
   :root:where([data-writing-mode="vertical-rl"]) & {
-    @media verticalSmall {
+    @media shortHeight {
       display: block;
       position: fixed;
       inset: 0;
@@ -231,7 +231,7 @@ const menuItems = [
   list-style-type: none;
 
   :root:where([data-writing-mode="horizontal-tb"], :not([data-writing-mode])) & {
-    @media horizontalSmall {
+    @media narrowWidth {
       flex-direction: column;
       row-gap: 1rem;
       align-items: flex-start;
@@ -240,7 +240,7 @@ const menuItems = [
   }
 
   :root:where([data-writing-mode="vertical-rl"]) & {
-    @media verticalSmall {
+    @media shortHeight {
       flex-direction: column;
       row-gap: 1rem;
       align-items: flex-start;
@@ -251,7 +251,7 @@ const menuItems = [
 
 .navigationListItem {
   :root:where([data-writing-mode="horizontal-tb"], :not([data-writing-mode])) & {
-    @media horizontalSmall {
+    @media narrowWidth {
       padding-inline-start: 0.8rem;
       border-inline-start: solid 0.5rem var(--fg-weak);
       transition: border-inline-start-color var(--hover-trans-dur) var(--hover-trans-func);
@@ -271,7 +271,7 @@ const menuItems = [
   }
 
   :root:where([data-writing-mode="vertical-rl"]) & {
-    @media verticalSmall {
+    @media shortHeight {
       padding-inline-start: 0.8rem;
       border-inline-start: solid 0.5rem var(--fg-weak);
       transition: border-inline-start-color var(--hover-trans-dur) var(--hover-trans-func);
@@ -349,13 +349,13 @@ const menuItems = [
   display: none;
 
   :root:where([data-writing-mode="horizontal-tb"], :not([data-writing-mode])) & {
-    @media horizontalSmall {
+    @media narrowWidth {
       display: block;
     }
   }
 
   :root:where([data-writing-mode="vertical-rl"]) & {
-    @media verticalSmall {
+    @media shortHeight {
       display: block;
     }
   }

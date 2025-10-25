@@ -75,7 +75,7 @@ defineProps<{
   :root:where([data-writing-mode="vertical-rl"]) & {
     position: relative;
     height: 100%;
-    max-width: min(calc(720px * 3 / 4), calc(100svw - var(--header-bsize)));
+    max-width: min(calc(768px * 3 / 4), calc(100svw - var(--header-bsize)));
     overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
   }
