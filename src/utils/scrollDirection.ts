@@ -6,7 +6,13 @@ export const updateScrollDirection = (): void => {
 
   const currentScrollPosition = writingMode.value === 'vertical-rl' ? -window.scrollX : window.scrollY;
 
-  if (currentScrollPosition > lastScrollPosition.value && currentScrollPosition > 0) {
+  if (currentScrollPosition === 0) {
+    scrollDirection.value = 'up';
+  }
+  else if (Math.abs(lastScrollPosition.value - currentScrollPosition) < 5) {
+    // nop
+  }
+  else if (currentScrollPosition > lastScrollPosition.value && currentScrollPosition > 0) {
     scrollDirection.value = 'down';
   }
   else if (currentScrollPosition < lastScrollPosition.value) {
