@@ -180,6 +180,18 @@ export default defineNuxtConfig({
   $production: {
     nitro: {
       preset: 'cloudflare-pages',
+      cloudflare: {
+        deployConfig: true,
+        wrangler: {
+          d1_databases: [
+            {
+              binding: 'DB',
+              database_name: 'adzuki-blog-db',
+              database_id: process.env.D1_DATABASE_ID,
+            },
+          ],
+        },
+      },
     },
   },
 });
