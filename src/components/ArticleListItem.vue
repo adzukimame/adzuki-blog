@@ -41,7 +41,7 @@
         data-testid="created">
         <IconClock />
         <time
-          v-if="!Number.isNaN(Date.parse(item.created))"
+          v-if="item.created && !Number.isNaN(Date.parse(item.created))"
           :datetime="item.created">
           {{ new Intl.DateTimeFormat('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' }).format(new Date(item.created)) }}
         </time>

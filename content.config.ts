@@ -8,7 +8,7 @@ export default defineContentConfig({
       source: 'posts/*.md',
       schema: z.object({
         category: z.array(z.string()).default([]),
-        created: z.iso.date().default('1900-01-01'),
+        created: z.iso.date().nullish().default(null),
         allowIndex: z.boolean().default(false),
       }),
     }),
@@ -17,7 +17,7 @@ export default defineContentConfig({
       source: 'pages/*.md',
       schema: z.object({
         category: z.array(z.string()).default([]),
-        created: z.iso.date().default('1900-01-01'),
+        created: z.iso.date().nullish().default(null),
         allowIndex: z.boolean().default(false),
       }),
     }),
