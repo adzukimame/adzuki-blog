@@ -40,7 +40,7 @@ const { data: articleCount } = await useAsyncData(
       query.orWhere(q => q.where('category', 'IS NULL').where('category', '=', '[]'));
     }
     else {
-      query.where('category', 'LIKE', `%"${category.value}"%`);
+      query.where('category', 'LIKE', `%${JSON.stringify(category.value)}%`);
     }
 
     return query.count();
@@ -96,7 +96,7 @@ const { data: articles } = await useAsyncData(
       query.orWhere(q => q.where('category', 'IS NULL').where('category', '=', '[]'));
     }
     else {
-      query.where('category', 'LIKE', `"${category.value}"`);
+      query.where('category', 'LIKE', `%${JSON.stringify(category.value)}%`);
     }
 
     return query
