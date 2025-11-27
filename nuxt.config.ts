@@ -72,20 +72,6 @@ export default defineNuxtConfig({
       type: 'd1',
       bindingName: 'DB',
     },
-    // sources: {
-    //   content: {
-    //     driver: 'fs',
-    //     base: resolve(import.meta.dirname, 'content'),
-    //   },
-    // },
-    // ignores: [
-    //   '^\\.',
-    //   '^-',
-    //   '/meta.json$',
-    // ],
-    // locales: [
-    //   'ja-JP',
-    // ],
     build: {
       markdown: {
         toc: {
