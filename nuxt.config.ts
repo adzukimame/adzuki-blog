@@ -32,6 +32,24 @@ const extractLowerBits = (number: number, digits: number) => {
   return result.padStart(digits, ALPHABET[0]);
 };
 
+// https://github.com/tsconfig/bases?tab=readme-ov-file#strictest-tsconfigjson
+const tsConfig = {
+  compilerOptions: {
+    allowUnusedLabels: false,
+    allowUnreachableCode: false,
+    // exactOptionalPropertyTypes: true,
+    noFallthroughCasesInSwitch: true,
+    noImplicitOverride: true,
+    noImplicitReturns: true,
+    // noPropertyAccessFromIndexSignature: true,
+    noUncheckedIndexedAccess: true,
+    noUnusedLocals: true,
+    noUnusedParameters: true,
+
+    checkJs: true,
+  },
+};
+
 export default defineNuxtConfig({
   modules: [
     '@nuxt/content',
@@ -128,6 +146,9 @@ export default defineNuxtConfig({
         }
       },
     },
+    typescript: {
+      tsConfig: tsConfig,
+    },
   },
   hooks: {
     'build:manifest': (manifest) => {
@@ -144,22 +165,9 @@ export default defineNuxtConfig({
   },
   typescript: {
     // https://github.com/tsconfig/bases?tab=readme-ov-file#strictest-tsconfigjson
-    tsConfig: {
-      compilerOptions: {
-        allowUnusedLabels: false,
-        allowUnreachableCode: false,
-        // exactOptionalPropertyTypes: true,
-        noFallthroughCasesInSwitch: true,
-        noImplicitOverride: true,
-        noImplicitReturns: true,
-        // noPropertyAccessFromIndexSignature: true,
-        noUncheckedIndexedAccess: true,
-        noUnusedLocals: true,
-        noUnusedParameters: true,
-
-        checkJs: true,
-      },
-    },
+    tsConfig: tsConfig,
+    sharedTsConfig: tsConfig,
+    nodeTsConfig: tsConfig,
   },
   eslint: {
     config: {
