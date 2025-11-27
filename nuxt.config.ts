@@ -165,14 +165,18 @@ export default defineNuxtConfig({
   },
   typescript: {
     // https://github.com/tsconfig/bases?tab=readme-ov-file#strictest-tsconfigjson
-    tsConfig: tsConfig,
+    tsConfig: {
+      ...tsConfig,
+      include: [
+        '../histoire/**/*',
+      ],
+    },
     sharedTsConfig: tsConfig,
     nodeTsConfig: {
       ...tsConfig,
       include: [
         '../content.config.ts',
         '../histoire.config.ts',
-        '../histoire/**/*',
         '../lostpixel.config.ts',
         '../vitest.config.ts',
       ],
