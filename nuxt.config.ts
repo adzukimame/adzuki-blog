@@ -190,7 +190,7 @@ export default defineNuxtConfig({
     },
   },
   compatibilityDate: '2025-05-24',
-  srcDir: 'src/',
+  srcDir: 'app/',
   telemetry: false,
   $production: {
     nitro: {
