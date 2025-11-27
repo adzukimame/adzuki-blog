@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "deny": [
+      "Read(/node_modules/**)",
+      "Read(/content/**)",
+      "Read(/.env)",
+      "Read(/.dev.vars)"
+    ]
+  }
+}
