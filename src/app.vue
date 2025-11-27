@@ -12,13 +12,15 @@
 // color scheme
 
 // add class before hydration to avoid blink
-useServerHead({
-  script: [
-    {
-      textContent: `(()=>{try{const a=window.localStorage.getItem("colorScheme");"dark"===a?(document.documentElement.dataset.colorScheme="dark"):null===a&&window.matchMedia("(prefers-color-scheme: dark)").matches&&(document.documentElement.dataset.colorScheme="dark")}catch{window.matchMedia("(prefers-color-scheme: dark)").matches&&(document.documentElement.dataset.colorScheme="dark")}})();`,
-    },
-  ],
-});
+if (import.meta.server) {
+  useHead({
+    script: [
+      {
+        textContent: `(()=>{try{const a=window.localStorage.getItem("colorScheme");"dark"===a?(document.documentElement.dataset.colorScheme="dark"):null===a&&window.matchMedia("(prefers-color-scheme: dark)").matches&&(document.documentElement.dataset.colorScheme="dark")}catch{window.matchMedia("(prefers-color-scheme: dark)").matches&&(document.documentElement.dataset.colorScheme="dark")}})();`,
+      },
+    ],
+  });
+}
 
 const colorScheme = useColorScheme();
 
@@ -33,13 +35,15 @@ onMounted(() => {
 // end - color scheme
 
 // 縦組み
-useServerHead({
-  script: [
-    {
-      textContent: `(()=>{const a=new URLSearchParams(location.search).get("tategaki");try{const b=window.localStorage.getItem("writingMode");document.documentElement.dataset.writingMode=(a==="false"||b==="horizontal-tb"||b===null)?"horizontal-tb":"vertical-rl"}catch{document.documentElement.dataset.writingMode=a==="false"?"horizontal-tb":"vertical-rl"}})();`,
-    },
-  ],
-});
+if (import.meta.server) {
+  useHead({
+    script: [
+      {
+        textContent: `(()=>{const a=new URLSearchParams(location.search).get("tategaki");try{const b=window.localStorage.getItem("writingMode");document.documentElement.dataset.writingMode=(a==="false"||b==="horizontal-tb"||b===null)?"horizontal-tb":"vertical-rl"}catch{document.documentElement.dataset.writingMode=a==="false"?"horizontal-tb":"vertical-rl"}})();`,
+      },
+    ],
+  });
+}
 
 const writingMode = useWritingMode();
 
@@ -143,8 +147,8 @@ onBeforeUnmount(() => {
 // analytics script
 const runtimeConfig = useRuntimeConfig();
 
-if (!import.meta.dev && runtimeConfig.public.cfWebAnalyticsToken) {
-  useServerHead({
+if (!import.meta.dev && import.meta.server && runtimeConfig.public.cfWebAnalyticsToken) {
+  useHead({
     script: [
       {
         'defer': true,
@@ -158,26 +162,30 @@ if (!import.meta.dev && runtimeConfig.public.cfWebAnalyticsToken) {
 // end - analytics script
 
 // metas
-useServerHead({
-  htmlAttrs: {
-    lang: 'ja-JP',
-  },
-  link: [
-    { rel: 'icon', href: '/favicon.ico' },
-  ],
-});
+if (import.meta.server) {
+  useHead({
+    htmlAttrs: {
+      lang: 'ja-JP',
+    },
+    link: [
+      { rel: 'icon', href: '/favicon.ico' },
+    ],
+  });
+}
 
 useHead({
   titleTemplate: titleChunk => titleChunk !== undefined && titleChunk.length > 0 ? `${titleChunk} - ${runtimeConfig.public.siteName}` : runtimeConfig.public.siteName,
 });
 
-useServerSeoMeta({
-  robots: 'noindex, nofollow, noarchive, nosnippet, noimageindex, noai, noimageai',
-  referrer: 'same-origin',
-  twitterCard: 'summary',
-  ogTitle: runtimeConfig.public.siteName,
-  ogDescription: runtimeConfig.public.siteDescription,
-});
+if (import.meta.server) {
+  useSeoMeta({
+    robots: 'noindex, nofollow, noarchive, nosnippet, noimageindex, noai, noimageai',
+    referrer: 'same-origin',
+    twitterCard: 'summary',
+    ogTitle: runtimeConfig.public.siteName,
+    ogDescription: runtimeConfig.public.siteDescription,
+  });
+}
 
 useSeoMeta({
   description: runtimeConfig.public.siteDescription,

@@ -5,7 +5,7 @@
       :class="$style.articleList">
       <ArticleListItem
         v-for="item in articles"
-        :key="item._id"
+        :key="item.id"
         :item="item" />
     </div>
     <div v-else>
@@ -18,7 +18,7 @@
 import ArticleListItem from './ArticleListItem.vue';
 
 defineProps<{
-  articles: InstanceType<typeof ArticleListItem>['$props']['item'][] | null;
+  articles: InstanceType<typeof ArticleListItem>['$props']['item'][] | null | undefined;
 }>();
 </script>
 

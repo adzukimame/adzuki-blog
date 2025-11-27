@@ -1,19 +1,19 @@
 <template>
   <ContentRenderer
+    v-if="content"
     :value="content"
     tag="article"
-    :class="$style.articleRenderer">
-    <template #empty>
-      <h2>コンテンツはありません</h2>
-    </template>
-  </ContentRenderer>
+    :class="$style.articleRenderer" />
+  <div v-else>
+    <h2>コンテンツはありません</h2>
+  </div>
 </template>
 
 <script setup lang="ts">
-import type { ParsedContent } from '@nuxt/content';
+import type { PageCollectionItemBase } from '@nuxt/content';
 
 defineProps<{
-  content: ParsedContent | undefined;
+  content: PageCollectionItemBase | undefined;
 }>();
 </script>
 

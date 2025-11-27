@@ -1,7 +1,7 @@
 <template>
   <article :class="$style.container">
     <NuxtLink
-      :to="item._path"
+      :to="item.path"
       :class="$style.titleAndDescriptionContainer"
       data-testid="link">
       <div
@@ -54,12 +54,12 @@
 </template>
 
 <script setup lang="ts">
-import type { ParsedContent } from '@nuxt/content';
+import type { PostsCollectionItem, PagesCollectionItem } from '@nuxt/content';
 import IconFolder from '@/assets/icons/Folder.svg';
 import IconClock from '@/assets/icons/Clock.svg';
 
 const props = defineProps<{
-  item: Pick<ParsedContent, '_id' | '_path' | 'title' | 'description' | 'category' | 'created'> | ParsedContent;
+  item: Pick<PostsCollectionItem, 'id' | 'path' | 'title' | 'description' | 'category' | 'created'> | PostsCollectionItem | Pick<PagesCollectionItem, 'id' | 'path' | 'title' | 'description' | 'category' | 'created'> | PagesCollectionItem;
 }>();
 
 const normalizedCategory = computed<string[] | undefined>(() => normalizeCategory(props.item.category));

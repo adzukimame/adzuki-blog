@@ -1,6 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 
-import { resolve } from 'node:path';
+// import { resolve } from 'node:path';
 import meta from './content/meta.json' with { type: 'json' };
 import svgLoader from 'vite-svg-loader';
 
@@ -68,36 +68,44 @@ export default defineNuxtConfig({
     '~/assets/css/main.css',
   ],
   content: {
-    sources: {
-      content: {
-        driver: 'fs',
-        base: resolve(import.meta.dirname, 'content'),
+    database: {
+      type: 'd1',
+      bindingName: 'DB',
+    },
+    // sources: {
+    //   content: {
+    //     driver: 'fs',
+    //     base: resolve(import.meta.dirname, 'content'),
+    //   },
+    // },
+    // ignores: [
+    //   '^\\.',
+    //   '^-',
+    //   '/meta.json$',
+    // ],
+    // locales: [
+    //   'ja-JP',
+    // ],
+    build: {
+      markdown: {
+        toc: {
+          depth: 2,
+          searchDepth: 2,
+        },
+        remarkPlugins: {
+          'remark-breaks': {},
+        },
+        highlight: {
+          theme: {
+            default: 'github-light',
+            light: 'github-light',
+            dark: 'github-dark',
+          },
+        },
       },
     },
-    ignores: [
-      '^\\.',
-      '^-',
-      '/meta.json$',
-    ],
-    locales: [
-      'ja-JP',
-    ],
-    markdown: {
+    renderer: {
       anchorLinks: false,
-      toc: {
-        depth: 2,
-        searchDepth: 2,
-      },
-      remarkPlugins: {
-        'remark-breaks': {},
-      },
-    },
-    highlight: {
-      theme: {
-        default: 'github-light',
-        light: 'github-light',
-        dark: 'github-dark',
-      },
     },
   },
   vite: {
