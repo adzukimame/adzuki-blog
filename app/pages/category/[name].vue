@@ -34,17 +34,13 @@ const category = computed(() => {
 const { data: articleCount } = await useAsyncData(
   `articleCount:/category/${category.value}`,
   () => {
-    const query = queryContent('posts');
+    const query = queryCollection('posts');
 
     if (category.value === 'undefined') {
-      query.where({
-        $or: [{ category: { $exists: false } }, { category: 'undefined' }],
-      });
+      query.orWhere(q => q.where('category', 'IS NULL').where('category', '=', '[]'));
     }
     else {
-      query.where({
-        $or: [{ category: category.value }, { category: { $contains: category.value } }],
-      });
+      query.where('category', 'LIKE', `%${JSON.stringify(category.value)}%`);
     }
 
     return query.count();
@@ -94,25 +90,22 @@ watch(pageNumber, (newPageNumber) => {
 const { data: articles } = await useAsyncData(
   `category:/category/${category.value}`,
   () => {
-    const query = queryContent('posts');
+    const query = queryCollection('posts');
 
     if (category.value === 'undefined') {
-      query.where({
-        $or: [{ category: { $exists: false } }, { category: 'undefined' }],
-      });
+      query.orWhere(q => q.where('category', 'IS NULL').where('category', '=', '[]'));
     }
     else {
-      query.where({
-        $or: [{ category: category.value }, { category: { $contains: category.value } }],
-      });
+      query.where('category', 'LIKE', `%${JSON.stringify(category.value)}%`);
     }
 
     return query
-      .sort({ _id: -1, created: -1 })
+      .order('created', 'DESC')
+      .order('id', 'DESC')
       .skip((pageNumberForDisplay.value - 1) * ARTICLE_PER_PAGE)
       .limit(ARTICLE_PER_PAGE)
-      .only(['_id', '_path', 'title', 'description', 'category', 'created'])
-      .find();
+      .select('id', 'path', 'title', 'description', 'category', 'created')
+      .all();
   },
   {
     watch: [category, pageNumberForDisplay],
@@ -123,10 +116,12 @@ useHead({
   title: `カテゴリ「${category.value === 'undefined' ? '未設定' : category.value}」の投稿`,
 });
 
-useServerSeoMeta({
-  ogTitle: `カテゴリ「${category.value === 'undefined' ? '未設定' : category.value}」の投稿 - ${runtimeConfig.public.siteName}`,
-  ogDescription: `カテゴリ「${category.value === 'undefined' ? '未設定' : category.value}」の投稿 - ${runtimeConfig.public.siteName}`,
-});
+if (import.meta.server) {
+  useSeoMeta({
+    ogTitle: `カテゴリ「${category.value === 'undefined' ? '未設定' : category.value}」の投稿 - ${runtimeConfig.public.siteName}`,
+    ogDescription: `カテゴリ「${category.value === 'undefined' ? '未設定' : category.value}」の投稿 - ${runtimeConfig.public.siteName}`,
+  });
+}
 
 useSeoMeta({
   description: () => `カテゴリ「${category.value === 'undefined' ? '未設定' : category.value}」の投稿 - ${runtimeConfig.public.siteName}`,

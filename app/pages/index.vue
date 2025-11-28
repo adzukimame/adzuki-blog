@@ -24,7 +24,7 @@ const route = useRoute();
 const ARTICLE_PER_PAGE = 10;
 
 const { data: articleCount } = await useAsyncData(
-  () => queryContent('posts').count()
+  () => queryCollection('posts').count()
 );
 
 const pageNumber = computed(() => {
@@ -65,20 +65,23 @@ watch(pageNumber, (newPageNumber) => {
 });
 
 const { data: articles } = await useAsyncData(
-  () => queryContent('posts')
-    .sort({ _id: -1, created: -1 })
+  () => queryCollection('posts')
+    .order('created', 'DESC')
+    .order('id', 'DESC')
     .skip((pageNumberForDisplay.value - 1) * ARTICLE_PER_PAGE)
     .limit(ARTICLE_PER_PAGE)
-    .only(['_id', '_path', 'title', 'description', 'category', 'created'])
-    .find(),
+    .select('id', 'path', 'title', 'description', 'category', 'created')
+    .all(),
   {
     watch: [pageNumberForDisplay],
   }
 );
 
-useServerHead({
-  link: runtimeConfig.public.authorSocialLinks.filter(link => typeof link === 'string').map(link => ({ rel: 'me', href: link })),
-});
+if (import.meta.server) {
+  useHead({
+    link: runtimeConfig.public.authorSocialLinks.filter(link => typeof link === 'string').map(link => ({ rel: 'me', href: link })),
+  });
+}
 
 useHead({
   title: '',
@@ -86,16 +89,18 @@ useHead({
 
 const requestUrl = useRequestURL();
 
-if (requestUrl.origin === runtimeConfig.public.origin || import.meta.dev) {
-  useServerSeoMeta({
+if ((import.meta.server && requestUrl.origin === runtimeConfig.public.origin) || import.meta.dev) {
+  useSeoMeta({
     robots: 'noarchive, noimageindex, noai, noimageai',
   });
 }
 
-useServerSeoMeta({
-  ogTitle: runtimeConfig.public.siteName,
-  ogDescription: runtimeConfig.public.siteDescription,
-});
+if (import.meta.server) {
+  useSeoMeta({
+    ogTitle: runtimeConfig.public.siteName,
+    ogDescription: runtimeConfig.public.siteDescription,
+  });
+}
 
 useSeoMeta({
   description: runtimeConfig.public.siteDescription,

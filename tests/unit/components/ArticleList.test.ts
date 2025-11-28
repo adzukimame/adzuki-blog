@@ -6,8 +6,8 @@ import _ArticleList from '~/components/ArticleList.vue';
 const ArticleList = fixComponentCssModules(_ArticleList);
 
 const item = {
-  _id: 'anId',
-  _path: 'aPath',
+  id: 'anId',
+  path: 'aPath',
   title: 'aTitle',
   description: 'aDescription',
   category: 'aCategory',

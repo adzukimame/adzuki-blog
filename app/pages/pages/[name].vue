@@ -24,11 +24,9 @@ const name = computed(() => {
 
 const { data } = await useAsyncData(
   `content:/pages/${name.value}`,
-  () => queryContent('pages')
-    .where({
-      _path: `/pages/${name.value}`,
-    })
-    .findOne(),
+  () => queryCollection('pages')
+    .where('path', '=', `/pages/${name.value}`)
+    .first(),
   {
     watch: [name],
   }
@@ -39,10 +37,12 @@ if (data.value) {
     title: data.value.title,
   });
 
-  useServerSeoMeta({
-    ogTitle: `${data.value.title ?? name.value} - ${runtimeConfig.public.siteName}`,
-    ogDescription: `${data.value.title ?? name.value} - ${runtimeConfig.public.siteName}`,
-  });
+  if (import.meta.server) {
+    useSeoMeta({
+      ogTitle: `${data.value.title} - ${runtimeConfig.public.siteName}`,
+      ogDescription: `${data.value.title} - ${runtimeConfig.public.siteName}`,
+    });
+  }
 
   useSeoMeta({
     description: () => `${data.value?.title ?? name.value} - ${runtimeConfig.public.siteName}`,

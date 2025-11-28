@@ -36,3 +36,8 @@ coverage
 # story
 .histoire
 .lostpixel
+
+# claude
+CLAUDE.md
+/.claude/*
+!/.claude/settings.json

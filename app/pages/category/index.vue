@@ -21,10 +21,10 @@
 <script setup lang="ts">
 const runtimeConfig = useRuntimeConfig();
 
-const { data } = await useAsyncData(() => queryContent('posts').only('category').find());
+const { data } = await useAsyncData(() => queryCollection('posts').select('category').all());
 
 const categoryList = computed(() => {
-  if (data.value === null) {
+  if (data.value === undefined) {
     return [];
   }
 
@@ -56,10 +56,12 @@ useHead({
   title: 'カテゴリ一覧',
 });
 
-useServerSeoMeta({
-  ogTitle: `カテゴリ一覧 - ${runtimeConfig.public.siteName}`,
-  ogDescription: `カテゴリ一覧 - ${runtimeConfig.public.siteName}`,
-});
+if (import.meta.server) {
+  useSeoMeta({
+    ogTitle: `カテゴリ一覧 - ${runtimeConfig.public.siteName}`,
+    ogDescription: `カテゴリ一覧 - ${runtimeConfig.public.siteName}`,
+  });
+}
 
 useSeoMeta({
   description: `カテゴリ一覧 - ${runtimeConfig.public.siteName}`,

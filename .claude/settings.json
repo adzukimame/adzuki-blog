@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "deny": [
+      "Read(/node_modules/**)",
+      "Read(/content/**)",
+      "Read(/.nuxt/**)",
+      "Read(/.data/**)",
+      "Read(/.wrangler/**)",
+      "Read(/dist/**)",
+      "Read(/.env)",
+      "Read(/.dev.vars)"
+    ]
+  }
+}

@@ -1,6 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 
-import { resolve } from 'node:path';
+// import { resolve } from 'node:path';
 import meta from './content/meta.json' with { type: 'json' };
 import svgLoader from 'vite-svg-loader';
 
@@ -30,6 +30,24 @@ const extractLowerBits = (number: number, digits: number) => {
     number = Math.floor(number / ALPHABET.length);
   }
   return result.padStart(digits, ALPHABET[0]);
+};
+
+// https://github.com/tsconfig/bases?tab=readme-ov-file#strictest-tsconfigjson
+const tsConfig = {
+  compilerOptions: {
+    allowUnusedLabels: false,
+    allowUnreachableCode: false,
+    // exactOptionalPropertyTypes: true,
+    noFallthroughCasesInSwitch: true,
+    noImplicitOverride: true,
+    noImplicitReturns: true,
+    // noPropertyAccessFromIndexSignature: true,
+    noUncheckedIndexedAccess: true,
+    noUnusedLocals: true,
+    noUnusedParameters: true,
+
+    checkJs: true,
+  },
 };
 
 export default defineNuxtConfig({
@@ -68,36 +86,30 @@ export default defineNuxtConfig({
     '~/assets/css/main.css',
   ],
   content: {
-    sources: {
-      content: {
-        driver: 'fs',
-        base: resolve(import.meta.dirname, 'content'),
+    database: {
+      type: 'd1',
+      bindingName: 'DB',
+    },
+    build: {
+      markdown: {
+        toc: {
+          depth: 2,
+          searchDepth: 2,
+        },
+        remarkPlugins: {
+          'remark-breaks': {},
+        },
+        highlight: {
+          theme: {
+            default: 'github-light',
+            light: 'github-light',
+            dark: 'github-dark',
+          },
+        },
       },
     },
-    ignores: [
-      '^\\.',
-      '^-',
-      '/meta.json$',
-    ],
-    locales: [
-      'ja-JP',
-    ],
-    markdown: {
+    renderer: {
       anchorLinks: false,
-      toc: {
-        depth: 2,
-        searchDepth: 2,
-      },
-      remarkPlugins: {
-        'remark-breaks': {},
-      },
-    },
-    highlight: {
-      theme: {
-        default: 'github-light',
-        light: 'github-light',
-        dark: 'github-dark',
-      },
     },
   },
   vite: {
@@ -134,37 +146,43 @@ export default defineNuxtConfig({
         }
       },
     },
-  },
-  hooks: {
-    'build:manifest': (manifest) => {
-      // https://nuxt.com/docs/3.x/getting-started/styling#lcp-advanced-optimizations
-      const css = Object.values(manifest).find(options => options.isEntry === true)?.css;
-      if (css) {
-        for (let i = css.length - 1; i >= 0; i--) {
-          if (css[i]?.startsWith('entry.') === true) {
-            css.splice(i, 1);
-          }
-        }
-      }
+    typescript: {
+      tsConfig: tsConfig,
     },
   },
+  // Nuxt 4以降でCritical CSSがインライン化されていない
+  // hooks: {
+  //   'build:manifest': (manifest) => {
+  //     // https://nuxt.com/docs/3.x/getting-started/styling#lcp-advanced-optimizations
+  //     // FIXME: This optimization removes entry CSS from manifest, causing CSS not to load on initial page load
+  //     // Need to implement CSS inlining or critical CSS extraction to use this optimization
+  //     const css = Object.values(manifest).find(options => options.isEntry === true)?.css;
+  //     if (css) {
+  //       for (let i = css.length - 1; i >= 0; i--) {
+  //         if (css[i]?.startsWith('entry.') === true) {
+  //           css.splice(i, 1);
+  //         }
+  //       }
+  //     }
+  //   },
+  // },
   typescript: {
     // https://github.com/tsconfig/bases?tab=readme-ov-file#strictest-tsconfigjson
     tsConfig: {
-      compilerOptions: {
-        allowUnusedLabels: false,
-        allowUnreachableCode: false,
-        // exactOptionalPropertyTypes: true,
-        noFallthroughCasesInSwitch: true,
-        noImplicitOverride: true,
-        noImplicitReturns: true,
-        // noPropertyAccessFromIndexSignature: true,
-        noUncheckedIndexedAccess: true,
-        noUnusedLocals: true,
-        noUnusedParameters: true,
-
-        checkJs: true,
-      },
+      ...tsConfig,
+      include: [
+        '../histoire/**/*',
+      ],
+    },
+    sharedTsConfig: tsConfig,
+    nodeTsConfig: {
+      ...tsConfig,
+      include: [
+        '../content.config.ts',
+        '../histoire.config.ts',
+        '../lostpixel.config.ts',
+        '../vitest.config.ts',
+      ],
     },
   },
   eslint: {
@@ -175,11 +193,23 @@ export default defineNuxtConfig({
     },
   },
   compatibilityDate: '2025-05-24',
-  srcDir: 'src/',
+  srcDir: 'app/',
   telemetry: false,
   $production: {
     nitro: {
       preset: 'cloudflare-pages',
+      cloudflare: {
+        deployConfig: true,
+        wrangler: {
+          d1_databases: [
+            {
+              binding: 'DB',
+              database_name: 'adzuki-blog-db',
+              database_id: process.env.D1_DATABASE_ID,
+            },
+          ],
+        },
+      },
     },
   },
 });

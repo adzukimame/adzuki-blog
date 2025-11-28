@@ -24,27 +24,25 @@ const id = computed(() => {
 
 const { data } = await useAsyncData(
   `content:/posts/${id.value}`,
-  () => queryContent('posts')
-    .where({
-      _path: `/posts/${id.value}`,
-    })
-    .findOne(),
+  () => queryCollection('posts')
+    .where('path', '=', `/posts/${id.value}`)
+    .first(),
   {
     watch: [id],
     transform: (content) => {
-      const tocEnabled = (content.body?.toc?.links.length ?? -1) > 1;
-      const h1Index = tocEnabled ? content.body?.children.findIndex(node => node.type === 'element' && node.tag === 'h1') ?? -1 : -1;
-      const h2Index = tocEnabled ? content.body?.children.findIndex(node => node.type === 'element' && node.tag === 'h2') ?? -1 : -1;
+      if (content === null) return null;
 
-      if (h1Index !== -1 && h2Index !== -1 && content.body?.toc !== undefined) {
-        content.body.children.splice(h2Index, 0, {
-          type: 'element',
-          tag: 'article-toc',
-          props: {
+      const tocEnabled = (content.body.toc?.links.length ?? -1) > 1;
+      const h1Index = tocEnabled ? content.body.value.findIndex(node => typeof node !== 'string' && node[0] === 'h1') : -1;
+      const h2Index = tocEnabled ? content.body.value.findIndex(node => typeof node !== 'string' && node[0] === 'h2') : -1;
+
+      if (h1Index !== -1 && h2Index !== -1 && content.body.toc !== undefined) {
+        content.body.value.splice(h2Index, 0, [
+          'article-toc',
+          {
             toc: content.body.toc,
           },
-          children: [],
-        });
+        ]);
       }
 
       return content;
@@ -54,12 +52,12 @@ const { data } = await useAsyncData(
 
 const requestUrl = useRequestURL();
 
-if (requestUrl.origin === runtimeConfig.public.origin || import.meta.dev) {
+if ((import.meta.server && requestUrl.origin === runtimeConfig.public.origin) || import.meta.dev) {
   const robots = [
     'nofollow', 'noarchive', 'noimageindex', 'noai', 'noimageai',
     ...(data.value?.allowIndex === true ? [] : ['noindex', 'nosnippet']),
   ].join(', ');
-  useServerSeoMeta({ robots });
+  useSeoMeta({ robots });
 }
 
 if (data.value) {
@@ -67,10 +65,12 @@ if (data.value) {
     title: data.value.title,
   });
 
-  useServerSeoMeta({
-    ogTitle: `${data.value.title ?? id.value} - ${runtimeConfig.public.siteName}`,
-    ogDescription: typeof data.value.description === 'string' ? data.value.description.replace(/^\s+/, '') : undefined,
-  });
+  if (import.meta.server) {
+    useSeoMeta({
+      ogTitle: `${data.value.title} - ${runtimeConfig.public.siteName}`,
+      ogDescription: typeof data.value.description === 'string' ? data.value.description.replace(/^\s+/, '') : undefined,
+    });
+  }
 
   useSeoMeta({
     description: () => (typeof data.value?.description === 'string' ? data.value.description.replace(/^\s+/, '') : undefined),
