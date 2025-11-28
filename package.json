@@ -29,7 +29,7 @@
     "@nuxt/image": "^1.11.0",
     "@nuxt/scripts": "^0.11.13",
     "@nuxt/test-utils": "^3.20.1",
-    "@nuxtjs/turnstile": "1.0.0",
+    "@nuxtjs/turnstile": "1.1.1",
     "better-sqlite3": "^12.4.6",
     "nuxt": "^4.2.1",
     "remark-breaks": "^4.0.0",
