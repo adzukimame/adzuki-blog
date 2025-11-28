@@ -12,7 +12,7 @@
     "deploy": "wrangler pages deploy",
     "clean": "nuxt cleanup",
     "lint": "eslint .",
-    "typecheck": "nuxt typecheck",
+    "typecheck": "vue-tsc -b --noEmit",
     "test": "vitest",
     "test:coverage": "vitest run --coverage",
     "story:dev": "histoire dev",
