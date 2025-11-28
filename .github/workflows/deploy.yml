@@ -67,6 +67,8 @@ jobs:
       - name: Clean content repository
         run: rm -rf ./content_repo
       - run: pnpm install --frozen-lockfile
+        env:
+          D1_DATABASE_ID: ${{ secrets.D1_DATABASE_ID }}
       - name: Build
         run: pnpm run build > /dev/null
         env:
@@ -76,7 +78,6 @@ jobs:
         env:
           CF_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CF_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          D1_DATABASE_ID: ${{ secrets.D1_DATABASE_ID }}
         run: |
           DEPLOYMENT_RESULT=$(pnpm run deploy)
           DEPLOYMENT_URL=$(echo $DEPLOYMENT_RESULT | grep -o 'Take a peek over at https://\S*' | grep -o 'https://.*')
