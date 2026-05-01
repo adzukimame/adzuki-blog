@@ -39,6 +39,5 @@ coverage
 .lostpixel
 
 # claude
-CLAUDE.md
 /.claude/*
 !/.claude/settings.json

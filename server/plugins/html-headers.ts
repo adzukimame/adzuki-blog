@@ -33,7 +33,7 @@ export default defineNitroPlugin((nitroApp) => {
       }
     }
 
-    const scriptSrc = ['\'self\'', 'https://static.cloudflareinsights.com/beacon.min.js', 'https://challenges.cloudflare.com', ...scriptHashes].join(' ');
+    const scriptSrc = ['\'self\'', '\'wasm-unsafe-eval\'', 'https://static.cloudflareinsights.com/beacon.min.js', 'https://challenges.cloudflare.com', ...scriptHashes].join(' ');
 
     const runtimeConfig = useRuntimeConfig(context.event);
 
