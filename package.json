@@ -8,7 +8,7 @@
     "dev": "nuxt dev",
     "build": "nuxt build",
     "postbuild": "node ./scripts/post-build.js",
-    "preview": "wrangler pages dev",
+    "preview": "NODE_OPTIONS=--dns-result-order=ipv4first wrangler --cwd dist pages dev",
     "deploy": "wrangler pages deploy",
     "clean": "nuxt cleanup",
     "lint": "eslint .",
