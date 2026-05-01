@@ -3,7 +3,8 @@
     v-if="content"
     :value="content"
     tag="article"
-    :class="$style.articleRenderer" />
+    :class="$style.articleRenderer"
+    :components="contentComponents" />
   <div v-else>
     <h2>コンテンツはありません</h2>
   </div>
@@ -11,10 +12,19 @@
 
 <script setup lang="ts">
 import type { PageCollectionItemBase } from '@nuxt/content';
+import ArticleToc from './content/ArticleToc.vue';
+import ImageViewer from './content/ImageViewer.vue';
 
 defineProps<{
   content: PageCollectionItemBase | undefined;
 }>();
+
+const contentComponents = {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  'article-toc': ArticleToc,
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  'image-viewer': ImageViewer,
+};
 </script>
 
 <style module>
