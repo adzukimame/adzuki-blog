@@ -20,7 +20,9 @@ defineProps<{
 }>();
 
 const contentComponents = {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   'article-toc': ArticleToc,
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   'image-viewer': ImageViewer,
 };
 </script>
