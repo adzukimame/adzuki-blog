@@ -2,7 +2,7 @@
 
 <template>
   <div
-    :class="[$style.loadingIndicator, { [$style.verticalLayout]: verticalLayout }]"
+    class="fixed top-0 left-0 right-0 pointer-events-none w-auto origin-left transition-[transform_0.1s,height_0.4s,opacity_0.4s] z-999999 vertical:origin-right motion-reduce:opacity-0"
     :style="{
       height: `${$props.height}px`,
       opacity: isLoading ? '1' : '0',
@@ -47,25 +47,3 @@ const { progress, isLoading, error } = useLoadingIndicator({
 
 const background = computed(() => error.value ? props.errorColor : verticalLayout.value ? props.verticalLayoutColor : props.color);
 </script>
-
-<style module>
-.loadingIndicator {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  pointer-events: none;
-  width: auto;
-  transform-origin: left;
-  transition: transform 0.1s, height 0.4s, opacity 0.4s;
-  z-index: 999999;
-
-  &.verticalLayout {
-    transform-origin: right;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    opacity: 0 !important;
-  }
-}
-</style>
