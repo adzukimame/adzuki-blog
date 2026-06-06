@@ -21,19 +21,21 @@
 @custom-variant viewport-max-xl (@container viewport (inline-size < 80rem));
 @custom-variant viewport-max-2xl (@container viewport (inline-size < 96rem));
 
-@custom-variant h-sm (@media (height >= 40rem));
-@custom-variant h-md (@media (height >= 48rem));
-@custom-variant h-lg (@media (height >= 64rem));
-@custom-variant h-xl (@media (height >= 80rem));
-@custom-variant h-2xl (@media (height >= 96rem));
-
-@custom-variant max-h-sm (@media (height < 40rem));
-@custom-variant max-h-md (@media (height < 48rem));
-@custom-variant max-h-lg (@media (height < 64rem));
-@custom-variant max-h-xl (@media (height < 80rem));
-@custom-variant max-h-2xl (@media (height < 96rem));
-
 @custom-variant hoverable (@media (hover: hover));
+
+@custom-variant responsive-hover {
+  @media (hover: hover) {
+    &:hover {
+      @slot;
+    }
+  }
+
+  @media (hover: none) {
+    &:active {
+      @slot;
+    }
+  }
+}
 
 @theme {
   --spacing: 0.1rem;

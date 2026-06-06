@@ -9,7 +9,7 @@
       else if (event.newState === 'closed') { tocOpened = false }
     }">
     <summary
-      class="flex flex-row items-center justify-between hoverable:hover:text-fg-strong not-hoverable:active:text-fg-strong cursor-pointer transition-colors duration-350 ease-out"
+      class="flex flex-row items-center justify-between responsive-hover:text-fg-strong cursor-pointer transition-colors duration-350 ease-out"
       :class="$style.summary"
       @click.prevent="onSummaryClick">
       <div>
@@ -26,7 +26,7 @@
           :key="item.id">
           <li class="py-2 border-bs border-dashed border-split">
             <NuxtLink
-              class="hoverable:hover:text-fg-strong not-hoverable:active:text-fg-strong transition-colors duration-350 ease-out"
+              class="responsive-hover:text-fg-strong transition-colors duration-350 ease-out"
               :to="`#${item.id}`">
               {{ item.text }}
             </NuxtLink>
@@ -37,7 +37,7 @@
               :key="child.id"
               class="py-2 ps-15 border-bs border-dashed border-split">
               <NuxtLink
-                class="text-fg-weak hoverable:hover:text-fg-strong not-hoverable:active:text-fg-strong transition-colors duration-350 ease-out"
+                class="text-fg-weak responsive-hover:text-fg-strong transition-colors duration-350 ease-out"
                 :to="`#${child.id}`">
                 {{ child.text }}
               </NuxtLink>
