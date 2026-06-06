@@ -65,7 +65,7 @@ const contentComponents = {
   margin-block-start: 1rem;
 }
 
-.articleRenderer :not(h1, h2, h3, h4, h5, h6)>a {
+.articleRenderer :not(h1, h2, h3, h4, h5, h6, details *)>a {
   color: var(--accent);
 }
 

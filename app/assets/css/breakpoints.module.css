@@ -1,5 +1,5 @@
-/* 816px = 768px + 24px * 2 */
-/* 1072px = 1024px + 24px * 2 */
+/* 816px = 768px (md) + 24px * 2 */
+/* 1072px = 1024px (lg) + 24px * 2 */
 
 @value narrowWidth: (width <= 816px);
 @value mediumWidth: (816px < width <= 1072px);

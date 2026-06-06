@@ -3,6 +3,7 @@
     :class="[{ dark: colorScheme === 'dark' }, { light: colorScheme === 'light' }]"
     :data-color-scheme="colorScheme === 'dark' ? 'dark' : null"
     :data-writing-mode="writingMode" />
+  <Body class="m-0 leading-loose" />
   <NuxtLayout>
     <NuxtPage />
   </NuxtLayout>

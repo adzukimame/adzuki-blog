@@ -1,8 +1,10 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 
 // import { resolve } from 'node:path';
-import meta from './content/meta.json' with { type: 'json' };
 import svgLoader from 'vite-svg-loader';
+import tailwindcss from '@tailwindcss/vite';
+
+import meta from './content/meta.json' with { type: 'json' };
 
 // https://github.com/bryc/code/blob/master/jshash/experimental/cyrb53.js
 const cyrb53 = (str: string, seed = 0) => {
@@ -114,6 +116,7 @@ export default defineNuxtConfig({
   },
   vite: {
     plugins: [
+      tailwindcss(),
       svgLoader({
         svgo: false,
       }),
