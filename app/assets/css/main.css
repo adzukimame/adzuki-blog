@@ -4,9 +4,10 @@
 @import 'tailwindcss/preflight.css' layer(base);
 @import 'tailwindcss/utilities.css' layer(utilities);
 
-@custom-variant dark (&:where([data-color-scheme="dark"], [data-color-scheme="dark"] *));
+@custom-variant dark (&:where(:root[data-color-scheme="dark"] *));
 
-@custom-variant vertical (&:where([data-writing-mode="vertical-rl"], [data-writing-mode="vertical-rl"] *));
+@custom-variant horizontal (&:where(:root:not([data-writing-mode]) *, :root[data-writing-mode="horizontal-tb"] *));
+@custom-variant vertical (&:where(:root[data-writing-mode="vertical-rl"] *));
 
 @custom-variant h-sm (@media (height >= 40rem));
 @custom-variant h-md (@media (height >= 48rem));
