@@ -1,16 +1,16 @@
 <template>
-  <div :class="$style.container">
+  <div class="container flex flex-row flex-wrap justify-center block-22 gap-x-px">
     <NuxtLink
       :to="{
         path: route.path,
         query: { ...(route.query), ...(backwardEnabled ? { [pageQueryParam]: 1 } : {}) },
         hash: route.hash,
       }"
-      :class="[$style.button, { [$style.disabled]: !backwardEnabled }]"
+      class="group block text-center leading-[0.7] content-center min-inline-22 border-be-[0.3rem] border-split aria-hidden:pointer-events-none transition-colors duration-350 ease-out responsive-hover:border-fg-weak"
       :tabindex="backwardEnabled ? undefined : -1"
       :aria-hidden="backwardEnabled ? undefined : true"
       aria-label="最初のページに戻る">
-      <IconChevronsLeft />
+      <IconChevronsLeft class="text-base m-[calc((2.2rem-1px*2-1rem)/2)] transition-[filter] duration-250 ease-in vertical:transform-[rotate(0.25turn)] group-aria-[hidden]:text-fg-weak group-aria-[hidden]:opacity-50" />
     </NuxtLink>
     <NuxtLink
       :to="{
@@ -18,14 +18,14 @@
         query: { ...(route.query), ...(backwardEnabled ? { [pageQueryParam]: currentPageNumber - 1 } : {}) },
         hash: route.hash,
       }"
-      :class="[$style.button, { [$style.disabled]: !backwardEnabled }]"
+      class="group block text-center leading-[0.7] content-center min-inline-22 border-be-[0.3rem] border-split aria-hidden:pointer-events-none transition-colors duration-350 ease-out responsive-hover:border-fg-weak"
       :tabindex="backwardEnabled ? undefined : -1"
       :aria-hidden="backwardEnabled ? undefined : true"
       aria-label="1ページ前に戻る">
-      <IconChevronLeft />
+      <IconChevronLeft class="text-base m-[calc((2.2rem-1px*2-1rem)/2)] transition-[filter] duration-250 ease-in vertical:transform-[rotate(0.25turn)] group-aria-[hidden]:text-fg-weak group-aria-[hidden]:opacity-50" />
     </NuxtLink>
     <div
-      :class="[$style.button, $style.pageNumberOuter]"
+      class="block text-center leading-[0.7] content-center min-inline-22 border-be-[0.3rem] border-split text-[0.8rem] p-[calc((2.2rem-1px*2-0.8rem)/2)] cursor-default"
       data-testid="page-number"
       :aria-label="`${currentPageNumber}ページ目`">
       <span ref="pageNumberEl">
@@ -38,11 +38,11 @@
         query: { ...(route.query), ...(forwardEnabled ? { [pageQueryParam]: currentPageNumber + 1 } : {}) },
         hash: route.hash,
       }"
-      :class="[$style.button, { [$style.disabled]: !forwardEnabled }]"
+      class="group block text-center leading-[0.7] content-center min-inline-22 border-be-[0.3rem] border-split aria-hidden:pointer-events-none transition-colors duration-350 ease-out responsive-hover:border-fg-weak"
       :tabindex="forwardEnabled ? undefined : -1"
       :aria-hidden="forwardEnabled ? undefined : true"
       aria-label="1ページ次に進む">
-      <IconChevronRight />
+      <IconChevronRight class="text-base m-[calc((2.2rem-1px*2-1rem)/2)] transition-[filter] duration-250 ease-in vertical:transform-[rotate(0.25turn)] group-aria-[hidden]:text-fg-weak group-aria-[hidden]:opacity-50" />
     </NuxtLink>
     <NuxtLink
       :to="{
@@ -50,11 +50,11 @@
         query: { ...(route.query), ...(forwardEnabled ? { [pageQueryParam]: Math.ceil(itemsLength / itemsPerPage) } : {}) },
         hash: route.hash,
       }"
-      :class="[$style.button, { [$style.disabled]: !forwardEnabled }]"
+      class="group block text-center leading-[0.7] content-center min-inline-22 border-be-[0.3rem] border-split aria-hidden:pointer-events-none transition-colors duration-350 ease-out responsive-hover:border-fg-weak"
       :tabindex="forwardEnabled ? undefined : -1"
       :aria-hidden="forwardEnabled ? undefined : true"
       aria-label="最後のページに進む">
-      <IconChevronsRight />
+      <IconChevronsRight class="text-base m-[calc((2.2rem-1px*2-1rem)/2)] transition-[filter] duration-250 ease-in vertical:transform-[rotate(0.25turn)] group-aria-[hidden]:text-fg-weak group-aria-[hidden]:opacity-50" />
     </NuxtLink>
   </div>
 </template>
@@ -103,62 +103,3 @@ watch(() => props.currentPageNumber, (newPageNumber) => {
   });
 });
 </script>
-
-<style module>
-.container {
-  --button-size: 2.2rem;
-  --icon-size: 1rem;
-  display: block flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-  block-size: var(--button-size);
-  column-gap: 1px;
-}
-
-.button {
-  display: block;
-  text-align: center;
-  line-height: 0.7;
-  align-content: center;
-  min-inline-size: var(--button-size);
-  border-block-end: solid 0.3rem var(--split);
-  transition: border-block-end-color var(--hover-trans-dur) var(--hover-trans-func);
-
-  &.disabled {
-    pointer-events: none;
-
-    &>svg {
-      color: var(--fg-weak);
-      opacity: 0.5;
-    }
-  }
-
-  @media (hover: hover) {
-    &:not(.pageNumberOuter, .disabled):hover {
-      border-block-end-color: var(--fg-weak);
-    }
-  }
-
-  @media (hover: none) {
-    &:not(.pageNumberOuter, .disabled):active {
-      border-block-end-color: var(--fg-weak);
-    }
-  }
-
-  &.pageNumberOuter {
-    font-size: 0.8rem;
-    padding: calc((var(--button-size) - 1px * 2 - 0.8rem) / 2);
-    cursor: default;
-  }
-
-  &>svg {
-    margin: calc((var(--button-size) - 1px * 2 - var(--icon-size)) / 2);
-    transition: filter var(--page-trans-dur) var(--page-trans-func);
-
-    :root:where([data-writing-mode="vertical-rl"]) & {
-      transform: rotate(0.25turn);
-    }
-  }
-}
-</style>
