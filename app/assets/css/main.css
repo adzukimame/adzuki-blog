@@ -131,13 +131,13 @@ img {
   text-decoration: unset;
 } */
 
-button {
+/* button {
   color: unset;
   background-color: transparent;
   border-style: unset;
   padding-block: 0;
   padding-inline: 0;
-}
+} */
 
 button:active {
   border-style: unset;

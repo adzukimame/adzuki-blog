@@ -2,13 +2,13 @@
   <Body :style="menuOpened ? { overflow: 'hidden', touchAction: 'none' } : undefined" />
   <header
     v-bind="$attrs"
-    :class="$style.header">
+    class="header flex items-center justify-between block-full">
     <div
-      :class="$style.siteNameContainer"
+      class="flex flex-1 shrink"
       data-testid="site-name">
       <NuxtLink
         to="/"
-        :class="$style.title"
+        class="whitespace-nowrap"
         @click="closeMenu">
         {{ runtimeConfig.public.siteName }}
       </NuxtLink>
@@ -16,39 +16,49 @@
     <nav
       v-if="!props.useCollapsibleNavigation || menuOpened"
       ref="navEl"
-      :class="[$style.navigation, { [$style.menuOpened]: menuOpened }]">
-      <ul :class="$style.navigationList">
+      class="viewport-md:px-30 viewport-max-md:fixed viewport-max-md:inset-0 viewport-max-md:inset-bs-(--header-bsize) viewport-max-md:max-block-[calc(100svb-var(--header-bsize))] viewport-max-md:inline-full viewport-max-md:bg-bg viewport-max-md:transition-colors viewport-max-md:duration-500"
+      :class="menuOpened ? 'viewport-max-md:block' : 'viewport-max-md:hidden'">
+      <ul class="flex gap-x-30 items-center p-0 m-0 list-none viewport-max-md:flex-col viewport-max-md:gap-y-10 viewport-max-md:items-start viewport-max-md:p-[24px]">
         <li
           v-for="item in menuItems"
           :key="item.to"
-          :class="$style.navigationListItem">
+          class="viewport-max-md:px-8 viewport-max-md:border-s-[0.5rem] viewport-max-md:border-fg-weak viewport-max-md:responsive-hover:border-accent viewport-max-md:transition-[border-inline-start-color] duration-350 ease-out">
           <NuxtLink
             :to="item.to"
+            class="transition-colors duration-350 ease-out responsive-hover:text-accent"
             @click="closeMenu()">
             {{ item.name }}
           </NuxtLink>
         </li>
       </ul>
     </nav>
-    <div :class="$style.buttonsContainer">
+    <div class="flex flex-1 shrink justify-end gap-x-5">
       <button
-        :class="$style.buttonColorSwitch"
+        class="cursor-pointer inline-22 block-22 text-center rounded-md border-0 p-0 responsive-hover:bg-bg-strong transition-colors duration-350 ease-out"
         :aria-label="`${colorScheme === 'dark' ? 'ライト' : 'ダーク'}モードに切り替える`"
         data-testid="color-switch"
         @click="manuallyUpdateColorScheme(colorScheme === 'light' ? 'dark' : 'light')">
-        <IconMoon v-if="colorScheme === 'light'" />
-        <IconSun v-else />
+        <IconMoon
+          v-if="colorScheme === 'light'"
+          class="block-14 inline-14 m-[calc((2.2rem-1.4rem)/2)]" />
+        <IconSun
+          v-else
+          class="block-14 inline-14 m-[calc((2.2rem-1.4rem)/2)]" />
       </button>
       <button
-        :class="$style.buttonMenu"
+        class="viewport-md:hidden viewport-max-md:block cursor-pointer inline-22 block-22 text-center rounded-md border-0 p-0 responsive-hover:bg-bg-strong transition-colors duration-350 ease-out"
         :aria-label="`メニューを${menuOpened ? '閉じる' : '開く'}`"
         data-testid="menu-button"
         @click="() => {
           if (menuOpened) { closeMenu(); }
           else { openMenu() }
         }">
-        <IconMenu v-if="!menuOpened" />
-        <IconX v-else />
+        <IconMenu
+          v-if="!menuOpened"
+          class="block-12 inline-12 m-[calc((2.2rem-1.2rem)/2)]" />
+        <IconX
+          v-else
+          class="block-12 inline-12 m-[calc((2.2rem-1.2rem)/2)]" />
       </button>
     </div>
   </header>
@@ -145,225 +155,3 @@ const menuItems = [
   },
 ];
 </script>
-
-<style module>
-@value narrowWidth, shortHeight from "~/assets/css/breakpoints.module.css";
-
-.header {
-  --header-button-size: 2.2rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  block-size: 100%;
-}
-
-.siteNameContainer {
-  flex: 1 1;
-  display: block flex;
-}
-
-.title {
-  white-space: nowrap;
-}
-
-.navigation {
-  :root:where([data-writing-mode="horizontal-tb"], :not([data-writing-mode])) & {
-    @media not narrowWidth {
-      padding-inline: 3rem;
-    }
-  }
-
-  :root:where([data-writing-mode="vertical-rl"]) & {
-    @media not shortHeight {
-      padding-inline: 3rem;
-    }
-  }
-
-  :root:where([data-writing-mode="horizontal-tb"], :not([data-writing-mode])) & {
-    @media narrowWidth {
-      display: block;
-      position: fixed;
-      inset: 0;
-      inset-block-start: var(--header-bsize);
-      max-block-size: calc(100svb - var(--header-bsize));
-      inline-size: 100%;
-      background-color: var(--bg);
-      transition: background-color var(--color-scheme-trans-dur);
-
-      &:not(.menuOpened) {
-        display: none;
-      }
-
-      &.menuOpened {
-        display: block;
-      }
-    }
-  }
-
-  :root:where([data-writing-mode="vertical-rl"]) & {
-    @media shortHeight {
-      display: block;
-      position: fixed;
-      inset: 0;
-      inset-block-start: var(--header-bsize);
-      max-block-size: calc(100svb - var(--header-bsize));
-      inline-size: 100%;
-      background-color: var(--bg);
-      transition: background-color var(--color-scheme-trans-dur);
-
-      &:not(.menuOpened) {
-        display: none;
-      }
-
-      &.menuOpened {
-        display: block;
-      }
-    }
-  }
-}
-
-.navigationList {
-  display: flex;
-  column-gap: 3rem;
-  align-items: center;
-  padding: 0;
-  margin: 0;
-  list-style-type: none;
-
-  :root:where([data-writing-mode="horizontal-tb"], :not([data-writing-mode])) & {
-    @media narrowWidth {
-      flex-direction: column;
-      row-gap: 1rem;
-      align-items: flex-start;
-      padding: 24px;
-    }
-  }
-
-  :root:where([data-writing-mode="vertical-rl"]) & {
-    @media shortHeight {
-      flex-direction: column;
-      row-gap: 1rem;
-      align-items: flex-start;
-      padding: 24px;
-    }
-  }
-}
-
-.navigationListItem {
-  :root:where([data-writing-mode="horizontal-tb"], :not([data-writing-mode])) & {
-    @media narrowWidth {
-      padding-inline-start: 0.8rem;
-      border-inline-start: solid 0.5rem var(--fg-weak);
-      transition: border-inline-start-color var(--hover-trans-dur) var(--hover-trans-func);
-
-      @media (hover: hover) {
-        &:hover {
-          border-inline-start-color: var(--accent);
-        }
-      }
-
-      @media (hover: none) {
-        &:active {
-          border-inline-start-color: var(--accent);
-        }
-      }
-    }
-  }
-
-  :root:where([data-writing-mode="vertical-rl"]) & {
-    @media shortHeight {
-      padding-inline-start: 0.8rem;
-      border-inline-start: solid 0.5rem var(--fg-weak);
-      transition: border-inline-start-color var(--hover-trans-dur) var(--hover-trans-func);
-
-      @media (hover: hover) {
-        &:hover {
-          border-inline-start-color: var(--accent);
-        }
-      }
-
-      @media (hover: none) {
-        &:active {
-          border-inline-start-color: var(--accent);
-        }
-      }
-    }
-  }
-
-  &>a {
-    transition: color var(--hover-trans-dur) var(--hover-trans-func);
-
-    @media (hover: hover) {
-      &:hover {
-        color: var(--accent);
-      }
-    }
-
-    @media (hover: none) {
-      &:active {
-        color: var(--accent);
-      }
-    }
-  }
-}
-
-.buttonsContainer {
-  flex: 1 1;
-  display: block flex;
-  justify-content: flex-end;
-  column-gap: 0.5rem;
-
-  &>button {
-    cursor: pointer;
-    inline-size: var(--header-button-size);
-    block-size: var(--header-button-size);
-    text-align: center;
-    border-radius: 5px;
-    border: 0;
-    padding: 0;
-    transition: background-color var(--hover-trans-dur) var(--hover-trans-func);
-
-    @media (hover: hover) {
-      &:hover {
-        background-color: var(--bg-strong);
-      }
-    }
-
-    @media (hover: none) {
-      &:active {
-        background-color: var(--bg-strong);
-      }
-    }
-  }
-}
-
-.buttonColorSwitch {
-  &>svg {
-    block-size: 1.4rem;
-    inline-size: 1.4rem;
-    margin: calc((var(--header-button-size) - 1.4rem) / 2);
-  }
-}
-
-.buttonMenu {
-  display: none;
-
-  :root:where([data-writing-mode="horizontal-tb"], :not([data-writing-mode])) & {
-    @media narrowWidth {
-      display: block;
-    }
-  }
-
-  :root:where([data-writing-mode="vertical-rl"]) & {
-    @media shortHeight {
-      display: block;
-    }
-  }
-
-  &>svg {
-    block-size: 1.2rem;
-    inline-size: 1.2rem;
-    margin: calc((var(--header-button-size) - 1.2rem) / 2);
-  }
-}
-</style>
