@@ -3,14 +3,12 @@
     v-if="toc && toc.links.length > 0"
     :open="tocOpened ? true : undefined"
     class="article-toc group/article-toc bg-bg-strong px-10 py-3 border border-split rounded-md transition-colors duration-500"
-    :class="$style.container"
     @toggle="(event) => {
       if (event.newState === 'open') { tocOpened = true }
       else if (event.newState === 'closed') { tocOpened = false }
     }">
     <summary
-      class="flex flex-row items-center justify-between responsive-hover:text-fg-strong cursor-pointer transition-colors duration-350 ease-out"
-      :class="$style.summary"
+      class="summary flex flex-row items-center justify-between responsive-hover:text-fg-strong cursor-pointer transition-colors duration-350 ease-out"
       @click.prevent="onSummaryClick">
       <div>
         目次
@@ -116,7 +114,7 @@ const onSummaryClick = (_event: MouseEvent) => {
 };
 </script>
 
-<style module>
+<style scoped>
 .summary::-webkit-details-marker {
   display: none;
 }
