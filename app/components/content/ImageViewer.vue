@@ -2,8 +2,7 @@
 
 <template>
   <div
-    class="image-viewer"
-    :class="$style.container"
+    class="image-viewer flex mx-auto justify-center border-[3px] border-split bg-[radial-gradient(var(--split)_2px,transparent_2px)] bg-size-[28px_28px] cursor-zoom-in inline-[90%] aspect-video not-vertical:max-md:inline-full vertical:aspect-9/16 vertical:max-h-md:inline-full"
     @click="openModal">
     <component
       :is="ImageComponent"
@@ -12,14 +11,14 @@
       :alt="alt"
       :width="width"
       :height="height"
-      :class="$style.image"
+      class="aspect-video vertical:aspect-9/16"
       data-testid="image" />
   </div>
   <Teleport to="body">
     <div
       v-if="modalOpened"
       ref="modalContainerEl"
-      :class="$style.modalContainer"
+      class="flex fixed inset-0 bg-[color-mix(in_oklch,var(--bg)_80%,transparent)]"
       data-testid="modal-container"
       @click="closeModal">
       <component
@@ -28,7 +27,7 @@
         :alt="alt"
         :width="width"
         :height="height"
-        :class="$style.modalImage" />
+        class="m-auto cursor-zoom-out" />
     </div>
   </Teleport>
 </template>
@@ -117,54 +116,3 @@ const closeModal = () => {
   });
 };
 </script>
-
-<style module>
-@value narrowWidth, shortHeight from "~/assets/css/breakpoints.module.css";
-
-.container {
-  display: block flex;
-  margin-inline: auto;
-  justify-content: center;
-  border: solid 3px var(--split);
-  background-image: radial-gradient(var(--split) 2px, transparent 2px);
-  background-size: 28px 28px;
-  cursor: zoom-in;
-
-  inline-size: 90%;
-  aspect-ratio: 16 / 9;
-
-  :root:where([data-writing-mode="horizontal-tb"], :not([data-writing-mode])) & {
-    @media narrowWidth {
-      inline-size: 100%;
-    }
-  }
-
-  :root:where([data-writing-mode="vertical-rl"]) & {
-    aspect-ratio: 9 / 16;
-
-    @media shortHeight {
-      inline-size: 100%;
-    }
-  }
-}
-
-.image {
-  aspect-ratio: 16 / 9;
-
-  :root:where([data-writing-mode="vertical-rl"]) & {
-    aspect-ratio: 9 / 16;
-  }
-}
-
-.modalContainer {
-  display: block flex;
-  position: fixed;
-  inset: 0;
-  background-color: color-mix(in oklch, var(--bg) 80%, transparent);
-}
-
-.modalImage {
-  margin: auto;
-  cursor: zoom-out;
-}
-</style>
