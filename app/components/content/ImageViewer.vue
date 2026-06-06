@@ -2,7 +2,7 @@
 
 <template>
   <div
-    class="image-viewer flex mx-auto justify-center border-[3px] border-split bg-[radial-gradient(var(--split)_2px,transparent_2px)] bg-size-[28px_28px] cursor-zoom-in inline-[90%] aspect-video horizontal:max-md:inline-full vertical:aspect-9/16 vertical:max-h-md:inline-full"
+    class="image-viewer flex mx-auto justify-center border-[3px] border-split bg-[radial-gradient(var(--split)_2px,transparent_2px)] bg-size-[28px_28px] cursor-zoom-in inline-[90%] aspect-video viewport-max-md:inline-full vertical:aspect-9/16"
     @click="openModal">
     <component
       :is="ImageComponent"

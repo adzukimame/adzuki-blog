@@ -9,6 +9,18 @@
 @custom-variant horizontal (&:where(:root:not([data-writing-mode]) *, :root[data-writing-mode="horizontal-tb"] *));
 @custom-variant vertical (&:where(:root[data-writing-mode="vertical-rl"] *));
 
+@custom-variant viewport-sm (@container viewport (inline-size >= 40rem));
+@custom-variant viewport-md (@container viewport (inline-size >= 48rem));
+@custom-variant viewport-lg (@container viewport (inline-size >= 64rem));
+@custom-variant viewport-xl (@container viewport (inline-size >= 80rem));
+@custom-variant viewport-2xl (@container viewport (inline-size >= 96rem));
+
+@custom-variant viewport-max-sm (@container viewport (inline-size < 40rem));
+@custom-variant viewport-max-md (@container viewport (inline-size < 48rem));
+@custom-variant viewport-max-lg (@container viewport (inline-size < 64rem));
+@custom-variant viewport-max-xl (@container viewport (inline-size < 80rem));
+@custom-variant viewport-max-2xl (@container viewport (inline-size < 96rem));
+
 @custom-variant h-sm (@media (height >= 40rem));
 @custom-variant h-md (@media (height >= 48rem));
 @custom-variant h-lg (@media (height >= 64rem));
@@ -155,4 +167,7 @@ html {
   font-family: "Yu Mincho", "Hiragino Mincho ProN W3", serif;
   font-feature-settings: "pkna" 1;
   transition: color var(--color-scheme-trans-dur), background-color var(--color-scheme-trans-dur);
+
+  container-type: inline-size;
+  container-name: viewport;
 }
