@@ -2,7 +2,7 @@
 
 <template>
   <div
-    class="image-viewer flex mx-auto justify-center border-[3px] border-split bg-[radial-gradient(var(--split)_2px,transparent_2px)] bg-size-[28px_28px] cursor-zoom-in inline-[90%] aspect-video viewport-max-md:inline-full vertical:aspect-9/16"
+    class="image-viewer flex mx-auto justify-center border-[3px] border-split bg-[radial-gradient(var(--color-split)_2px,transparent_2px)] bg-size-[28px_28px] cursor-zoom-in inline-[90%] aspect-video viewport-max-md:inline-full vertical:aspect-9/16"
     @click="openModal">
     <component
       :is="ImageComponent"
@@ -18,7 +18,7 @@
     <div
       v-if="modalOpened"
       ref="modalContainerEl"
-      class="flex fixed inset-0 bg-[color-mix(in_oklch,var(--bg)_80%,transparent)]"
+      class="flex fixed inset-0 bg-[color-mix(in_oklch,var(--color-bg)_80%,transparent)]"
       data-testid="modal-container"
       @click="closeModal">
       <component

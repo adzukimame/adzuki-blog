@@ -3,7 +3,6 @@
     :class="[{ dark: colorScheme === 'dark' }, { light: colorScheme === 'light' }]"
     :data-color-scheme="colorScheme === 'dark' ? 'dark' : null"
     :data-writing-mode="writingMode" />
-  <Body class="m-0 leading-loose" />
   <NuxtLayout>
     <NuxtPage />
   </NuxtLayout>
@@ -197,7 +196,7 @@ useSeoMeta({
 <style>
 .page-enter-active,
 .page-leave-active {
-  transition: opacity var(--page-trans-dur) var(--page-trans-func), filter var(--page-trans-dur) var(--page-trans-func);
+  transition: opacity var(--duration-page-transition) var(--ease-page-transition), filter var(--duration-page-transition) var(--ease-page-transition);
 }
 
 .page-enter-from,

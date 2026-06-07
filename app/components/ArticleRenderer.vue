@@ -35,15 +35,15 @@ const contentComponents = {
   }
 
   &>:where(h1) {
-    color: var(--fg-strong);
+    color: var(--color-fg-strong);
     font-size: 1.6rem;
     padding-block-end: 1.2rem;
-    border-block-end: solid 0.3rem var(--split);
+    border-block-end: solid 0.3rem var(--color-split);
   }
 
   &>:where(h2) {
     font-size: 1.3rem;
-    border-block-end: solid 0.3rem var(--split);
+    border-block-end: solid 0.3rem var(--color-split);
   }
 
   &>:where(h3) {
@@ -63,7 +63,7 @@ const contentComponents = {
   }
 
   & :where(:not(h1, h2, h3, h4, h5, h6, details *)>a) {
-    color: var(--accent);
+    color: var(--color-accent);
   }
 
   & :where(.article-toc) {
@@ -82,16 +82,16 @@ const contentComponents = {
     :root:where([data-writing-mode="vertical-rl"]) & {
       position: relative;
       height: 100%;
-      max-width: min(calc(768px * 3 / 4), calc(100svw - var(--header-bsize)));
+      max-width: min(calc(768px * 3 / 4), calc(100svw - var(--header-block-size)));
       overflow-y: scroll;
       -webkit-overflow-scrolling: touch;
     }
 
     padding-block: 0.5rem;
     padding-inline: 1rem;
-    border: solid 1px color-mix(in oklch, var(--fg-weak), var(--split) 70%);
+    border: solid 1px color-mix(in oklch, var(--color-fg-weak), var(--color-split) 70%);
     border-radius: 0.2rem;
-    background-color: color-mix(in oklch, var(--bg-strong), var(--bg));
+    background-color: color-mix(in oklch, var(--color-bg-strong), var(--color-bg));
   }
 }
 </style>

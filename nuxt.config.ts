@@ -6,34 +6,6 @@ import tailwindcss from '@tailwindcss/vite';
 
 import meta from './content/meta.json' with { type: 'json' };
 
-// https://github.com/bryc/code/blob/master/jshash/experimental/cyrb53.js
-const cyrb53 = (str: string, seed = 0) => {
-  let h1 = 0xdeadbeef ^ seed, h2 = 0x41c6ce57 ^ seed;
-  for (let i = 0, ch; i < str.length; i++) {
-    ch = str.charCodeAt(i);
-    h1 = Math.imul(h1 ^ ch, 2654435761);
-    h2 = Math.imul(h2 ^ ch, 1597334677);
-  }
-  h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507);
-  h1 ^= Math.imul(h2 ^ (h2 >>> 13), 3266489909);
-  h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507);
-  h2 ^= Math.imul(h1 ^ (h1 >>> 13), 3266489909);
-  return 4294967296 * (2097151 & h2) + (h1 >>> 0);
-};
-
-const ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz';
-const extractLowerBits = (number: number, digits: number) => {
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  if (number === 0) return ALPHABET[0]!.repeat(digits);
-  let result = '';
-  for (let i = 0; i < digits && number > 0; i++) {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    result += ALPHABET[number % ALPHABET.length]!;
-    number = Math.floor(number / ALPHABET.length);
-  }
-  return result.padStart(digits, ALPHABET[0]);
-};
-
 // https://github.com/tsconfig/bases?tab=readme-ov-file#strictest-tsconfigjson
 const tsConfig = {
   compilerOptions: {
@@ -121,20 +93,6 @@ export default defineNuxtConfig({
         svgo: false,
       }),
     ],
-    css: {
-      modules: {
-        generateScopedName(name, filename, _css) {
-          const id = `${new URL(filename, import.meta.url).pathname.replace(new URL('./', import.meta.url).pathname, '')}-${name}`.replace(/[^a-zA-Z0-9\-_]/g, '-');
-
-          if (process.env.NODE_ENV === 'production') {
-            return extractLowerBits(cyrb53(id), 5);
-          }
-          else {
-            return id;
-          }
-        },
-      },
-    },
   },
   nitro: {
     sourceMap: false,

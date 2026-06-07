@@ -29,8 +29,8 @@ const props = withDefaults(defineProps<{
   hideDelay: 500,
   resetDelay: 400,
   height: 3,
-  color: 'repeating-linear-gradient(to right, color-mix(in oklch, var(--accent) 80%, transparent) 0%, color-mix(in oklch, var(--accent) 80%, transparent) 85%, color-mix(in oklch, var(--accent) 30%, transparent) 100%)',
-  verticalLayoutColor: 'repeating-linear-gradient(to left, color-mix(in oklch, var(--accent) 80%, transparent) 0%, color-mix(in oklch, var(--accent) 80%, transparent) 85%, color-mix(in oklch, var(--accent) 30%, transparent) 100%)',
+  color: 'repeating-linear-gradient(to right, color-mix(in oklch, var(--color-accent) 80%, transparent) 0%, color-mix(in oklch, var(--color-accent) 80%, transparent) 85%, color-mix(in oklch, var(--color-accent) 30%, transparent) 100%)',
+  verticalLayoutColor: 'repeating-linear-gradient(to left, color-mix(in oklch, var(--color-accent) 80%, transparent) 0%, color-mix(in oklch, var(--color-accent) 80%, transparent) 85%, color-mix(in oklch, var(--color-accent) 30%, transparent) 100%)',
   errorColor: 'oklch(0.5933 0.1677 20.96)',
 });
 

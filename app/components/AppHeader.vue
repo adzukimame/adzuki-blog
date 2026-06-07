@@ -16,16 +16,16 @@
     <nav
       v-if="!props.useCollapsibleNavigation || menuOpened"
       ref="navEl"
-      class="viewport-md:px-30 viewport-max-md:fixed viewport-max-md:inset-0 viewport-max-md:inset-bs-(--header-bsize) viewport-max-md:max-block-[calc(100svb-var(--header-bsize))] viewport-max-md:inline-full viewport-max-md:bg-bg viewport-max-md:transition-colors viewport-max-md:duration-500"
+      class="viewport-md:px-30 viewport-max-md:fixed viewport-max-md:inset-0 viewport-max-md:inset-bs-(--header-block-size) viewport-max-md:max-block-[calc(100svb-var(--header-block-size))] viewport-max-md:inline-full viewport-max-md:bg-bg viewport-max-md:transition-colors viewport-max-md:duration-(--duration-color-scheme)"
       :class="menuOpened ? 'viewport-max-md:block' : 'viewport-max-md:hidden'">
       <ul class="flex gap-x-30 items-center p-0 m-0 list-none viewport-max-md:flex-col viewport-max-md:gap-y-10 viewport-max-md:items-start viewport-max-md:p-[24px]">
         <li
           v-for="item in menuItems"
           :key="item.to"
-          class="viewport-max-md:px-8 viewport-max-md:border-s-[0.5rem] viewport-max-md:border-fg-weak viewport-max-md:responsive-hover:border-accent viewport-max-md:transition-[border-inline-start-color] duration-350 ease-out">
+          class="viewport-max-md:px-8 viewport-max-md:border-s-[0.5rem] viewport-max-md:border-fg-weak viewport-max-md:responsive-hover:border-accent viewport-max-md:transition-[border-inline-start-color] duration-(--duration-hover) ease-(--ease-hover)">
           <NuxtLink
             :to="item.to"
-            class="transition-colors duration-350 ease-out responsive-hover:text-accent"
+            class="transition-colors duration-(--duration-hover) ease-(--ease-hover) responsive-hover:text-accent"
             @click="closeMenu()">
             {{ item.name }}
           </NuxtLink>
@@ -34,7 +34,7 @@
     </nav>
     <div class="flex flex-1 shrink justify-end gap-x-5">
       <button
-        class="cursor-pointer inline-22 block-22 text-center rounded-md border-0 p-0 responsive-hover:bg-bg-strong transition-colors duration-350 ease-out"
+        class="cursor-pointer inline-22 block-22 text-center rounded-md border-0 p-0 responsive-hover:bg-bg-strong transition-colors duration-(--duration-hover) ease-(--ease-hover)"
         :aria-label="`${colorScheme === 'dark' ? 'ライト' : 'ダーク'}モードに切り替える`"
         data-testid="color-switch"
         @click="manuallyUpdateColorScheme(colorScheme === 'light' ? 'dark' : 'light')">
@@ -46,7 +46,7 @@
           class="block-14 inline-14 m-[calc((2.2rem-1.4rem)/2)]" />
       </button>
       <button
-        class="viewport-md:hidden viewport-max-md:block cursor-pointer inline-22 block-22 text-center rounded-md border-0 p-0 responsive-hover:bg-bg-strong transition-colors duration-350 ease-out"
+        class="viewport-md:hidden viewport-max-md:block cursor-pointer inline-22 block-22 text-center rounded-md border-0 p-0 responsive-hover:bg-bg-strong transition-colors duration-(--duration-hover) ease-(--ease-hover)"
         :aria-label="`メニューを${menuOpened ? '閉じる' : '開く'}`"
         data-testid="menu-button"
         @click="() => {

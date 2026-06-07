@@ -10,7 +10,7 @@
           :key="item[0]"
           class="before:content-['>'] before:pe-5 before:text-fg-weak">
           <NuxtLink
-            class="transition-colors duration-350 ease-out responsive-hover:text-accent"
+            class="transition-colors duration-(--duration-hover) ease-(--ease-hover) responsive-hover:text-accent"
             :to="`/category/${item[0]}`">
             {{ `${item[0] === 'undefined' ? '未設定' : item[0]} (${item[1]})` }}
           </NuxtLink>

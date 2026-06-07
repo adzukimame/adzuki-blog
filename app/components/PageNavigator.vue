@@ -6,11 +6,11 @@
         query: { ...(route.query), ...(backwardEnabled ? { [pageQueryParam]: 1 } : {}) },
         hash: route.hash,
       }"
-      class="group block text-center leading-[0.7] content-center min-inline-22 border-be-[0.3rem] border-split aria-hidden:pointer-events-none transition-colors duration-350 ease-out responsive-hover:border-fg-weak"
+      class="group block text-center leading-[0.7] content-center min-inline-22 border-be-[0.3rem] border-split aria-hidden:pointer-events-none transition-colors duration-(--duration-hover) ease-(--ease-hover) responsive-hover:border-fg-weak"
       :tabindex="backwardEnabled ? undefined : -1"
       :aria-hidden="backwardEnabled ? undefined : true"
       aria-label="最初のページに戻る">
-      <IconChevronsLeft class="text-base m-[calc((2.2rem-1px*2-1rem)/2)] transition-[filter] duration-250 ease-in vertical:transform-[rotate(0.25turn)] group-aria-[hidden]:text-fg-weak group-aria-[hidden]:opacity-50" />
+      <IconChevronsLeft class="text-base m-[calc((2.2rem-1px*2-1rem)/2)] transition-[filter] duration-(--duration-page-transition) ease-(--ease-page-transition) vertical:transform-[rotate(0.25turn)] group-aria-[hidden]:text-fg-weak group-aria-[hidden]:opacity-50" />
     </NuxtLink>
     <NuxtLink
       :to="{
@@ -18,11 +18,11 @@
         query: { ...(route.query), ...(backwardEnabled ? { [pageQueryParam]: currentPageNumber - 1 } : {}) },
         hash: route.hash,
       }"
-      class="group block text-center leading-[0.7] content-center min-inline-22 border-be-[0.3rem] border-split aria-hidden:pointer-events-none transition-colors duration-350 ease-out responsive-hover:border-fg-weak"
+      class="group block text-center leading-[0.7] content-center min-inline-22 border-be-[0.3rem] border-split aria-hidden:pointer-events-none transition-colors duration-(--duration-hover) ease-(--ease-hover) responsive-hover:border-fg-weak"
       :tabindex="backwardEnabled ? undefined : -1"
       :aria-hidden="backwardEnabled ? undefined : true"
       aria-label="1ページ前に戻る">
-      <IconChevronLeft class="text-base m-[calc((2.2rem-1px*2-1rem)/2)] transition-[filter] duration-250 ease-in vertical:transform-[rotate(0.25turn)] group-aria-[hidden]:text-fg-weak group-aria-[hidden]:opacity-50" />
+      <IconChevronLeft class="text-base m-[calc((2.2rem-1px*2-1rem)/2)] transition-[filter] duration-(--duration-page-transition) ease-(--ease-page-transition) vertical:transform-[rotate(0.25turn)] group-aria-[hidden]:text-fg-weak group-aria-[hidden]:opacity-50" />
     </NuxtLink>
     <div
       class="block text-center leading-[0.7] content-center min-inline-22 border-be-[0.3rem] border-split text-[0.8rem] p-[calc((2.2rem-1px*2-0.8rem)/2)] cursor-default"
@@ -38,11 +38,11 @@
         query: { ...(route.query), ...(forwardEnabled ? { [pageQueryParam]: currentPageNumber + 1 } : {}) },
         hash: route.hash,
       }"
-      class="group block text-center leading-[0.7] content-center min-inline-22 border-be-[0.3rem] border-split aria-hidden:pointer-events-none transition-colors duration-350 ease-out responsive-hover:border-fg-weak"
+      class="group block text-center leading-[0.7] content-center min-inline-22 border-be-[0.3rem] border-split aria-hidden:pointer-events-none transition-colors duration-(--duration-hover) ease-(--ease-hover) responsive-hover:border-fg-weak"
       :tabindex="forwardEnabled ? undefined : -1"
       :aria-hidden="forwardEnabled ? undefined : true"
       aria-label="1ページ次に進む">
-      <IconChevronRight class="text-base m-[calc((2.2rem-1px*2-1rem)/2)] transition-[filter] duration-250 ease-in vertical:transform-[rotate(0.25turn)] group-aria-[hidden]:text-fg-weak group-aria-[hidden]:opacity-50" />
+      <IconChevronRight class="text-base m-[calc((2.2rem-1px*2-1rem)/2)] transition-[filter] duration-(--duration-page-transition) ease-(--ease-page-transition) vertical:transform-[rotate(0.25turn)] group-aria-[hidden]:text-fg-weak group-aria-[hidden]:opacity-50" />
     </NuxtLink>
     <NuxtLink
       :to="{
@@ -50,11 +50,11 @@
         query: { ...(route.query), ...(forwardEnabled ? { [pageQueryParam]: Math.ceil(itemsLength / itemsPerPage) } : {}) },
         hash: route.hash,
       }"
-      class="group block text-center leading-[0.7] content-center min-inline-22 border-be-[0.3rem] border-split aria-hidden:pointer-events-none transition-colors duration-350 ease-out responsive-hover:border-fg-weak"
+      class="group block text-center leading-[0.7] content-center min-inline-22 border-be-[0.3rem] border-split aria-hidden:pointer-events-none transition-colors duration-(--duration-hover) ease-(--ease-hover) responsive-hover:border-fg-weak"
       :tabindex="forwardEnabled ? undefined : -1"
       :aria-hidden="forwardEnabled ? undefined : true"
       aria-label="最後のページに進む">
-      <IconChevronsRight class="text-base m-[calc((2.2rem-1px*2-1rem)/2)] transition-[filter] duration-250 ease-in vertical:transform-[rotate(0.25turn)] group-aria-[hidden]:text-fg-weak group-aria-[hidden]:opacity-50" />
+      <IconChevronsRight class="text-base m-[calc((2.2rem-1px*2-1rem)/2)] transition-[filter] duration-(--duration-page-transition) ease-(--ease-page-transition) vertical:transform-[rotate(0.25turn)] group-aria-[hidden]:text-fg-weak group-aria-[hidden]:opacity-50" />
     </NuxtLink>
   </div>
 </template>
