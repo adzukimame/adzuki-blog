@@ -1,10 +1,11 @@
 <template>
+  <Html :style="menuOpened ? { overflow: 'hidden' } : undefined" />
   <Body :style="menuOpened ? { overflow: 'hidden', touchAction: 'none' } : undefined" />
   <header
     v-bind="$attrs"
     class="header flex items-center justify-between block-full">
     <div
-      class="flex flex-1 shrink"
+      class="grow shrink flex"
       data-testid="site-name">
       <NuxtLink
         to="/"
@@ -32,7 +33,7 @@
         </li>
       </ul>
     </nav>
-    <div class="flex flex-1 shrink justify-end gap-x-5">
+    <div class="grow shrink flex justify-end gap-x-5">
       <button
         class="cursor-pointer inline-22 block-22 text-center rounded-md border-0 p-0 responsive-hover:bg-bg-strong transition-colors duration-hover ease-hover"
         :aria-label="`${colorScheme === 'dark' ? 'ライト' : 'ダーク'}モードに切り替える`"

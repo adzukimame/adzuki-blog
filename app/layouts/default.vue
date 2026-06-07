@@ -1,8 +1,7 @@
 <template>
   <div>
-    <!-- vertical-rlだとなぜかinset-block-startが効かない -->
     <div
-      class="sticky z-2 block-header-block border-be-2 border-split bg-bg text-fg-strong horizontal:inset-bs-0 vertical:right-0 transition-[background-color,transform] duration-[var(--duration-color-scheme),var(--duration-page-transition)] ease-[ease,ease-in-out]"
+      class="fixed z-2 block-header-block border-be-2 border-split bg-bg text-fg-strong inset-bs-0 inset-x-0 transition-[background-color,transform] duration-[var(--duration-color-scheme),var(--duration-page-transition)] ease-[ease,ease-in-out]"
       :class="headerVisible ? '' : 'horizontal:transform-[translateY(-100%)] vertical:transform-[translateX(100%)]'">
       <AppHeader
         class="max-inline-[768px] mx-auto viewport-max-md:inline-[calc(100%-24px*2)] viewport-max-md:mx-[24px]"
@@ -12,7 +11,7 @@
     </div>
     <LoadingIndicator />
     <div
-      class="max-inline-[768px] py-[32px] mx-auto my-0 min-block-[calc(100svb-var(--spacing-header-block)-var(--spacing-footer-block))] viewport-max-md:inline-[calc(100%-24px*2)] viewport-max-md:mx-[24px] transition-[opacity,filter] duration-[var(--duration-page-transition),var(--duration-page-transition)] ease-[var(--ease-page-transition),var(--ease-page-transition)]"
+      class="max-inline-[768px] pbs-[calc(var(--spacing-header-block)+32px)] pbe-[32px] mx-auto my-0 min-block-[calc(100svb-var(--spacing-header-block)-var(--spacing-footer-block))] viewport-max-md:inline-[calc(100%-24px*2)] viewport-max-md:mx-[24px] transition-[opacity,filter] duration-[var(--duration-page-transition),var(--duration-page-transition)] ease-[var(--ease-page-transition),var(--ease-page-transition)]"
       :class="menuOpened ? 'opacity-0 blur-xs' : ''"
       :inert="menuOpened ? true : undefined"
       :aria-hidden="menuOpened ? true : undefined"
@@ -37,6 +36,10 @@ const NARROW_THRESHOLD = 816;
 const scrollDirection = useScrollDirection();
 const headerVisible = ref(true);
 
+watch(menuOpened, (opened) => {
+  if (opened) headerVisible.value = true;
+});
+
 watch(scrollDirection, (direction) => {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
@@ -53,6 +56,13 @@ onMounted(() => {
     }
   });
 
-  window.addEventListener('scroll', updateScrollDirection, { passive: true });
+  window.addEventListener('scroll', () => {
+    if (menuOpened.value) {
+      headerVisible.value = true;
+      return;
+    }
+
+    updateScrollDirection();
+  }, { passive: true });
 });
 </script>
