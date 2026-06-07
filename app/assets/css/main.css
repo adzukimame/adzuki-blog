@@ -9,17 +9,19 @@
 @custom-variant horizontal (&:where(:root:not([data-writing-mode]) *, :root[data-writing-mode="horizontal-tb"] *));
 @custom-variant vertical (&:where(:root[data-writing-mode="vertical-rl"] *));
 
-@custom-variant viewport-sm (@container viewport (inline-size >= 40rem));
-@custom-variant viewport-md (@container viewport (inline-size >= 48rem));
-@custom-variant viewport-lg (@container viewport (inline-size >= 64rem));
-@custom-variant viewport-xl (@container viewport (inline-size >= 80rem));
-@custom-variant viewport-2xl (@container viewport (inline-size >= 96rem));
+/* 816px = 768px (md) + 24px * 2 */
+/* 1072px = 1024px (lg) + 24px * 2 */
+@custom-variant viewport-sm (@container viewport (inline-size >= 640px));
+@custom-variant viewport-md (@container viewport (inline-size >= 816px));
+@custom-variant viewport-lg (@container viewport (inline-size >= 1072px));
+@custom-variant viewport-xl (@container viewport (inline-size >= 1280px));
+@custom-variant viewport-2xl (@container viewport (inline-size >= 1536px));
 
-@custom-variant viewport-max-sm (@container viewport (inline-size < 40rem));
-@custom-variant viewport-max-md (@container viewport (inline-size < 48rem));
-@custom-variant viewport-max-lg (@container viewport (inline-size < 64rem));
-@custom-variant viewport-max-xl (@container viewport (inline-size < 80rem));
-@custom-variant viewport-max-2xl (@container viewport (inline-size < 96rem));
+@custom-variant viewport-max-sm (@container viewport (inline-size < 640px));
+@custom-variant viewport-max-md (@container viewport (inline-size < 816px));
+@custom-variant viewport-max-lg (@container viewport (inline-size < 1072px));
+@custom-variant viewport-max-xl (@container viewport (inline-size < 1280px));
+@custom-variant viewport-max-2xl (@container viewport (inline-size < 1536px));
 
 @custom-variant hoverable (@media (hover: hover));
 
@@ -39,6 +41,12 @@
 
 @theme {
   --spacing: 0.1rem;
+
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
 }
 
 :root {
