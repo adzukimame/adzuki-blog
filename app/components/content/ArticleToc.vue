@@ -2,18 +2,18 @@
   <details
     v-if="toc && toc.links.length > 0"
     :open="tocOpened ? true : undefined"
-    class="article-toc group/article-toc bg-bg-strong px-10 py-3 border border-split rounded-md transition-colors duration-(--duration-color-scheme)"
+    class="article-toc group/article-toc bg-bg-strong px-10 py-3 border border-split rounded-md transition-colors duration-color-scheme"
     @toggle="(event) => {
       if (event.newState === 'open') { tocOpened = true }
       else if (event.newState === 'closed') { tocOpened = false }
     }">
     <summary
-      class="summary flex flex-row items-center justify-between responsive-hover:text-fg-strong cursor-pointer transition-colors duration-(--duration-hover) ease-(--ease-hover)"
+      class="summary flex flex-row items-center justify-between responsive-hover:text-fg-strong cursor-pointer transition-colors duration-hover ease-hover"
       @click.prevent="onSummaryClick">
       <div>
         目次
       </div>
-      <IconChevronDown class="block-12 inline-12 transition-transform duration-200 ease-(--ease-hover) vertical:transform-[rotate(0.25turn)] group-open/article-toc:transform-[rotate(0.5turn)] vertical:group-open/article-toc:transform-[rotate(0.75turn)]" />
+      <IconChevronDown class="block-12 inline-12 transition-transform duration-200 ease-hover vertical:transform-[rotate(0.25turn)] group-open/article-toc:transform-[rotate(0.5turn)] vertical:group-open/article-toc:transform-[rotate(0.75turn)]" />
     </summary>
     <nav>
       <ul
@@ -24,7 +24,7 @@
           :key="item.id">
           <li class="py-2 border-bs border-dashed border-split">
             <NuxtLink
-              class="responsive-hover:text-fg-strong transition-colors duration-(--duration-hover) ease-(--ease-hover)"
+              class="responsive-hover:text-fg-strong transition-colors duration-hover ease-hover"
               :to="`#${item.id}`">
               {{ item.text }}
             </NuxtLink>
@@ -35,7 +35,7 @@
               :key="child.id"
               class="py-2 ps-15 border-bs border-dashed border-split">
               <NuxtLink
-                class="text-fg-weak responsive-hover:text-fg-strong transition-colors duration-(--duration-hover) ease-(--ease-hover)"
+                class="text-fg-weak responsive-hover:text-fg-strong transition-colors duration-hover ease-hover"
                 :to="`#${child.id}`">
                 {{ child.text }}
               </NuxtLink>

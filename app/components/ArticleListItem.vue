@@ -1,11 +1,11 @@
 <template>
-  <article class="container flex flex-col gap-y-8 p-4 border-b-[0.4rem] border-split transition-colors duration-(--duration-hover) ease-(--ease-hover) responsive-hover:bg-bg-strong responsive-hover:border-fg-weak">
+  <article class="container flex flex-col gap-y-8 p-4 border-b-[0.4rem] border-split transition-colors duration-hover ease-hover responsive-hover:bg-bg-strong responsive-hover:border-fg-weak">
     <NuxtLink
       :to="item.path"
       class="group/article-list-item grid grid-rows-[3.6rem_2.8rem] gap-y-4"
       data-testid="link">
       <div
-        class="text-[1.2rem] leading-18 overflow-clip transition-colors duration-(--duration-hover) ease-(--ease-hover) group-responsive-hover/article-list-item:text-fg-strong"
+        class="text-[1.2rem] leading-18 overflow-clip transition-colors duration-hover ease-hover group-responsive-hover/article-list-item:text-fg-strong"
         data-testid="title">
         {{ item.title }}
       </div>
@@ -23,7 +23,7 @@
         <NuxtLink
           v-if="normalizedCategory === undefined"
           :to="'/category/undefined'"
-          class="me-7 transition-colors duration-(--duration-hover) ease-(--ease-hover) responsive-hover:underline responsive-hover:text-fg">
+          class="me-7 transition-colors duration-hover ease-hover responsive-hover:underline responsive-hover:text-fg">
           未設定
         </NuxtLink>
         <template v-else>
@@ -31,7 +31,7 @@
             v-for="category in normalizedCategory"
             :key="category"
             :to="`/category/${category}`"
-            class="me-7 transition-colors duration-(--duration-hover) ease-(--ease-hover) responsive-hover:underline responsive-hover:text-fg">
+            class="me-7 transition-colors duration-hover ease-hover responsive-hover:underline responsive-hover:text-fg">
             {{ category }}
           </NuxtLink>
         </template>

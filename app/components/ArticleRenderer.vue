@@ -82,7 +82,7 @@ const contentComponents = {
     :root:where([data-writing-mode="vertical-rl"]) & {
       position: relative;
       height: 100%;
-      max-width: min(calc(768px * 3 / 4), calc(100svw - var(--header-block-size)));
+      max-width: min(calc(768px * 3 / 4), calc(100svw - var(--spacing-header-block)));
       overflow-y: scroll;
       -webkit-overflow-scrolling: touch;
     }

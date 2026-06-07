@@ -16,12 +16,37 @@
   --color-scrollbar-fg: light-dark(oklch(70% 0 0deg), oklch(53% 0 0deg));
 
   --spacing: 0.1rem;
+  --spacing-header-block: 3.4rem;
+  --spacing-footer-block: 3rem;
 
   --breakpoint-sm: 640px;
   --breakpoint-md: 768px;
   --breakpoint-lg: 1024px;
   --breakpoint-xl: 1280px;
   --breakpoint-2xl: 1536px;
+
+  --default-transition-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1.0);
+  --ease-in: cubic-bezier(0.42, 0, 1.0, 1.0);
+  --ease-out: cubic-bezier(0, 0, 0.58, 1.0);
+  --ease-in-out: cubic-bezier(0.42, 0, 0.58, 1.0);
+  --ease-hover: ease-out;
+  --ease-page-transition: ease-out;
+
+  --duration-hover: 350ms;
+  --duration-color-scheme: 500ms;
+  --duration-page-transition: 250ms;
+}
+
+@utility duration-hover {
+  transition-duration: var(--duration-hover);
+}
+
+@utility duration-color-scheme {
+  transition-duration: var(--duration-color-scheme);
+}
+
+@utility duration-page-transition {
+  transition-duration: var(--duration-page-transition);
 }
 
 @custom-variant horizontal (&:where(:root:not([data-writing-mode]) *, :root[data-writing-mode="horizontal-tb"] *));
@@ -53,21 +78,6 @@
       @slot;
     }
   }
-}
-
-:root {
-  --scrollbar-width: 8px;
-
-  --header-block-size: 3.4rem;
-  --footer-block-size: 3rem;
-
-  --duration-hover: 350ms;
-  --ease-hover: ease-out;
-
-  --duration-color-scheme: 500ms;
-
-  --duration-page-transition: 250ms;
-  --ease-page-transition: ease-in;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -115,8 +125,8 @@ img {
 }
 
 ::-webkit-scrollbar {
-  width: var(--scrollbar-width);
-  height: var(--scrollbar-width);
+  width: 8px;
+  height: 8px;
   background-color: var(--color-scrollbar-bg);
   border-radius: 3px;
 }
