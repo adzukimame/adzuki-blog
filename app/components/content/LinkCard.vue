@@ -3,33 +3,34 @@
     <NuxtLink
       :to="runtimeConfig.public.origin === urlObj.origin ? `${urlObj.pathname}${urlObj.search}` : url.toString()"
       :target="runtimeConfig.public.origin === urlObj.origin ? undefined : '_blank'"
-      :class="[$style.container, { [$style.withThumbnail]: data?.thumbnail != null }]">
-      <div :class="$style.lettersContainer">
+      class="grid grid-cols-[auto_0] block-62 bg-bg-strong border border-split rounded-md transition-colors duration-color-scheme"
+      :class="data?.thumbnail != null ? `grid-cols-[auto_calc(5.4rem*16/9)] viewport-max-md:grid-cols-[auto_0]` : ''">
+      <div class="group/link-card grid grid-rows-[40%_30%_30%] px-8 py-4">
         <div
-          :class="$style.title"
+          class="text-base whitespace-nowrap text-ellipsis overflow-hidden text-fg group-responsive-hover/link-card:text-fg-strong group-responsive-hover/link-card:underline transition-[text-decoration] duration-hover ease-hover"
           data-testid="title">
           {{ (data && data.title) ? data.title : url }}
         </div>
         <div
-          :class="$style.description"
+          class="text-[0.8rem] text-fg-weak whitespace-nowrap text-ellipsis overflow-hidden"
           data-testid="description">
           {{ (data && data.description) ? data.description : ['idle', 'pending'].includes(status) ? 'Loading url preview...' : '説明はありません' }}
         </div>
-        <div :class="$style.faviconAndHostnameContainer">
+        <div class="flex text-[0.8rem] items-center">
           <img
             v-if="status === 'success' && imgLoadStatus !== 'error'"
             loading="lazy"
             :src="data?.icon ?? undefined"
-            :class="$style.favicon"
+            class="block inline-8 block-8 object-contain"
             data-testid="favicon"
             :alt="imgLoadStatus === 'success' ? `${urlObj.hostname} のfavicon画像` : undefined"
             @loadstart="imgLoadStatus = 'loading'"
             @error="imgLoadStatus = 'error'">
           <div
             v-else
-            :class="$style.favicon" />
+            class="block inline-8 block-8 object-contain" />
           <div
-            :class="$style.hostname"
+            class="text-fg ps-5 whitespace-nowrap text-ellipsis overflow-hidden"
             data-testid="hostname">
             {{ urlObj.hostname }}
           </div>
@@ -39,29 +40,29 @@
         v-if="data?.thumbnail"
         loading="lazy"
         :src="data.thumbnail"
-        :class="$style.thumbnail"
+        class="block-62 aspect-video object-[50%_50%] object-cover ms-auto viewport-max-md:hidden"
         data-testid="thumbnail">
     </NuxtLink>
     <template #fallback>
       <NuxtLink
         :to="runtimeConfig.public.origin === urlObj.origin ? `${urlObj.pathname}${urlObj.search}` : url.toString()"
         :target="runtimeConfig.public.origin === urlObj.origin ? undefined : '_blank'"
-        :class="$style.container">
-        <div :class="$style.lettersContainer">
-          <div :class="$style.title">
+        class="grid grid-cols-[auto_0] block-62 bg-bg-strong border border-split rounded-md transition-colors duration-color-scheme">
+        <div class="group/link-card grid grid-rows-[40%_30%_30%] px-8 py-4">
+          <div class="text-base whitespace-nowrap text-ellipsis overflow-hidden text-fg group-responsive-hover/link-card:text-fg-strong group-responsive-hover/link-card:underline transition-[text-decoration] duration-hover ease-hover">
             {{ url }}
           </div>
-          <div :class="$style.description">
+          <div class="text-[0.8rem] text-fg-weak whitespace-nowrap text-ellipsis overflow-hidden">
             Loading url preview...
           </div>
-          <div :class="$style.faviconAndHostnameContainer">
-            <div :class="$style.favicon" />
-            <div :class="$style.hostname">
+          <div class="flex text-[0.8rem] items-center">
+            <div class="block inline-8 block-8 object-contain" />
+            <div class="text-fg ps-5 whitespace-nowrap text-ellipsis overflow-hidden">
               {{ urlObj.hostname }}
             </div>
           </div>
         </div>
-        <div :class="$style.thumbnail" />
+        <div class="block-54 aspect-video object-[50%_50%] object-cover ms-auto viewport-max-md:hidden" />
       </NuxtLink>
     </template>
   </ClientOnly>
@@ -91,115 +92,3 @@ const { data, status } = await useLazyFetch<SummalyResult>(
   }
 );
 </script>
-
-<style module>
-@value narrowWidth, shortHeight from "~/assets/css/breakpoints.module.css";
-
-.container {
-  --container-bsize: 5.4rem;
-  block-size: var(--container-bsize);
-  display: grid;
-  grid-template-columns: auto 0;
-  background-color: var(--bg-strong);
-  border: solid 1px var(--split);
-  border-radius: 6px;
-  line-height: 2;
-  transition: background-color var(--color-scheme-trans-dur);
-}
-
-.container.withThumbnail {
-  grid-template-columns: auto calc(var(--container-bsize) * 16 / 9);
-
-  :root:where([data-writing-mode="horizontal-tb"], :not([data-writing-mode])) & {
-    @media narrowWidth {
-      grid-template-columns: auto 0;
-    }
-  }
-
-  :root:where([data-writing-mode="vertical-rl"]) & {
-    @media shortHeight {
-      grid-template-columns: auto 0;
-    }
-  }
-}
-
-.lettersContainer {
-  display: grid;
-  grid-template-rows: 40% 30% 30%;
-  padding-inline: 0.8rem;
-
-  @media (hover: hover) {
-    &:hover>.title {
-      color: var(--fg-strong);
-      text-decoration: underline;
-    }
-  }
-
-  @media (hover: none) {
-    &:active>.title {
-      color: var(--fg-strong);
-      text-decoration: underline;
-    }
-  }
-}
-
-.title {
-  display: block;
-  font-size: 1rem;
-  color: var(--fg);
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  transition: text-decoration var(--hover-trans-dur) var(--hover-trans-func), color var(--hover-trans-dur) var(--hover-trans-func);
-}
-
-.description {
-  display: block;
-  font-size: 0.8rem;
-  color: var(--fg-weak);
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-.faviconAndHostnameContainer {
-  display: block flex;
-  font-size: 0.8rem;
-  align-items: center;
-}
-
-.favicon {
-  display: block;
-  inline-size: 0.8rem;
-  block-size: 0.8rem;
-  object-fit: contain;
-}
-
-.hostname {
-  color: var(--fg);
-  padding-inline-start: 0.5rem;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-.thumbnail {
-  block-size: var(--container-bsize);
-  aspect-ratio: 16 / 9;
-  object-position: 50% 50%;
-  object-fit: cover;
-  margin-inline-start: auto;
-
-  :root:where([data-writing-mode="horizontal-tb"], :not([data-writing-mode])) & {
-    @media narrowWidth {
-      display: none;
-    }
-  }
-
-  :root:where([data-writing-mode="vertical-rl"]) & {
-    @media shortHeight {
-      display: none;
-    }
-  }
-}
-</style>

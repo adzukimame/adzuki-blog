@@ -1,9 +1,9 @@
 <template>
-  <div :class="$style.container">
+  <div>
     <h2>コンテンツはありません</h2>
     <button
       v-if="$props.showBackButton"
-      :class="$style.button"
+      class="mbs-18 text-accent cursor-pointer"
       @click="$router.back()">
       元のページに戻る
     </button>
@@ -17,14 +17,3 @@ withDefaults(defineProps<{
   showBackButton: false,
 });
 </script>
-
-<style module>
-.container>:not(:first-child) {
-  margin-block-start: 1.8rem;
-}
-
-.button {
-  color: var(--accent);
-  cursor: pointer;
-}
-</style>

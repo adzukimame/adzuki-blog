@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div :class="$style.categoryName">
+    <div class="text-[1.2rem] pbe-4 border-be-2 border-split mbe-20">
       カテゴリ「{{ category === 'undefined' ? '未設定' : category }}」の投稿
     </div>
     <main ref="articleListOuter">
@@ -11,7 +11,7 @@
       :items-length="articleCount ?? 0"
       :items-per-page="ARTICLE_PER_PAGE"
       page-query-param="p"
-      :class="$style.navigator" />
+      class="my-20" />
   </div>
 </template>
 
@@ -127,16 +127,3 @@ useSeoMeta({
   description: () => `カテゴリ「${category.value === 'undefined' ? '未設定' : category.value}」の投稿 - ${runtimeConfig.public.siteName}`,
 });
 </script>
-
-<style module>
-.categoryName {
-  font-size: 1.2rem;
-  padding-block-end: 0.4rem;
-  border-block-end: solid 2px var(--split);
-  margin-block-end: 2rem;
-}
-
-.navigator {
-  margin-block: 2rem;
-}
-</style>

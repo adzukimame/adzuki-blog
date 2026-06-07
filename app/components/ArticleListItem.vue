@@ -1,29 +1,29 @@
 <template>
-  <article :class="$style.container">
+  <article class="container flex flex-col gap-y-8 p-4 border-b-[0.4rem] border-split transition-colors duration-hover ease-hover responsive-hover:bg-bg-strong responsive-hover:border-fg-weak">
     <NuxtLink
       :to="item.path"
-      :class="$style.titleAndDescriptionContainer"
+      class="group/article-list-item grid grid-rows-[3.6rem_2.8rem] gap-y-4"
       data-testid="link">
       <div
-        :class="$style.title"
+        class="text-[1.2rem] leading-18 overflow-clip transition-colors duration-hover ease-hover group-responsive-hover/article-list-item:text-fg-strong"
         data-testid="title">
         {{ item.title }}
       </div>
       <div
-        :class="$style.description"
+        class="text-[0.8rem] leading-14 overflow-clip text-fg-weak"
         data-testid="description">
         {{ item.description?.trim() ?? '…' }}
       </div>
     </NuxtLink>
-    <div :class="$style.categoryAndDateContainer">
+    <div class="flex justify-between text-[0.8rem] text-fg-weak">
       <div
-        :class="$style.categoryContainer"
+        class="flex flex-wrap items-center"
         data-testid="category">
-        <IconFolder />
+        <IconFolder class="me-2" />
         <NuxtLink
           v-if="normalizedCategory === undefined"
           :to="'/category/undefined'"
-          :class="$style.category">
+          class="me-7 transition-colors duration-hover ease-hover responsive-hover:underline responsive-hover:text-fg">
           未設定
         </NuxtLink>
         <template v-else>
@@ -31,15 +31,15 @@
             v-for="category in normalizedCategory"
             :key="category"
             :to="`/category/${category}`"
-            :class="$style.category">
+            class="me-7 transition-colors duration-hover ease-hover responsive-hover:underline responsive-hover:text-fg">
             {{ category }}
           </NuxtLink>
         </template>
       </div>
       <div
-        :class="$style.dateContainer"
+        class="flex self-end items-center cursor-default"
         data-testid="created">
-        <IconClock />
+        <IconClock class="me-2" />
         <time
           v-if="item.created && !Number.isNaN(Date.parse(item.created))"
           :datetime="item.created">
@@ -64,110 +64,3 @@ const props = defineProps<{
 
 const normalizedCategory = computed<string[] | undefined>(() => normalizeCategory(props.item.category));
 </script>
-
-<style module>
-.container {
-  display: block flex;
-  flex-direction: column;
-  row-gap: 0.8rem;
-  padding: 0.4rem;
-  border-bottom: solid 0.4rem var(--split);
-  transition: background-color var(--hover-trans-dur) var(--hover-trans-func), border-bottom-color var(--hover-trans-dur) var(--hover-trans-func);
-  --title-line-height: 1.8rem;
-  --description-line-height: 1.4rem;
-
-  @media (hover: hover) {
-    &:hover {
-      background-color: var(--bg-strong);
-      border-bottom-color: var(--fg-weak);
-    }
-  }
-
-  @media (hover: none) {
-    &:active {
-      background-color: var(--bg-strong);
-      border-bottom-color: var(--fg-weak);
-    }
-  }
-}
-
-.titleAndDescriptionContainer {
-  display: block grid;
-  grid-template-rows: calc(var(--title-line-height) * 2) calc(var(--description-line-height) * 2);
-  row-gap: 0.4rem;
-
-  @media (hover: hover) {
-    &:hover .title {
-      color: var(--fg-strong);
-    }
-  }
-
-  @media (hover: none) {
-    &:active .title {
-      color: var(--fg-strong);
-    }
-  }
-}
-
-.title {
-  display: block;
-  font-size: 1.2rem;
-  line-height: var(--title-line-height);
-  overflow: clip;
-  transition: color var(--hover-trans-dur) var(--hover-trans-func);
-}
-
-.description {
-  font-size: 0.8rem;
-  line-height: var(--description-line-height);
-  overflow: clip;
-  color: var(--fg-weak);
-}
-
-.categoryAndDateContainer {
-  display: block flex;
-  justify-content: space-between;
-  font-size: 0.8rem;
-  color: var(--fg-weak);
-}
-
-.categoryContainer {
-  flex-wrap: wrap;
-  display: block flex;
-  align-items: center;
-
-  &>:first-child {
-    margin-inline-end: 0.2rem;
-  }
-}
-
-.category {
-  margin-inline-end: 0.7rem;
-  transition: color var(--hover-trans-dur) var(--hover-trans-func);
-
-  @media (hover: hover) {
-    &:hover {
-      text-decoration: underline;
-      color: var(--fg);
-    }
-  }
-
-  @media (hover: none) {
-    &:active {
-      text-decoration: underline;
-      color: var(--fg);
-    }
-  }
-}
-
-.dateContainer {
-  align-self: end;
-  display: block flex;
-  align-items: center;
-  cursor: default;
-
-  &>:first-child {
-    margin-inline-end: 0.2rem;
-  }
-}
-</style>

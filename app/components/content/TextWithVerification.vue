@@ -1,7 +1,7 @@
 <template>
   <ClientOnly>
     <NuxtTurnstile
-      :class="$style.turnstileWidget"
+      class="w-[300px] h-[75px]"
       :options="{
         'appearance': 'always',
         'callback': turnstileCallback,
@@ -13,7 +13,7 @@
     <div
       v-else
       ref="textBlock"
-      :class="$style.textBlock">
+      class="min-block-20 flex flex-wrap">
       <span v-if="loading">アクセスの検証が完了すると、ここに内容が表示されます。</span>
       <canvas
         v-for="idx in textLength"
@@ -23,7 +23,7 @@
         height="0" />
     </div>
     <template #fallback>
-      <div :class="$style.placeholder" />
+      <div class="w-[300px] h-[75px] mbe-[calc(2rem+1.8rem)]" />
     </template>
   </ClientOnly>
 </template>
@@ -138,22 +138,3 @@ const turnstileErrorCallback = () => {
   error.value = 'verification';
 };
 </script>
-
-<style module>
-.turnstileWidget {
-  width: 300px;
-  height: 75px;
-}
-
-.placeholder {
-  width: 300px;
-  height: 75px;
-  margin-block-end: calc(2rem + 1.8rem);
-}
-
-.textBlock {
-  min-block-size: 2rem;
-  display: flex;
-  flex-wrap: wrap;
-}
-</style>

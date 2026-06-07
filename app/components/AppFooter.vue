@@ -1,6 +1,6 @@
 <template>
-  <footer :class="$style.footer">
-    <div :class="$style.copyright">
+  <footer class="flex flex-col block-footer-block border-bs border-split justify-center">
+    <div class="ps-15 text-[0.8rem] text-fg-weak">
       Copyright © {{ new Date().getFullYear() }} {{ runtimeConfig.public.authorName }}. All Rights Reserved.
     </div>
   </footer>
@@ -9,20 +9,3 @@
 <script setup lang="ts">
 const runtimeConfig = useRuntimeConfig();
 </script>
-
-<style module>
-.footer {
-  display: block flex;
-  flex-direction: column;
-  block-size: var(--footer-bsize);
-  border-block-start: solid var(--split) 1px;
-  justify-content: center;
-}
-
-.copyright {
-  display: block;
-  padding-inline-start: 1.5rem;
-  font-size: 0.8rem;
-  color: var(--fg-weak);
-}
-</style>

@@ -1,15 +1,17 @@
 <template>
   <div>
-    <div :class="$style.heading">
+    <div class="text-[1.2rem] pbe-4 border-be-2 border-split mbe-20">
       カテゴリ一覧
     </div>
     <main>
-      <ul :class="$style.categoryList">
+      <ul class="flex flex-col list-none p-0 ps-10 m-0">
         <li
           v-for="item in categoryList"
           :key="item[0]"
-          :class="$style.categoryListItem">
-          <NuxtLink :to="`/category/${item[0]}`">
+          class="before:content-['>'] before:pe-5 before:text-fg-weak">
+          <NuxtLink
+            class="transition-colors duration-hover ease-hover responsive-hover:text-accent"
+            :to="`/category/${item[0]}`">
             {{ `${item[0] === 'undefined' ? '未設定' : item[0]} (${item[1]})` }}
           </NuxtLink>
         </li>
@@ -67,45 +69,3 @@ useSeoMeta({
   description: `カテゴリ一覧 - ${runtimeConfig.public.siteName}`,
 });
 </script>
-
-<style module>
-.heading {
-  font-size: 1.2rem;
-  padding-block-end: 0.4rem;
-  border-block-end: solid 2px var(--split);
-  margin-block-end: 2rem;
-}
-
-.categoryList {
-  display: block flex;
-  flex-direction: column;
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-  padding-inline-start: 1rem;
-}
-
-.categoryListItem {
-  &::before {
-    content: '>';
-    padding-inline-end: 0.5rem;
-    color: var(--fg-weak);
-  }
-
-  &>a {
-    transition: color var(--hover-trans-dur) var(--hover-trans-func);
-
-    @media (hover: hover) {
-      &:hover {
-        color: var(--accent);
-      }
-    }
-
-    @media (hover: none) {
-      &:active {
-        color: var(--accent);
-      }
-    }
-  }
-}
-</style>

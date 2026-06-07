@@ -36,8 +36,8 @@ const verticalLayout = ref<boolean>(new URLSearchParams(location.search).get('pr
 
 <style scoped>
 .outer {
-  color: var(--fg);
-  background-color: var(--bg);
+  color: var(--color-fg);
+  background-color: var(--color-bg);
   font-family: "Noto Serif JP", "Yu Mincho", "Hiragino Mincho ProN W3", serif;
   font-feature-settings: "pkna" 1;
 }

@@ -1,61 +1,114 @@
-:root {
+@layer theme, base, components, utilities;
+
+@import 'tailwindcss/theme.css' layer(theme);
+@import 'tailwindcss/preflight.css' layer(base);
+@import 'tailwindcss/utilities.css' layer(utilities);
+
+@theme {
+  --color-bg: light-dark(oklch(97% 0 0deg), oklch(15% 0 0deg));
+  --color-bg-strong: light-dark(oklch(99% 0 0deg), oklch(23% 0 0deg));
+  --color-fg: light-dark(oklch(28% 0 0deg), oklch(86% 0 0deg));
+  --color-fg-strong: light-dark(oklch(11% 0 0deg), oklch(96% 0 0deg));
+  --color-fg-weak: light-dark(oklch(48% 0 0deg), oklch(71% 0 0));
+  --color-accent: light-dark(oklch(50% 0.1686 6deg), oklch(50% 0.0984 6deg));
+  --color-split: light-dark(oklch(90% 0 0deg / 46%), oklch(75% 0 0deg / 13%));
+  --color-scrollbar-bg: light-dark(oklch(100% 0 0deg), oklch(22% 0 0deg));
+  --color-scrollbar-fg: light-dark(oklch(70% 0 0deg), oklch(53% 0 0deg));
+
+  --spacing: 0.1rem;
+  --spacing-header-block: 3.4rem;
+  --spacing-footer-block: 3rem;
+
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
+
+  --default-transition-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1.0);
+  --ease-in: cubic-bezier(0.42, 0, 1.0, 1.0);
+  --ease-out: cubic-bezier(0, 0, 0.58, 1.0);
+  --ease-in-out: cubic-bezier(0.42, 0, 0.58, 1.0);
+  --ease-hover: ease-out;
+  --ease-page-transition: ease-out;
+
+  --duration-hover: 350ms;
+  --duration-color-scheme: 500ms;
+  --duration-page-transition: 250ms;
+}
+
+@utility duration-hover {
+  transition-duration: var(--duration-hover);
+}
+
+@utility duration-color-scheme {
+  transition-duration: var(--duration-color-scheme);
+}
+
+@utility duration-page-transition {
+  transition-duration: var(--duration-page-transition);
+}
+
+@custom-variant horizontal (&:where(:root:not([data-writing-mode]) *, :root[data-writing-mode="horizontal-tb"] *));
+@custom-variant vertical (&:where(:root[data-writing-mode="vertical-rl"] *));
+
+/* 816px = 768px (md) + 24px * 2 */
+/* 1072px = 1024px (lg) + 24px * 2 */
+@custom-variant viewport-sm (@container viewport (inline-size >= 640px));
+@custom-variant viewport-md (@container viewport (inline-size >= 816px));
+@custom-variant viewport-lg (@container viewport (inline-size >= 1072px));
+@custom-variant viewport-xl (@container viewport (inline-size >= 1280px));
+@custom-variant viewport-2xl (@container viewport (inline-size >= 1536px));
+
+@custom-variant viewport-max-sm (@container viewport (inline-size < 640px));
+@custom-variant viewport-max-md (@container viewport (inline-size < 816px));
+@custom-variant viewport-max-lg (@container viewport (inline-size < 1072px));
+@custom-variant viewport-max-xl (@container viewport (inline-size < 1280px));
+@custom-variant viewport-max-2xl (@container viewport (inline-size < 1536px));
+
+@custom-variant responsive-hover {
+  @media (hover: hover) {
+    &:hover {
+      @slot;
+    }
+  }
+
+  @media (hover: none) {
+    &:active {
+      @slot;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+
+html {
   color-scheme: light;
-  --bg: oklch(97% 0 0deg);
-  --bg-strong: oklch(99% 0 0deg);
-  --fg: oklch(28% 0 0deg);
-  --fg-strong: oklch(11% 0 0deg);
-  --fg-weak: oklch(48% 0 0deg);
-  --accent: oklch(50% 0.1686 6deg);
-  --split: oklch(90% 0 0deg / 46%);
-  --scrollbar-bg: oklch(100% 0 0deg);
-  --scrollbar-fg: oklch(70% 0 0deg);
+
+  color: var(--color-fg);
+  background-color: var(--color-bg);
+  font-family: "Yu Mincho", "Hiragino Mincho ProN W3", serif;
+  font-feature-settings: "pkna" 1;
+  transition: color var(--duration-color-scheme), background-color var(--duration-color-scheme);
+
+  container-type: inline-size;
+  container-name: viewport;
 }
 
-:root[data-color-scheme="dark"] {
+html[data-color-scheme="dark"] {
   color-scheme: dark;
-  --bg: oklch(15% 0 0deg);
-  --bg-strong: oklch(23% 0 0deg);
-  --fg: oklch(86% 0 0deg);
-  --fg-strong: oklch(96% 0 0deg);
-  --fg-weak: oklch(71% 0 0);
-  --accent: oklch(50% 0.0984 6deg);
-  --split: oklch(75% 0 0deg / 13%);
-  --scrollbar-bg: oklch(22% 0 0deg);
-  --scrollbar-fg: oklch(53% 0 0deg);
 }
 
-:root {
-  --scrollbar-width: 8px;
-  --header-bsize: 3.4rem;
-  --footer-bsize: 3rem;
-  --hover-trans-dur: 350ms;
-  --hover-trans-func: ease-out;
-  --color-scheme-trans-dur: 500ms;
-  --page-trans-dur: 250ms;
-  --page-trans-func: ease-in;
-}
-
-/*! destyle.css v4.0.1 | MIT License | https://github.com/nicolas-cusan/destyle.min.css */
-*,::before,::after{box-sizing:border-box;border-style:solid;border-width:0;min-width:0}html{line-height:1.15;-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent}body{margin:0}main{display:block}p,table,blockquote,address,pre,iframe,form,figure,dl{margin:0}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit;margin:0}ul,ol{margin:0;padding:0;list-style:none}dt{font-weight:700}dd{margin-left:0}hr{box-sizing:content-box;height:0;overflow:visible;border-top-width:1px;margin:0;clear:both;color:inherit}pre{font-family:monospace,monospace;font-size:inherit}address{font-style:inherit}a{background-color:transparent;text-decoration:none;color:inherit}abbr[title]{text-decoration:underline dotted}b,strong{font-weight:bolder}code,kbd,samp{font-family:monospace,monospace;font-size:inherit}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}svg,img,embed,object,iframe{vertical-align:bottom}button,input,optgroup,select,textarea{-webkit-appearance:none;appearance:none;vertical-align:middle;color:inherit;font:inherit;background:transparent;padding:0;margin:0;border-radius:0;text-align:inherit;text-transform:inherit}button,[type="button"],[type="reset"],[type="submit"]{cursor:pointer}button:disabled,[type="button"]:disabled,[type="reset"]:disabled,[type="submit"]:disabled{cursor:default}:-moz-focusring{outline:auto}select:disabled{opacity:inherit}option{padding:0}fieldset{margin:0;padding:0;min-width:0}legend{padding:0}progress{vertical-align:baseline}textarea{overflow:auto}[type="number"]::-webkit-inner-spin-button,[type="number"]::-webkit-outer-spin-button{height:auto}[type="search"]{outline-offset:-2px}[type="search"]::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}[type="number"]{-moz-appearance:textfield}label[for]{cursor:pointer}details{display:block}summary{display:list-item}[contenteditable]:focus{outline:auto}table{border-color:inherit;border-collapse:collapse}caption{text-align:left}td,th{vertical-align:top;padding:0}th{text-align:left;font-weight:700}
-
-::-webkit-scrollbar {
-  width: var(--scrollbar-width);
-  height: var(--scrollbar-width);
-  background-color: var(--scrollbar-bg);
-  border-radius: 3px;
-}
-
-::-webkit-scrollbar-thumb {
-  background-color: var(--scrollbar-fg);
-  border-radius: 6px;
-}
-
-*, *::before, *::after {
-  box-sizing: border-box;
+html[data-writing-mode="vertical-rl"] {
+  writing-mode: vertical-rl;
 }
 
 body {
-  margin: 0;
   line-height: 2;
   text-size-adjust: none;
   -webkit-text-size-adjust: none;
@@ -71,47 +124,14 @@ img {
   object-fit: contain;
 }
 
-a {
-  color: unset;
-  text-decoration: unset;
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  background-color: var(--color-scrollbar-bg);
+  border-radius: 3px;
 }
 
-button {
-  color: unset;
-  background-color: transparent;
-  border-style: unset;
-  padding-block: 0;
-  padding-inline: 0;
-}
-
-button:active {
-  border-style: unset;
-}
-
-h1, h2, h3, h4, h5, h6 {
-  font-size: unset;
-  font-weight: unset;
-  margin-block-start: 0;
-  margin-block-end: 0;
-  margin-inline-start: 0;
-  margin-inline-end: 0;
-}
-
-:root:where([data-writing-mode="vertical-rl"]) {
-  writing-mode: vertical-rl;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    transition-duration: 0.01ms !important;
-    animation-duration: 0.01ms !important;
-  }
-}
-
-html {
-  color: var(--fg);
-  background-color: var(--bg);
-  font-family: "Yu Mincho", "Hiragino Mincho ProN W3", serif;
-  font-feature-settings: "pkna" 1;
-  transition: color var(--color-scheme-trans-dur), background-color var(--color-scheme-trans-dur);
+::-webkit-scrollbar-thumb {
+  background-color: var(--color-scrollbar-fg);
+  border-radius: 6px;
 }

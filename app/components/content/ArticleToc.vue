@@ -2,29 +2,30 @@
   <details
     v-if="toc && toc.links.length > 0"
     :open="tocOpened ? true : undefined"
-    class="article-toc"
-    :class="$style.container"
+    class="article-toc group/article-toc bg-bg-strong px-10 py-3 border border-split rounded-md transition-colors duration-color-scheme"
     @toggle="(event) => {
       if (event.newState === 'open') { tocOpened = true }
       else if (event.newState === 'closed') { tocOpened = false }
     }">
     <summary
-      :class="$style.summary"
+      class="summary flex flex-row items-center justify-between responsive-hover:text-fg-strong cursor-pointer transition-colors duration-hover ease-hover"
       @click.prevent="onSummaryClick">
       <div>
         目次
       </div>
-      <IconChevronDown :class="$style.accordionIcon" />
+      <IconChevronDown class="block-12 inline-12 transition-transform duration-200 ease-hover vertical:transform-[rotate(0.25turn)] group-open/article-toc:transform-[rotate(0.5turn)] vertical:group-open/article-toc:transform-[rotate(0.75turn)]" />
     </summary>
     <nav>
       <ul
         ref="listEl"
-        :class="$style.list">
+        class="flex flex-col px-10 mbs-5 mbe-0 overflow-clip">
         <template
           v-for="item in toc.links"
           :key="item.id">
-          <li :class="$style.listItemH2">
-            <NuxtLink :to="`#${item.id}`">
+          <li class="py-2 border-bs border-dashed border-split">
+            <NuxtLink
+              class="responsive-hover:text-fg-strong transition-colors duration-hover ease-hover"
+              :to="`#${item.id}`">
               {{ item.text }}
             </NuxtLink>
           </li>
@@ -32,8 +33,10 @@
             <li
               v-for="child in item.children"
               :key="child.id"
-              :class="$style.listItemH3">
-              <NuxtLink :to="`#${child.id}`">
+              class="py-2 ps-15 border-bs border-dashed border-split">
+              <NuxtLink
+                class="text-fg-weak responsive-hover:text-fg-strong transition-colors duration-hover ease-hover"
+                :to="`#${child.id}`">
                 {{ child.text }}
               </NuxtLink>
             </li>
@@ -59,7 +62,6 @@ const tocOpened = ref(false);
 let animating = false;
 
 const summaryTransitionDuration = 200;
-const summaryTransitionDurationText = `${summaryTransitionDuration}ms`;
 const summaryTransitionFunction = 'ease-out';
 
 const listEl = ref<HTMLUListElement | null>(null);
@@ -112,101 +114,8 @@ const onSummaryClick = (_event: MouseEvent) => {
 };
 </script>
 
-<style module>
-.container {
-  display: block;
-  background-color: var(--bg-strong);
-  border: solid 1px var(--split);
-  border-radius: 6px;
-  padding-inline: 1rem;
-  padding-block: 0.3rem;
-  transition: background-color var(--color-scheme-trans-dur);
-}
-
-.summary {
-  display: block flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  cursor: pointer;
-  transition: color var(--hover-trans-dur) var(--hover-trans-func);
-
-  &::-webkit-details-marker {
-    display: none;
-  }
-
-  @media (hover: hover) {
-    &:hover {
-      color: var(--fg-strong);
-    }
-  }
-
-  @media (hover: none) {
-    &:active {
-      color: var(--fg-strong);
-    }
-  }
-}
-
-.accordionIcon {
-  block-size: 1.2rem;
-  inline-size: 1.2rem;
-  transition: transform v-bind(summaryTransitionDurationText) v-bind(summaryTransitionFunction);
-
-  :root:where([data-writing-mode="vertical-rl"]) & {
-    transform: rotate(0.25turn);
-  }
-
-  .container[open] & {
-    transform: rotate(0.5turn);
-  }
-
-  :root:where([data-writing-mode="vertical-rl"]) .container[open] & {
-    transform: rotate(0.75turn);
-  }
-}
-
-.list {
-  display: block flex;
-  flex-direction: column;
-  padding-inline: 1rem;
-  margin-block-start: 0.5rem;
-  margin-block-end: 0;
-  list-style-type: none;
-  overflow: clip;
-
-  &>li {
-    display: block;
-    padding-block: 0.2rem;
-    border-block-start: dashed 1px var(--split);
-
-    &>a {
-      transition: color var(--hover-trans-dur) var(--hover-trans-func);
-
-      @media (hover: hover) {
-        &:hover {
-          color: var(--fg-strong);
-        }
-      }
-
-      @media (hover: none) {
-        &:active {
-          color: var(--fg-strong);
-        }
-      }
-    }
-  }
-
-  &>.listItemH2>a {
-    color: var(--fg);
-  }
-
-  &>.listItemH3>a {
-    color: var(--fg-weak);
-  }
-}
-
-.listItemH3 {
-  padding-inline-start: 1.5rem;
+<style scoped>
+.summary::-webkit-details-marker {
+  display: none;
 }
 </style>
